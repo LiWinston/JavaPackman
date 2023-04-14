@@ -1,14 +1,16 @@
-import bagel.*;
-
 /**
  * Skeleton Code for SWEN20003 Project 1, Semester 1, 2023
  *
  * Please enter your name below
  * @YongchunLi
  */
+import bagel.*;
 public class ShadowPac extends AbstractGame  {
     private final static int WINDOW_WIDTH = 1024;
     private final static int WINDOW_HEIGHT = 768;
+    private final static int MID_WIDTGH = WINDOW_WIDTH / 2;
+    private final static int MID_HEIGHT = WINDOW_HEIGHT / 2;
+
     private final static String GAME_TITLE = "SHADOW PAC";
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
 
