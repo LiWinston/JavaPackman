@@ -68,17 +68,17 @@ public class Player extends GameUnit {
                 move(Keys.LEFT);
                 lastPressedKey = Keys.LEFT;
             }
-            if (input.wasPressed(Keys.RIGHT)) {
+            else if (input.wasPressed(Keys.RIGHT)) {
                 radians = 0;
                 move(Keys.RIGHT);
                 lastPressedKey = Keys.RIGHT;
             }
-            if (input.wasPressed(Keys.UP)) {
+            else if (input.wasPressed(Keys.UP)) {
                 radians = -Math.PI / 2;
                 move(Keys.UP);
                 lastPressedKey = Keys.UP;
             }
-            if (input.wasPressed(Keys.DOWN)) {
+            else if (input.wasPressed(Keys.DOWN)) {
                 radians = Math.PI / 2;
                 move(Keys.DOWN);
                 lastPressedKey = Keys.DOWN;

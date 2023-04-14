@@ -125,6 +125,16 @@ public class ShadowPac extends AbstractGame  {
             ShowMessage SM_Score = new ShowMessage("SCORE",25,25,20);
             SM_Score.Show();
             player.Draw(input);
+            for(Ghost gst : ghostList){
+                gst.DrawFixUnit();
+            }
+            for(Wall wl : wallList){
+                wl.DrawFixUnit();
+            }
+            for(Dot dt : dotList){
+                dt.DrawFixUnit();
+            }
+
         }
     }
 }
