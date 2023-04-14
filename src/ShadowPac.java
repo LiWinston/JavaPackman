@@ -16,7 +16,13 @@ public class ShadowPac extends AbstractGame  {
 
     protected final static int STEP_SIZE = 3;
 
-    private boolean Welcome_Passed = false;
+
+    protected enum gameStage {
+        Welcome, Gaming, GameOver, Success
+    }
+
+    private gameStage gs;
+
 
     public static int getWindowWidth(){
         return WINDOW_WIDTH;
@@ -42,6 +48,8 @@ public class ShadowPac extends AbstractGame  {
      */
     public static void main(String[] args) {
         ShadowPac game = new ShadowPac();
+        game.gs = gameStage.Welcome;
+
         game.run();
     }
 
@@ -56,7 +64,7 @@ public class ShadowPac extends AbstractGame  {
             Window.close();
         }
         BACKGROUND_IMAGE.draw(Window.getWidth()/2.0, Window.getHeight()/2.0);
-        if(!Welcome_Passed){
+        if(this.gs == gameStage.Welcome){
             ShowMessage SM_SHADOW_PAC = new ShowMessage("SHADOW PAC",260,250);
             SM_SHADOW_PAC.Show();
             ShowMessage SM_PRESS_SPACE_TO_START = new ShowMessage("PRESS SPACE TO START",320,440,24);
@@ -64,9 +72,13 @@ public class ShadowPac extends AbstractGame  {
             ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE",320,540,24);
             SM_USE_ARROW_KEYS_TO_MOVE.Show();
 
-
-            if(input.wasPressed(Keys.SPACE)) Welcome_Passed = true;
+            if(input.wasPressed(Keys.SPACE)) {
+                gs = gameStage.Gaming;
+            }
         }
-
+        if(this.gs == gameStage.Gaming) {
+            ShowMessage SM_Score = new ShowMessage("SCORE",25,25,20);
+            SM_Score.Show();
+        }
     }
 }
