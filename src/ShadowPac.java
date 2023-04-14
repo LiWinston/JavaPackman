@@ -26,7 +26,7 @@ public class ShadowPac extends AbstractGame  {
     private final static String GAME_TITLE = "SHADOW PAC";
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
 
-    protected final static int STEP_SIZE = 3;
+    protected final static int STEP_SIZE = 10;
     protected Player player;
     protected Ghost[] ghostList = new Ghost[supposedGhostNum];
     protected Wall[] wallList = new Wall[supposedWallNum];
@@ -53,8 +53,8 @@ public class ShadowPac extends AbstractGame  {
     }
 
     /**
-     * Method used to read file and create objects (you can change
-     * this method as you wish).
+     * Method used to read file and create objects
+     * With Error handling
      */
     private void readCSV() {
         try (BufferedReader br = new BufferedReader(new FileReader("res/level0.csv"))) {
@@ -93,6 +93,7 @@ public class ShadowPac extends AbstractGame  {
 
     /**
      * The entry point for the program.
+     * DO:set game stage, read CSV and generate game units, call run Func.
      */
     public static void main(String[] args) {
         ShadowPac game = new ShadowPac();
@@ -102,8 +103,14 @@ public class ShadowPac extends AbstractGame  {
     }
 
     /**
-     * Performs a state update.
-     * Allows the game to exit when the escape key is pressed.
+     * Updates the game state based on the user's input.
+     * If the user presses the ESCAPE key, the window will be closed.
+     * If the game state is set to Welcome, a welcome message and instructions are displayed.
+     * The user must press the SPACE key to start the game.
+     * If the game state is set to Gaming, the player's score & Lives remaining are displayed, and the player and game objects are drawn.
+     * If the game state is set to Success or Lose, a message is displayed with the appropriate outcome of the game.
+     * The user can also press the SPACE key to close the "Success or Lose" UI.(Not mentioned as Projcet Spec requirement)
+     * @param input The input object that holds the user's input.
      */
     @Override
     protected void update(Input input) {
@@ -127,6 +134,15 @@ public class ShadowPac extends AbstractGame  {
         if(this.gs == gameStage.Gaming) {
             ShowMessage SM_Score = new ShowMessage("SCORE " + player.getScore(),25,25,20);
             SM_Score.Show();
+            Image redHeart = new Image("res/heart.png");
+            switch (player.getLife()){
+                case 3 :
+                    redHeart.drawFromTopLeft(900,10);
+                case 2 :
+                    redHeart.drawFromTopLeft(930,10);
+                case 1 :
+                    redHeart.drawFromTopLeft(960,10);
+            }
             player.Draw(input);
             Drawing.drawRectangle(player.hitBox.topLeft(), Player.playerOpenMouth.getWidth(), Player.playerOpenMouth.getHeight(), Colour.RED);
             for(Ghost gst : ghostList){
@@ -135,7 +151,7 @@ public class ShadowPac extends AbstractGame  {
             for(Wall wl : wallList){
                 wl.DrawFixUnit();
                 //Debugging for wall rect
-                Drawing.drawRectangle(wl.hitBox.topLeft(),wl.wall.getWidth(),wl.wall.getHeight(), Colour.GREEN);
+                //Drawing.drawRectangle(wl.hitBox.topLeft(),wl.wall.getWidth(),wl.wall.getHeight(), Colour.GREEN);
             }
             for(Dot dt : dotList){
                 dt.DrawFixUnit();
@@ -144,14 +160,16 @@ public class ShadowPac extends AbstractGame  {
 
         }
         if(this.gs == gameStage.Success) {
-            ShowMessage SM_SHADOW_PAC = new ShowMessage("WELL DONE!",MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT);//More accurate centralization required
+            ShowMessage SM_SHADOW_PAC = new ShowMessage("WELL DONE!",
+                    MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT);//More accurate centralization required
             SM_SHADOW_PAC.Show();
             if(input.wasPressed(Keys.SPACE)) {
                 Window.close();
             }
         }
         if(this.gs == gameStage.Lose) {
-            ShowMessage SM_SHADOW_PAC = new ShowMessage("GAME OVER!",MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT);//More accurate centralization required
+            ShowMessage SM_SHADOW_PAC = new ShowMessage("GAME OVER!",
+                    MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT);//More accurate centralization required
             SM_SHADOW_PAC.Show();
             if(input.wasPressed(Keys.SPACE)) {
                 Window.close();

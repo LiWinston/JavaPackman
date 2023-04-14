@@ -6,20 +6,27 @@ import bagel.util.Point;
 import bagel.util.Rectangle;
 
 public class Player extends GameUnit {
-    private final ShadowPac game;
-    private final Point originPos;
-    private int Life;
-    final static Image playerOpenMouth = new Image("res/pacOpen.png");
-    private final static Image playerCloseMouth = new Image("res/pac.png");
-    private final int Frequency_Modulation = 15;
-    private final DrawOptions drop = new DrawOptions();
-    private double radians = 0;
-    private int currentFrame;
-    private int currentStatus = 1;//1 = Openmouth and 0 = Closed
-    private Keys lastPressedKey = Keys.RIGHT;
-    private int score;
-    private static final int AIMSCORE = ShadowPac.supposedDotNum * 10;
+    private final ShadowPac game;// instance of the game
+    private final Point originPos;// initial position of the player
+    private int Life; // number of lives the player has left
+    final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
+    private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
+    private final int Frequency_Modulation = 15;// frequency of mouth opening and closing
+    private final DrawOptions drop = new DrawOptions();// draw options for the player
+    private double radians = 0;// angle of player movement, same as direction of drawing
+    private int currentFrame; // current frame counter, for converting image
+    private int currentStatus = 1;// current status of player mouth (1 for open, 0 for closed)
+    private Keys lastPressedKey = Keys.RIGHT;// last key pressed by the player
+    private int score;// current score of the player
+    private static final int AIMSCORE = ShadowPac.supposedDotNum * 10;// target score
 
+    /**
+
+     Constructor for the player class.
+     @param coordinateX the X coordinate of the player
+     @param coordinateY the Y coordinate of the player
+     @param game the instance of the game
+     */
     public Player(int coordinateX, int coordinateY,ShadowPac game) {
         super(coordinateX, coordinateY);
         this.game = game;
@@ -30,13 +37,24 @@ public class Player extends GameUnit {
         hitBox = new Rectangle(coordinateX,coordinateY,playerCloseMouth.getWidth(),playerCloseMouth.getHeight());
     }
 
+    public int getLife() {
+        return Life;
+    }
+
+    /**
+     * Checks whether the player has won and updates the game stage accordingly.
+     */
     public void checkWin(){
         if(this.score >= AIMSCORE){
-            //todo TELL SHADOWPAC by somehow communication bwtween class
-            //maybe observation design
+            //todo: Improve encapsulation by TELLing SHADOWPAC with
+            // somehow communication bwtween class like : observation design mode
             game.gs = ShadowPac.gameStage.Success;
         };
     }
+    /**
+     * Checks whether the player has collided with a ghost or eaten a dot.
+     * @param game the instance of the game
+     */
     public void checkAround(ShadowPac game){
         for(Ghost gst : game.ghostList){
             if(checkCollideWithGhost(gst)){
@@ -47,8 +65,12 @@ public class Player extends GameUnit {
         for(Dot dt : game.dotList){
             EatDot(dt);
         }
-
     }
+    /**
+     * Checks whether the player has collided with a ghost.
+     * @param gst the ghost being checked for collision
+     * @return true if the player has collided with the ghost, and call dieAndReset
+     */
     private boolean checkCollideWithGhost(Ghost gst){
         if(this.hitBox.intersects(gst.hitBox)){
             dieAndReset();
@@ -57,6 +79,10 @@ public class Player extends GameUnit {
             return false;
         }
     }
+    /**
+     *  Eats a dot if the player has collided with it.
+     *  @param dt the dot being checked for collision
+     */
     private void EatDot(Dot dt){
         if(dt.isExist && this.hitBox.intersects(dt.hitBox)){
             dt.isExist = false;
@@ -92,7 +118,7 @@ public class Player extends GameUnit {
                 if (isValidPosition(coordinateX, coordinateY - ShadowPac.STEP_SIZE)) coordinateY -= ShadowPac.STEP_SIZE;
                 break;
             case DOWN:
-                if (isValidPosition(coordinateX, coordinateY - ShadowPac.STEP_SIZE)) coordinateY += ShadowPac.STEP_SIZE;
+                if (isValidPosition(coordinateX, coordinateY + ShadowPac.STEP_SIZE)) coordinateY += ShadowPac.STEP_SIZE;
                 break;
         }
     }
@@ -122,7 +148,7 @@ public class Player extends GameUnit {
                 lastPressedKey = Keys.DOWN;
             }
         }
-        hitBox.moveTo(new Point(coordinateX,coordinateY));
+        hitBox.moveTo(new Point(coordinateX,coordinateY));// Move the hitbox to the new position
         ++currentFrame;
         if (currentFrame == Frequency_Modulation) {
             currentStatus = (currentStatus == 1 ? 0 : 1);
@@ -148,6 +174,9 @@ public class Player extends GameUnit {
         playerCloseMouth.drawFromTopLeft(coordinateX, coordinateY, drop.setRotation(radians));
     }
 
+    /**
+     * Resets the player's position to the original position and reduces the player's number of lives by 1.
+     */
     public void dieAndReset(){
         --Life;
         if(Life == 0){
