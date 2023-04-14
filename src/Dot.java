@@ -5,7 +5,7 @@ public class Dot extends GameUnit{
     boolean isExist;
     private final static Image dot = new Image("res/dot.png");
 
-    public Dot(double coordinateX, double coordinateY) {
+    public Dot(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
         this.isExist = true;
     }

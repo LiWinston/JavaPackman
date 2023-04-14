@@ -6,10 +6,10 @@ import bagel.*;
  * @YongchunLi
  */
 public abstract class GameUnit {
-    protected double coordinateX;
-    protected double coordinateY;
+    protected int coordinateX;
+    protected int coordinateY;
 
-    public GameUnit(double coordinateX, double coordinateY) {
+    public GameUnit(int coordinateX, int coordinateY) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
     }
@@ -17,11 +17,11 @@ public abstract class GameUnit {
     protected GameUnit() {
     }
 
-    public void setCoordinateX(double coordinateX) {
+    public void setCoordinateX(int coordinateX) {
         this.coordinateX = coordinateX;
     }
 
-    public void setCoordinateY(double coordinateY) {
+    public void setCoordinateY(int coordinateY) {
         this.coordinateY = coordinateY;
     }
 
