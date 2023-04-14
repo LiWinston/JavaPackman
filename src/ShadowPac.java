@@ -14,6 +14,14 @@ public class ShadowPac extends AbstractGame  {
     private final static String GAME_TITLE = "SHADOW PAC";
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
 
+    protected final static int STEP_SIZE = 3;
+
+    public static int getWindowWidth(){
+        return WINDOW_WIDTH;
+    }
+    public static int getWindowHeight(){
+        return WINDOW_HEIGHT;
+    }
 
     public ShadowPac(){
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);

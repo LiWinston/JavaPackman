@@ -1,11 +1,13 @@
+import bagel.*;
+
 /**
  * GameUnit Class
  * Implement basic game unit behaviours
  * @YongchunLi
  */
 public abstract class GameUnit {
-    private double coordinateX;
-    private double coordinateY;
+    protected double coordinateX;
+    protected double coordinateY;
 
     public GameUnit(double coordinateX, double coordinateY) {
         this.coordinateX = coordinateX;
@@ -22,5 +24,8 @@ public abstract class GameUnit {
     public void setCoordinateY(double coordinateY) {
         this.coordinateY = coordinateY;
     }
-    public abstract void Draw();
+
+    public void Draw(Input input){};
+    public void DrawFixUnit(){};
+
 }

@@ -1,4 +1,5 @@
 import bagel.Image;
+import bagel.Input;
 
 public class Dot extends GameUnit{
     boolean isExist;
@@ -10,9 +11,7 @@ public class Dot extends GameUnit{
     }
 
     @Override
-    public void Draw() {
-        if(this.isExist){
-
-        }
+    public void DrawFixUnit() {
+        if(this.isExist) dot.draw(coordinateX,coordinateY);
     }
 }
