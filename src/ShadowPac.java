@@ -16,6 +16,8 @@ public class ShadowPac extends AbstractGame  {
 
     protected final static int STEP_SIZE = 3;
 
+    private boolean Welcome_Passed = false;
+
     public static int getWindowWidth(){
         return WINDOW_WIDTH;
     }
@@ -54,6 +56,17 @@ public class ShadowPac extends AbstractGame  {
             Window.close();
         }
         BACKGROUND_IMAGE.draw(Window.getWidth()/2.0, Window.getHeight()/2.0);
+        if(!Welcome_Passed){
+            ShowMessage SM_SHADOW_PAC = new ShowMessage("SHADOW PAC",260,250);
+            SM_SHADOW_PAC.Show();
+            ShowMessage SM_PRESS_SPACE_TO_START = new ShowMessage("PRESS SPACE TO START",320,440,24);
+            SM_PRESS_SPACE_TO_START.Show();
+            ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE",320,540,24);
+            SM_USE_ARROW_KEYS_TO_MOVE.Show();
+
+
+            if(input.wasPressed(Keys.SPACE)) Welcome_Passed = true;
+        }
 
     }
 }

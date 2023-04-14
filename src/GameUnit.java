@@ -26,6 +26,6 @@ public abstract class GameUnit {
     }
 
     public void Draw(Input input){};
-    public void DrawFixUnit(){};
+    protected void DrawFixUnit(){};
 
 }

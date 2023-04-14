@@ -11,6 +11,11 @@ public class Dot extends GameUnit{
     }
 
     @Override
+    public void Draw(Input input) {
+        DrawFixUnit();
+    }
+
+    @Override
     public void DrawFixUnit() {
         if(this.isExist) dot.draw(coordinateX,coordinateY);
     }
