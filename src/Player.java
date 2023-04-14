@@ -15,12 +15,14 @@ public class Player extends GameUnit {
     private int currentFrame;
     private int currentStatus = 1;//1 = Openmouth and 0 = Closed
     private Keys lastPressedKey = Keys.RIGHT;
+    private int score;
 
     public Player(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
         currentFrame = 0;
         originPos = new Point(coordinateX, coordinateY);
         this.Life = 3;
+        this.score = 0;
     }
     private boolean isToCollideWithGhost(ShadowPac game){
         // TODO:Collide detect
@@ -102,16 +104,20 @@ public class Player extends GameUnit {
     }
 
     private void DrawOpenMouth() {
-        playerOpenMouth.draw(coordinateX, coordinateY, drop.setRotation(radians));
+        playerOpenMouth.drawFromTopLeft(coordinateX, coordinateY, drop.setRotation(radians));
     }
 
     private void DrawCloseMouth() {
-        playerCloseMouth.draw(coordinateX, coordinateY, drop.setRotation(radians));
+        playerCloseMouth.drawFromTopLeft(coordinateX, coordinateY, drop.setRotation(radians));
     }
 
     public void dieAndReset(){
         --Life;
         coordinateX = (int) originPos.x;
         coordinateY = (int) originPos.y;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

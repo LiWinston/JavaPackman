@@ -122,7 +122,7 @@ public class ShadowPac extends AbstractGame  {
             }
         }
         if(this.gs == gameStage.Gaming) {
-            ShowMessage SM_Score = new ShowMessage("SCORE",25,25,20);
+            ShowMessage SM_Score = new ShowMessage("SCORE " + player.getScore(),25,25,20);
             SM_Score.Show();
             player.Draw(input);
             for(Ghost gst : ghostList){

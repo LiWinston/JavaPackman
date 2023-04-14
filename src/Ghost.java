@@ -14,6 +14,6 @@ public class Ghost extends GameUnit{
 
     @Override
     public void DrawFixUnit() {
-        ghostRed.draw(coordinateX,coordinateY);
+        ghostRed.drawFromTopLeft(coordinateX,coordinateY);
     }
 }

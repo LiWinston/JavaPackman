@@ -9,6 +9,6 @@ public class Wall extends GameUnit{
 
     @Override
     public void DrawFixUnit() {
-        wall.draw(coordinateX,coordinateY);
+        wall.drawFromTopLeft(coordinateX,coordinateY);
     }
 }

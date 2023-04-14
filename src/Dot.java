@@ -17,6 +17,6 @@ public class Dot extends GameUnit{
 
     @Override
     public void DrawFixUnit() {
-        if(this.isExist) dot.draw(coordinateX,coordinateY);
+        if(this.isExist) dot.drawFromTopLeft(coordinateX,coordinateY);
     }
 }
