@@ -6,9 +6,7 @@
 import bagel.*;
 import bagel.Image;
 import bagel.Window;
-import bagel.util.Colour;
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -120,11 +118,11 @@ public class ShadowPac extends AbstractGame  {
         }
         BACKGROUND_IMAGE.draw(Window.getWidth()/2.0, Window.getHeight()/2.0);
         if(this.gs == gameStage.Welcome){
-            ShowMessage SM_SHADOW_PAC = new ShowMessage("SHADOW PAC",260,250);
+            ShowMessage SM_SHADOW_PAC = new ShowMessage(GAME_TITLE,260,250);
             SM_SHADOW_PAC.Show();
             ShowMessage SM_PRESS_SPACE_TO_START = new ShowMessage("PRESS SPACE TO START",320,440,24);
             SM_PRESS_SPACE_TO_START.Show();
-            ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE",320,540,24);
+            ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE",310,480,24);
             SM_USE_ARROW_KEYS_TO_MOVE.Show();
 
             if(input.wasPressed(Keys.SPACE)) {
