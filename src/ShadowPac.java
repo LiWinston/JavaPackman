@@ -4,11 +4,14 @@
  * @YongchunLi
  */
 import bagel.*;
+import bagel.Image;
+import bagel.Window;
+import bagel.util.Colour;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
 
 public class ShadowPac extends AbstractGame  {
@@ -16,9 +19,9 @@ public class ShadowPac extends AbstractGame  {
     private final static int WINDOW_HEIGHT = 768;
     private final static int supposedGhostNum = 4;
     private final static int supposedWallNum = 145;
-    private final static int supposedDotNum = 121;
-//    private final static int MID_WIDTH = WINDOW_WIDTH / 2;
-//    private final static int MID_HEIGHT = WINDOW_HEIGHT / 2;
+    protected final static int supposedDotNum = 121;
+    private final static int MID_WIDTH = WINDOW_WIDTH / 2;
+    private final static int MID_HEIGHT = WINDOW_HEIGHT / 2;
 
     private final static String GAME_TITLE = "SHADOW PAC";
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
@@ -32,10 +35,10 @@ public class ShadowPac extends AbstractGame  {
 
 
     protected enum gameStage {
-        Welcome, Gaming, GameOver, Success
+        Welcome, Gaming, Lose, Success
     }
 
-    private gameStage gs;
+    protected gameStage gs;
 
 
     public static int getWindowWidth(){
@@ -64,7 +67,7 @@ public class ShadowPac extends AbstractGame  {
                 int y = Integer.parseInt(data[2]);
                 switch (type) {
                     case "Player":
-                        player = new Player(x,y);
+                        player = new Player(x,y,this);
                         break;
                     case "Ghost":
                         ghostList[ghostNum++] = new Ghost(x, y);
@@ -125,16 +128,35 @@ public class ShadowPac extends AbstractGame  {
             ShowMessage SM_Score = new ShowMessage("SCORE " + player.getScore(),25,25,20);
             SM_Score.Show();
             player.Draw(input);
+            Drawing.drawRectangle(player.hitBox.topLeft(), Player.playerOpenMouth.getWidth(), Player.playerOpenMouth.getHeight(), Colour.RED);
             for(Ghost gst : ghostList){
                 gst.DrawFixUnit();
             }
             for(Wall wl : wallList){
                 wl.DrawFixUnit();
+                //Debugging for wall rect
+                Drawing.drawRectangle(wl.hitBox.topLeft(),wl.wall.getWidth(),wl.wall.getHeight(), Colour.GREEN);
             }
             for(Dot dt : dotList){
                 dt.DrawFixUnit();
             }
+            player.checkAround(this);
 
         }
+        if(this.gs == gameStage.Success) {
+            ShowMessage SM_SHADOW_PAC = new ShowMessage("WELL DONE!",MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT);//More accurate centralization required
+            SM_SHADOW_PAC.Show();
+            if(input.wasPressed(Keys.SPACE)) {
+                Window.close();
+            }
+        }
+        if(this.gs == gameStage.Lose) {
+            ShowMessage SM_SHADOW_PAC = new ShowMessage("GAME OVER!",MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT);//More accurate centralization required
+            SM_SHADOW_PAC.Show();
+            if(input.wasPressed(Keys.SPACE)) {
+                Window.close();
+            }
+        }
+
     }
 }

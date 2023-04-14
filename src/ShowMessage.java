@@ -4,7 +4,7 @@ public class ShowMessage {
     private int Y;
     private String messageDetail;
     private final Font ft;
-    final int SPECIFIC_FONTSIZE = 64;
+    final static int SPECIFIC_FONTSIZE = 64;
 
 
     public ShowMessage(String messageDetail,int X,int Y) {

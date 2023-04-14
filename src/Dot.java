@@ -1,5 +1,6 @@
 import bagel.Image;
 import bagel.Input;
+import bagel.util.Rectangle;
 
 public class Dot extends GameUnit{
     boolean isExist;
@@ -8,6 +9,7 @@ public class Dot extends GameUnit{
     public Dot(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
         this.isExist = true;
+        hitBox = new Rectangle(coordinateX,coordinateY,dot.getWidth(),dot.getHeight());
     }
 
     @Override
