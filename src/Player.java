@@ -125,27 +125,26 @@ public class Player extends GameUnit {
     @Override
     public void Draw(Input input) {
 //        int pressKeyNum = 0;
-        if (true) {//input.wasReleased(lastPressedKey)
-            if (input.wasPressed(Keys.LEFT)) {
-                radians = -Math.PI;
-                move(Keys.LEFT);
-                lastPressedKey = Keys.LEFT;
-            }
-            else if (input.wasPressed(Keys.RIGHT)) {
-                radians = 0;
-                move(Keys.RIGHT);
-                lastPressedKey = Keys.RIGHT;
-            }
-            else if (input.wasPressed(Keys.UP)) {
-                radians = -Math.PI / 2;
-                move(Keys.UP);
-                lastPressedKey = Keys.UP;
-            }
-            else if (input.wasPressed(Keys.DOWN)) {
-                radians = Math.PI / 2;
-                move(Keys.DOWN);
-                lastPressedKey = Keys.DOWN;
-            }
+        //input.wasReleased(lastPressedKey)
+        if (input.isDown(Keys.LEFT)) {
+            radians = -Math.PI;
+            move(Keys.LEFT);
+            lastPressedKey = Keys.LEFT;
+        }
+        else if (input.isDown(Keys.RIGHT)) {
+            radians = 0;
+            move(Keys.RIGHT);
+            lastPressedKey = Keys.RIGHT;
+        }
+        else if (input.isDown(Keys.UP)) {
+            radians = -Math.PI / 2;
+            move(Keys.UP);
+            lastPressedKey = Keys.UP;
+        }
+        else if (input.isDown(Keys.DOWN)) {
+            radians = Math.PI / 2;
+            move(Keys.DOWN);
+            lastPressedKey = Keys.DOWN;
         }
         hitBox.moveTo(new Point(coordinateX,coordinateY));// Move the hitbox to the new position
         ++currentFrame;

@@ -26,7 +26,7 @@ public class ShadowPac extends AbstractGame  {
     private final static String GAME_TITLE = "SHADOW PAC";
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
 
-    protected final static int STEP_SIZE = 10;
+    protected final static int STEP_SIZE = 3;
     protected Player player;
     protected Ghost[] ghostList = new Ghost[supposedGhostNum];
     protected Wall[] wallList = new Wall[supposedWallNum];
