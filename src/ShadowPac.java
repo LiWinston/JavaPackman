@@ -144,7 +144,7 @@ public class ShadowPac extends AbstractGame  {
                     redHeart.drawFromTopLeft(960,10);
             }
             player.Draw(input);
-            Drawing.drawRectangle(player.hitBox.topLeft(), Player.playerOpenMouth.getWidth(), Player.playerOpenMouth.getHeight(), Colour.RED);
+//            Drawing.drawRectangle(player.hitBox.topLeft(), Player.playerOpenMouth.getWidth(), Player.playerOpenMouth.getHeight(), Colour.RED);
             for(Ghost gst : ghostList){
                 gst.DrawFixUnit();
             }

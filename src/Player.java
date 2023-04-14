@@ -16,12 +16,11 @@ public class Player extends GameUnit {
     private double radians = 0;// angle of player movement, same as direction of drawing
     private int currentFrame; // current frame counter, for converting image
     private int currentStatus = 1;// current status of player mouth (1 for open, 0 for closed)
-    private Keys lastPressedKey = Keys.RIGHT;// last key pressed by the player
+//    private Keys lastPressedKey = Keys.RIGHT;// last key pressed by the player
     private int score;// current score of the player
     private static final int AIMSCORE = ShadowPac.supposedDotNum * 10;// target score
 
     /**
-
      Constructor for the player class.
      @param coordinateX the X coordinate of the player
      @param coordinateY the Y coordinate of the player
@@ -124,27 +123,21 @@ public class Player extends GameUnit {
 
     @Override
     public void Draw(Input input) {
-//        int pressKeyNum = 0;
-        //input.wasReleased(lastPressedKey)
         if (input.isDown(Keys.LEFT)) {
             radians = -Math.PI;
             move(Keys.LEFT);
-            lastPressedKey = Keys.LEFT;
         }
         else if (input.isDown(Keys.RIGHT)) {
             radians = 0;
             move(Keys.RIGHT);
-            lastPressedKey = Keys.RIGHT;
         }
         else if (input.isDown(Keys.UP)) {
             radians = -Math.PI / 2;
             move(Keys.UP);
-            lastPressedKey = Keys.UP;
         }
         else if (input.isDown(Keys.DOWN)) {
             radians = Math.PI / 2;
             move(Keys.DOWN);
-            lastPressedKey = Keys.DOWN;
         }
         hitBox.moveTo(new Point(coordinateX,coordinateY));// Move the hitbox to the new position
         ++currentFrame;
