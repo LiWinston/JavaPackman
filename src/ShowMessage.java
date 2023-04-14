@@ -13,9 +13,6 @@ public class ShowMessage {
         this.messageDetail = messageDetail;
         this.ft = new Font("res/FSO8BITR.TTF",fontSize);
     }
-    //    public void setFt(Font ft) {
-//        this.ft = ft;
-//    }
 
     public void Show(int x, int y){
         ft.drawString(messageDetail, x, y);
