@@ -58,7 +58,6 @@ public class Player extends GameUnit {
     public void checkAround(ShadowPac game){
         for(Ghost gst : game.ghostList){
             if(checkCollideWithGhost(gst)){
-                dieAndReset();
                 break;
             }
         }
