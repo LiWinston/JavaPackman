@@ -7,9 +7,7 @@
  * @YongchunLi
 */
 public class ShadowPacLogic implements GameLogic {
-    private ShadowPac game;
-
-
+    private final ShadowPac game;
     private Player player;
 
     /**

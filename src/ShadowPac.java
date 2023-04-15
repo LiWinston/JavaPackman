@@ -173,25 +173,21 @@ public class ShadowPac extends AbstractGame  {
                     redHeart.drawFromTopLeft(960,10);
             }
             player.Draw(input);
-//            Drawing.drawRectangle(player.hitBox.topLeft(), Player.playerOpenMouth.getWidth(), Player.playerOpenMouth.getHeight(), Colour.RED);
             for(Ghost gst : ghostList){
                 gst.DrawFixUnit();
             }
             for(Wall wl : wallList){
                 wl.DrawFixUnit();
-                //Debugging for wall rect
-                //Drawing.drawRectangle(wl.hitBox.topLeft(),wl.wall.getWidth(),wl.wall.getHeight(), Colour.GREEN);
             }
             for(Dot dt : dotList){
                 dt.DrawFixUnit();
             }
-//            player.checkAround(this);
             glog.letPlayerCheckArround();
 
         }
         if(this.gs == gameStage.Success) {
             ShowMessage SM_SHADOW_PAC = new ShowMessage("WELL DONE!",
-                    MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT);//More accurate centralization required
+                    MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE/2);
             SM_SHADOW_PAC.Show();
             if(input.wasPressed(Keys.SPACE)) {
                 Window.close();
@@ -199,7 +195,7 @@ public class ShadowPac extends AbstractGame  {
         }
         if(this.gs == gameStage.Lose) {
             ShowMessage SM_SHADOW_PAC = new ShowMessage("GAME OVER!",
-                    MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT);//More accurate centralization required
+                    MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE/2);
             SM_SHADOW_PAC.Show();
             if(input.wasPressed(Keys.SPACE)) {
                 Window.close();

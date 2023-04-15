@@ -6,7 +6,6 @@ import bagel.util.Point;
 import bagel.util.Rectangle;
 
 public class Player extends GameUnit {
-//    private final ShadowPac game;// instance of the game
     private final Point originPos;// initial position of the player
     private int Life; // number of lives the player has left
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
@@ -45,14 +44,12 @@ public class Player extends GameUnit {
      */
     public void checkWin(){
         if(this.score >= AIMSCORE){
-//            game.gs = ShadowPac.gameStage.Success;
             logic.gameSucceeded();
         }
     }
     /**
      * Checks whether the player has collided with a ghost or eaten a dot.
      * executed based on current position(or rather after move)
-     * @param game the instance of the game
      */
     public void checkAround(){
         for(Ghost gst : logic.getGhostList()){
@@ -181,7 +178,6 @@ public class Player extends GameUnit {
     public void dieAndReset(){
         --Life;
         if(Life == 0){
-//            game.gs = ShadowPac.gameStage.Lose;
             logic.gameFailed();
         }
         coordinateX = (int) originPos.x;
