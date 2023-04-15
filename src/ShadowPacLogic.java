@@ -27,6 +27,9 @@ public class ShadowPacLogic implements GameLogic {
     public void setPlayer(Player player) {
         this.player = player;
     }
+    public void setPlayer(int x, int y,ShadowPacLogic logic){
+        this.player = new Player(x,y,logic);
+    }
     /*
      * Method to retrieve the list of Ghosts in the ShadowPac game.
      *
@@ -90,5 +93,10 @@ public class ShadowPacLogic implements GameLogic {
     public int getSTEP_SIZE() {
         return game.getSTEP_SIZE();
     }
-
+    /*
+     * Method to get the player instance reference.
+     */
+    public Player getPlayer() {
+        return player;
+    }
 }

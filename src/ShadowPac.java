@@ -25,7 +25,7 @@ public class ShadowPac extends AbstractGame  {
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
 
     private final static int STEP_SIZE = 3;
-    private Player player;
+//    private Player player;
     private Ghost[] ghostList = new Ghost[supposedGhostNum];
     private Wall[] wallList = new Wall[supposedWallNum];
     private Dot[] dotList = new Dot[supposedDotNum];
@@ -34,11 +34,6 @@ public class ShadowPac extends AbstractGame  {
     public int getSTEP_SIZE() {
         return STEP_SIZE;
     }
-
-    public Player getPlayer() {
-        return this.player;
-    }
-
 
     private enum gameStage {
         Welcome, Gaming, Lose, Success
@@ -77,7 +72,7 @@ public class ShadowPac extends AbstractGame  {
                 int y = Integer.parseInt(data[2]);
                 switch (type) {
                     case "Player":
-                        player = new Player(x,y,glog);
+                        glog.setPlayer(new Player(x,y,glog));
                         break;
                     case "Ghost":
                         ghostList[ghostNum++] = new Ghost(x, y);
@@ -156,15 +151,14 @@ public class ShadowPac extends AbstractGame  {
             SM_USE_ARROW_KEYS_TO_MOVE.Show();
 
             if(input.wasPressed(Keys.SPACE)) {
-                glog.setPlayer(player);
                 gs = gameStage.Gaming;
             }
         }
         if(this.gs == gameStage.Gaming) {
-            ShowMessage SM_Score = new ShowMessage("SCORE " + player.getScore(),25,25,20);
+            ShowMessage SM_Score = new ShowMessage("SCORE " + glog.getPlayer().getScore(),25,25,20);
             SM_Score.Show();
             Image redHeart = new Image("res/heart.png");
-            switch (player.getLife()){
+            switch (glog.getPlayer().getLife()){
                 case 3 :
                     redHeart.drawFromTopLeft(900,10);
                 case 2 :
@@ -172,7 +166,7 @@ public class ShadowPac extends AbstractGame  {
                 case 1 :
                     redHeart.drawFromTopLeft(960,10);
             }
-            player.Draw(input);
+            glog.getPlayer().Draw(input);
             for(Ghost gst : ghostList){
                 gst.DrawFixUnit();
             }
