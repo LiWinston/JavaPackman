@@ -77,7 +77,10 @@ public class ShadowPacLogic implements GameLogic {
      */
     @Override
     public void letPlayerCheckAround() {
-        if(null == this.player) System.err.println("Need Set player for ShadowPacLogic object!");
+        if(null == this.player){
+            System.err.println("Need Set player for ShadowPacLogic object!");
+            return;
+        }
         player.checkAround();
     }
 
