@@ -167,6 +167,11 @@ public class Player extends GameUnit {
         }
     }
 
+    @Override
+    public int getImageSize() {
+        return (int) playerCloseMouth.getHeight();
+    }
+
     private void DrawOpenMouth() {
         playerOpenMouth.drawFromTopLeft(coordinateX, coordinateY, drop.setRotation(radians));
     }

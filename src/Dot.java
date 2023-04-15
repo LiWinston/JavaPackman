@@ -21,4 +21,9 @@ public class Dot extends GameUnit{
     public void DrawFixUnit() {
         if(this.isExist) dot.drawFromTopLeft(coordinateX,coordinateY);
     }
+
+    @Override
+    public int getImageSize() {
+        return (int) dot.getHeight();
+    }
 }

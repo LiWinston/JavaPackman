@@ -18,4 +18,9 @@ public class Ghost extends GameUnit{
     public void DrawFixUnit() {
         ghostRed.drawFromTopLeft(coordinateX,coordinateY);
     }
+
+    @Override
+    public int getImageSize() {
+        return (int) ghostRed.getHeight();
+    }
 }

@@ -39,10 +39,11 @@ public abstract class GameUnit {
      * @return true if unit isAround this.
      */
     protected boolean isAround(GameUnit unit){
-        final int NEARDISTANCE = ShadowPac.getSTEP_SIZE();
+        final int NEARDISTANCE = ShadowPac.getSTEP_SIZE() + unit.getImageSize();
         return (Math.abs(unit.coordinateX - this.coordinateX) < NEARDISTANCE &&
                 Math.abs(unit.coordinateY - this.coordinateY) < NEARDISTANCE);
     }
 
+    public abstract int getImageSize();
 
 }

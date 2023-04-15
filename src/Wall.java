@@ -13,4 +13,9 @@ public class Wall extends GameUnit{
     public void DrawFixUnit() {
         wall.drawFromTopLeft(coordinateX,coordinateY);
     }
+
+    @Override
+    public int getImageSize() {
+        return (int) wall.getHeight();
+    }
 }
