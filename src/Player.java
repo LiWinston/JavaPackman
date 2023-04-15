@@ -9,7 +9,7 @@ public class Player extends GameUnit {
     private final ShadowPac game;// instance of the game
     private final Point originPos;// initial position of the player
     private int Life; // number of lives the player has left
-    final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
+    private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
     private final int Frequency_Modulation = 15;// frequency of mouth opening and closing
     private final DrawOptions drop = new DrawOptions();// draw options for the player
@@ -52,15 +52,16 @@ public class Player extends GameUnit {
     }
     /**
      * Checks whether the player has collided with a ghost or eaten a dot.
+     * executed based on current position(or rather after move)
      * @param game the instance of the game
      */
     public void checkAround(ShadowPac game){
-        for(Ghost gst : game.ghostList){
+        for(Ghost gst : game.getGhostList()){
             if(checkCollideWithGhost(gst)){
                 break;
             }
         }
-        for(Dot dt : game.dotList){
+        for(Dot dt : game.getDotList()){
             EatDot(dt);
         }
     }
@@ -88,9 +89,17 @@ public class Player extends GameUnit {
             checkWin();
         }
     }
+
+    /**
+     * check whether the attempt step is valid move for limiting the actual move of Player.
+     * @param x attemptX
+     * @param y attemptY
+     * @param game the calling game instance.
+     * @return true for invalid due to Wall
+     */
     private boolean isToCollideWithWall(int x, int y, ShadowPac game){
         Rectangle try_hit = new Rectangle(new Point(x, y), playerCloseMouth.getWidth(), playerCloseMouth.getHeight());
-        for(Wall wl : game.wallList) {
+        for(Wall wl : game.getWallList()) {
             if(try_hit.intersects(wl.hitBox)){
                 return true;
             }
@@ -121,6 +130,10 @@ public class Player extends GameUnit {
         }
     }
 
+    /**
+     * Draws the player on the screen based on the input received from the user.
+     * @param input The input received from the user.TODO：Consider replace by interface
+     */
     @Override
     public void Draw(Input input) {
         if (input.isDown(Keys.LEFT)) {

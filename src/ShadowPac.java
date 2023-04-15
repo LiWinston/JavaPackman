@@ -26,9 +26,9 @@ public class ShadowPac extends AbstractGame  {
 
     protected final static int STEP_SIZE = 3;
     protected Player player;
-    protected Ghost[] ghostList = new Ghost[supposedGhostNum];
-    protected Wall[] wallList = new Wall[supposedWallNum];
-    protected Dot[] dotList = new Dot[supposedDotNum];
+    private Ghost[] ghostList = new Ghost[supposedGhostNum];
+    private Wall[] wallList = new Wall[supposedWallNum];
+    private Dot[] dotList = new Dot[supposedDotNum];
 
 
 
@@ -88,6 +88,17 @@ public class ShadowPac extends AbstractGame  {
         }
     }
 
+    public Ghost[] getGhostList() {
+        return ghostList;
+    }
+
+    public Wall[] getWallList() {
+        return wallList;
+    }
+
+    public Dot[] getDotList() {
+        return dotList;
+    }
 
     /**
      * The entry point for the program.
