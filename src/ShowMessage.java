@@ -1,8 +1,8 @@
 import bagel.*;
 public class ShowMessage {
-    private int X;
-    private int Y;
-    private String messageDetail;
+    private final int X;
+    private final int Y;
+    private final String messageDetail;
     private final Font ft;
     final static int SPECIFIC_FONTSIZE = 64;
 
@@ -23,9 +23,6 @@ public class ShowMessage {
 
     public void Show(){
         ft.drawString(messageDetail, X, Y);
-    }
-    public void Show(DrawOptions drop){
-        ft.drawString(messageDetail, X, Y, drop);
     }
 
 }

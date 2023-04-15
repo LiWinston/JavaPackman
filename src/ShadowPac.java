@@ -94,9 +94,9 @@ public class ShadowPac extends AbstractGame  {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.err.println("File not exist：" + e.getMessage());
+            System.err.println("File not exist:" + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Unknown error：" + e.getMessage());
+            System.err.println("Unknown error:" + e.getMessage());
         }
     }
 
