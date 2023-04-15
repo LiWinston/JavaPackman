@@ -97,10 +97,13 @@ public class Player extends GameUnit {
      * @return true for invalid due to Wall
      */
     private boolean isToCollideWithWall(int x, int y, ShadowPacLogic logic){
+        Player newPl = new Player(x,y,logic);
         Rectangle try_hit = new Rectangle(new Point(x, y), playerCloseMouth.getWidth(), playerCloseMouth.getHeight());
         for(Wall wl : logic.getWallList()) {
-            if(try_hit.intersects(wl.hitBox)){
-                return true;
+            if(newPl.isAround(wl)){
+                if(try_hit.intersects(wl.hitBox)){
+                    return true;
+                }
             }
         }
         return false;

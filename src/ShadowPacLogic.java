@@ -91,7 +91,7 @@ public class ShadowPacLogic implements GameLogic {
      * Method to get the game StepSize.
      */
     public int getSTEP_SIZE() {
-        return game.getSTEP_SIZE();
+        return ShadowPac.getSTEP_SIZE();
     }
     /*
      * Method to get the player instance reference.

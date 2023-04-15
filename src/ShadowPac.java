@@ -120,7 +120,7 @@ public class ShadowPac extends AbstractGame  {
     public static void main(String[] args) {
         ShadowPac game = new ShadowPac();
         game.gs = gameStage.Welcome;
-        game.readCSV();
+        game.readCSV();//Read CSV once and solidify into Arrays
         game.run();
     }
 
