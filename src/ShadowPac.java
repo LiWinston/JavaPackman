@@ -17,26 +17,34 @@ public class ShadowPac extends AbstractGame  {
     private final static int WINDOW_HEIGHT = 768;
     private final static int supposedGhostNum = 4;
     private final static int supposedWallNum = 145;
-    protected final static int supposedDotNum = 121;
+    private final static int supposedDotNum = 121;
     private final static int MID_WIDTH = WINDOW_WIDTH / 2;
     private final static int MID_HEIGHT = WINDOW_HEIGHT / 2;
 
     private final static String GAME_TITLE = "SHADOW PAC";
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
 
-    protected final static int STEP_SIZE = 3;
-    protected Player player;
+    private final static int STEP_SIZE = 3;
+    private Player player;
     private Ghost[] ghostList = new Ghost[supposedGhostNum];
     private Wall[] wallList = new Wall[supposedWallNum];
     private Dot[] dotList = new Dot[supposedDotNum];
+    private ShadowPacLogic glog;
+
+    public int getSTEP_SIZE() {
+        return STEP_SIZE;
+    }
+
+    public Player getPlayer() {
+        return this.player;
+    }
 
 
-
-    protected enum gameStage {
+    private enum gameStage {
         Welcome, Gaming, Lose, Success
     }
 
-    protected gameStage gs;
+    private gameStage gs;
 
 
     public static int getWindowWidth(){
@@ -48,6 +56,10 @@ public class ShadowPac extends AbstractGame  {
 
     public ShadowPac(){
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
+        glog = new ShadowPacLogic(this);
+    }
+    public int getSupposedDotNum() {
+        return supposedDotNum;
     }
 
     /**
@@ -65,7 +77,7 @@ public class ShadowPac extends AbstractGame  {
                 int y = Integer.parseInt(data[2]);
                 switch (type) {
                     case "Player":
-                        player = new Player(x,y,this);
+                        player = new Player(x,y,glog);
                         break;
                     case "Ghost":
                         ghostList[ghostNum++] = new Ghost(x, y);
@@ -98,6 +110,13 @@ public class ShadowPac extends AbstractGame  {
 
     public Dot[] getDotList() {
         return dotList;
+    }
+
+    public void setGameStageLOSE() {
+        gs = ShadowPac.gameStage.Lose;
+    }
+    public void setGameStageWIN() {
+        gs = gameStage.Success;
     }
 
     /**
@@ -137,6 +156,7 @@ public class ShadowPac extends AbstractGame  {
             SM_USE_ARROW_KEYS_TO_MOVE.Show();
 
             if(input.wasPressed(Keys.SPACE)) {
+                glog.setPlayer(player);
                 gs = gameStage.Gaming;
             }
         }
@@ -165,7 +185,8 @@ public class ShadowPac extends AbstractGame  {
             for(Dot dt : dotList){
                 dt.DrawFixUnit();
             }
-            player.checkAround(this);
+//            player.checkAround(this);
+            glog.letPlayerCheckArround();
 
         }
         if(this.gs == gameStage.Success) {

@@ -6,7 +6,7 @@ import bagel.util.Point;
 import bagel.util.Rectangle;
 
 public class Player extends GameUnit {
-    private final ShadowPac game;// instance of the game
+//    private final ShadowPac game;// instance of the game
     private final Point originPos;// initial position of the player
     private int Life; // number of lives the player has left
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
@@ -16,23 +16,23 @@ public class Player extends GameUnit {
     private double radians = 0;// angle of player movement, same as direction of drawing
     private int currentFrame; // current frame counter, for converting image
     private int currentStatus = 1;// current status of player mouth (1 for open, 0 for closed)
-//    private Keys lastPressedKey = Keys.RIGHT;// last key pressed by the player
     private int score;// current score of the player
-    private static final int AIMSCORE = ShadowPac.supposedDotNum * 10;// target score
-
+    private static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
+    private final ShadowPacLogic logic;
     /**
      Constructor for the player class.
      @param coordinateX the X coordinate of the player
      @param coordinateY the Y coordinate of the player
-     @param game the instance of the game
+     @param logic the instance of the gameLogic (Delegation interface applied)
      */
-    public Player(int coordinateX, int coordinateY,ShadowPac game) {
+    public Player(int coordinateX, int coordinateY,ShadowPacLogic logic) {
         super(coordinateX, coordinateY);
-        this.game = game;
+        this.logic = logic;
         currentFrame = 0;
         originPos = new Point(coordinateX, coordinateY);
         this.Life = 3;
         this.score = 0;
+        AIMSCORE = logic.getSupposedDotNum() * 10;
         hitBox = new Rectangle(coordinateX,coordinateY,playerCloseMouth.getWidth(),playerCloseMouth.getHeight());
     }
 
@@ -45,23 +45,22 @@ public class Player extends GameUnit {
      */
     public void checkWin(){
         if(this.score >= AIMSCORE){
-            //todo: Improve encapsulation by TELLing SHADOWPAC with
-            // somehow communication bwtween class like : observation design mode
-            game.gs = ShadowPac.gameStage.Success;
-        };
+//            game.gs = ShadowPac.gameStage.Success;
+            logic.gameSucceeded();
+        }
     }
     /**
      * Checks whether the player has collided with a ghost or eaten a dot.
      * executed based on current position(or rather after move)
      * @param game the instance of the game
      */
-    public void checkAround(ShadowPac game){
-        for(Ghost gst : game.getGhostList()){
+    public void checkAround(){
+        for(Ghost gst : logic.getGhostList()){
             if(checkCollideWithGhost(gst)){
                 break;
             }
         }
-        for(Dot dt : game.getDotList()){
+        for(Dot dt : logic.getDotList()){
             EatDot(dt);
         }
     }
@@ -94,12 +93,12 @@ public class Player extends GameUnit {
      * check whether the attempt step is valid move for limiting the actual move of Player.
      * @param x attemptX
      * @param y attemptY
-     * @param game the calling game instance.
+     * @param logic the ShadowPacLogic instance used for delegation.
      * @return true for invalid due to Wall
      */
-    private boolean isToCollideWithWall(int x, int y, ShadowPac game){
+    private boolean isToCollideWithWall(int x, int y, ShadowPacLogic logic){
         Rectangle try_hit = new Rectangle(new Point(x, y), playerCloseMouth.getWidth(), playerCloseMouth.getHeight());
-        for(Wall wl : game.getWallList()) {
+        for(Wall wl : logic.getWallList()) {
             if(try_hit.intersects(wl.hitBox)){
                 return true;
             }
@@ -107,25 +106,23 @@ public class Player extends GameUnit {
         return false;
     }
     private boolean isValidPosition(int X, int Y) {
-//        return X >= 0 && (X < ShadowPac.getWindowWidth() - playerCloseMouth.getWidth()) && Y >= 0
-//                && (Y < ShadowPac.getWindowHeight() - playerCloseMouth.getHeight() &&!(isToCollideWithWall(X,Y,game)));
-        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&!(isToCollideWithWall(X,Y,game)));
-
+        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&!(isToCollideWithWall(X,Y,logic)));
     }
 
     public void move(Keys key) {
+        int STEP_SIZE = logic.getSTEP_SIZE();
         switch (key) {
             case LEFT:
-                if (isValidPosition(coordinateX - ShadowPac.STEP_SIZE, coordinateY)) coordinateX -= ShadowPac.STEP_SIZE;
+                if (isValidPosition(coordinateX - STEP_SIZE, coordinateY)) coordinateX -= STEP_SIZE;
                 break;
             case RIGHT:
-                if (isValidPosition(coordinateX + ShadowPac.STEP_SIZE, coordinateY)) coordinateX += ShadowPac.STEP_SIZE;
+                if (isValidPosition(coordinateX + STEP_SIZE, coordinateY)) coordinateX += STEP_SIZE;
                 break;
             case UP:
-                if (isValidPosition(coordinateX, coordinateY - ShadowPac.STEP_SIZE)) coordinateY -= ShadowPac.STEP_SIZE;
+                if (isValidPosition(coordinateX, coordinateY - STEP_SIZE)) coordinateY -= STEP_SIZE;
                 break;
             case DOWN:
-                if (isValidPosition(coordinateX, coordinateY + ShadowPac.STEP_SIZE)) coordinateY += ShadowPac.STEP_SIZE;
+                if (isValidPosition(coordinateX, coordinateY + STEP_SIZE)) coordinateY += STEP_SIZE;
                 break;
         }
     }
@@ -184,7 +181,8 @@ public class Player extends GameUnit {
     public void dieAndReset(){
         --Life;
         if(Life == 0){
-            game.gs = ShadowPac.gameStage.Lose;
+//            game.gs = ShadowPac.gameStage.Lose;
+            logic.gameFailed();
         }
         coordinateX = (int) originPos.x;
         coordinateY = (int) originPos.y;
