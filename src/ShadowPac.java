@@ -25,10 +25,10 @@ public class ShadowPac extends AbstractGame  {
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
 
     private final static int STEP_SIZE = 3;
-    private Ghost[] ghostList = new Ghost[supposedGhostNum];
-    private Wall[] wallList = new Wall[supposedWallNum];
-    private Dot[] dotList = new Dot[supposedDotNum];
-    private ShadowPacLogic glog;
+    private final Ghost[] ghostList = new Ghost[supposedGhostNum];
+    private final Wall[] wallList = new Wall[supposedWallNum];
+    private final Dot[] dotList = new Dot[supposedDotNum];
+    private final ShadowPacLogic glog;
 
     public static int getSTEP_SIZE() {
         return STEP_SIZE;
@@ -38,7 +38,7 @@ public class ShadowPac extends AbstractGame  {
         Welcome, Gaming, Lose, Success
     }
 
-    private gameStage gs;
+    private gameStage stage;
 
 
     public static int getWindowWidth(){
@@ -107,10 +107,10 @@ public class ShadowPac extends AbstractGame  {
     }
 
     public void setGameStageLOSE() {
-        gs = ShadowPac.gameStage.Lose;
+        stage = ShadowPac.gameStage.Lose;
     }
     public void setGameStageWIN() {
-        gs = gameStage.Success;
+        stage = gameStage.Success;
     }
 
     /**
@@ -119,7 +119,7 @@ public class ShadowPac extends AbstractGame  {
      */
     public static void main(String[] args) {
         ShadowPac game = new ShadowPac();
-        game.gs = gameStage.Welcome;
+        game.stage = gameStage.Welcome;
         game.readCSV();//Read CSV once and solidify into Arrays
         game.run();
     }
@@ -141,59 +141,71 @@ public class ShadowPac extends AbstractGame  {
             Window.close();
         }
         BACKGROUND_IMAGE.draw(Window.getWidth()/2.0, Window.getHeight()/2.0);
-        if(this.gs == gameStage.Welcome){
-            ShowMessage SM_SHADOW_PAC = new ShowMessage(GAME_TITLE,260,250);
-            SM_SHADOW_PAC.Show();
-            ShowMessage SM_PRESS_SPACE_TO_START = new ShowMessage("PRESS SPACE TO START",320,440,24);
-            SM_PRESS_SPACE_TO_START.Show();
-            ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE",310,480,24);
-            SM_USE_ARROW_KEYS_TO_MOVE.Show();
+        if(this.stage == gameStage.Welcome){
+            updateWelcome(input);
+        }
+        if(this.stage == gameStage.Gaming) {
+            updateGaming(input);
+        }
+        if(this.stage == gameStage.Success) {
+            updateSuccess(input);
+        }
+        if(this.stage == gameStage.Lose) {
+            updateLose(input);
+        }
+    }
 
-            if(input.wasPressed(Keys.SPACE)) {
-                gs = gameStage.Gaming;
-            }
-        }
-        if(this.gs == gameStage.Gaming) {
-            ShowMessage SM_Score = new ShowMessage("SCORE " + glog.getPlayer().getScore(),25,25,20);
-            SM_Score.Show();
-            Image redHeart = new Image("res/heart.png");
-            switch (glog.getPlayer().getLife()){
-                case 3 :
-                    redHeart.drawFromTopLeft(900,10);
-                case 2 :
-                    redHeart.drawFromTopLeft(930,10);
-                case 1 :
-                    redHeart.drawFromTopLeft(960,10);
-            }
-            glog.getPlayer().Draw(input);
-            for(Ghost gst : ghostList){
-                gst.DrawFixUnit();
-            }
-            for(Wall wl : wallList){
-                wl.DrawFixUnit();
-            }
-            for(Dot dt : dotList){
-                dt.DrawFixUnit();
-            }
-            glog.letPlayerCheckArround();
+    private void updateWelcome(Input input) {
+        ShowMessage SM_SHADOW_PAC = new ShowMessage(GAME_TITLE,260,250);
+        SM_SHADOW_PAC.Show();
+        ShowMessage SM_PRESS_SPACE_TO_START = new ShowMessage("PRESS SPACE TO START",320,440,24);
+        SM_PRESS_SPACE_TO_START.Show();
+        ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE",310,480,24);
+        SM_USE_ARROW_KEYS_TO_MOVE.Show();
 
+        if(input.wasPressed(Keys.SPACE)) {
+            stage = gameStage.Gaming;
         }
-        if(this.gs == gameStage.Success) {
-            ShowMessage SM_SHADOW_PAC = new ShowMessage("WELL DONE!",
-                    MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE/2);
-            SM_SHADOW_PAC.Show();
-            if(input.wasPressed(Keys.SPACE)) {
-                Window.close();
-            }
+    }
+    private void updateGaming(Input input) {
+        ShowMessage SM_Score = new ShowMessage("SCORE " + glog.getPlayer().getScore(),25,25,20);
+        SM_Score.Show();
+        Image redHeart = new Image("res/heart.png");
+        switch (glog.getPlayer().getLife()){
+            case 3 :
+                redHeart.drawFromTopLeft(900,10);
+            case 2 :
+                redHeart.drawFromTopLeft(930,10);
+            case 1 :
+                redHeart.drawFromTopLeft(960,10);
         }
-        if(this.gs == gameStage.Lose) {
-            ShowMessage SM_SHADOW_PAC = new ShowMessage("GAME OVER!",
-                    MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE/2);
-            SM_SHADOW_PAC.Show();
-            if(input.wasPressed(Keys.SPACE)) {
-                Window.close();
-            }
+        glog.getPlayer().Draw(input);
+        for(Ghost gst : ghostList){
+            gst.DrawFixUnit();
         }
-
+        for(Wall wl : wallList){
+            wl.DrawFixUnit();
+        }
+        for(Dot dt : dotList){
+            dt.DrawFixUnit();
+        }
+        glog.letPlayerCheckAround();
+    }
+    private void updateSuccess(Input input) {
+        ShowMessage SM_WELL_DONE = new ShowMessage("WELL DONE!",
+                MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE/2);
+        SM_WELL_DONE.Show();
+        if(input.wasPressed(Keys.SPACE)) {
+            Window.close();
+        }
+    }
+    private void updateLose(Input input) {
+        ShowMessage SM_GAME_OVER = new ShowMessage("GAME OVER!",
+                MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE/2);
+        SM_GAME_OVER.Show();
+        if(input.wasPressed(Keys.SPACE)) {
+            Window.close();
+        }
     }
 }
+

@@ -1,4 +1,3 @@
-import java.util.List;
 
 /**
  * Delegation Interface for decoupling Player and ShadowPac to some extent
@@ -11,5 +10,5 @@ public interface GameLogic {
     void gameFailed();
     void gameSucceeded();
 
-    void letPlayerCheckArround();
+    void letPlayerCheckAround();
 }

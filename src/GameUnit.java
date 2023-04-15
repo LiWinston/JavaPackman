@@ -26,12 +26,12 @@ public abstract class GameUnit {
      *Draws the object based on the given input.
      * @param input the input that determines how the object should be drawn
      */
-    public void Draw(Input input){};
+    public void Draw(Input input){}
 
     /**
      * Draws the object as a fixed unit, not subject to an input.
      */
-    protected void DrawFixUnit(){};
+    protected void DrawFixUnit(){}
 
     /**
      * check if a GameUnit is within 'NEAR' distance with this GameUnit in both coordinates.

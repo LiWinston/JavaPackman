@@ -76,7 +76,7 @@ public class ShadowPacLogic implements GameLogic {
      * Method to call Player to checkAround without receiving a Game reference.
      */
     @Override
-    public void letPlayerCheckArround() {
+    public void letPlayerCheckAround() {
         if(null == this.player) System.err.println("Need Set player for ShadowPacLogic object!");
         player.checkAround();
     }
