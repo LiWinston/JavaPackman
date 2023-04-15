@@ -50,15 +50,18 @@ public class Player extends GameUnit {
     /**
      * Checks whether the player has collided with a ghost or eaten a dot.
      * executed based on current position(or rather after move)
+     * Ver 2.0 : Only check if two unit are close enough
      */
     public void checkAround(){
         for(Ghost gst : logic.getGhostList()){
-            if(checkCollideWithGhost(gst)){
-                break;
+            if(this.isAround(gst)){
+                if(checkCollideWithGhost(gst)) break;
             }
         }
         for(Dot dt : logic.getDotList()){
-            EatDot(dt);
+            if(this.isAround(dt)) {
+                EatDot(dt);
+            }
         }
     }
     /**

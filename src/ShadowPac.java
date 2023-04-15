@@ -25,13 +25,12 @@ public class ShadowPac extends AbstractGame  {
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
 
     private final static int STEP_SIZE = 3;
-//    private Player player;
     private Ghost[] ghostList = new Ghost[supposedGhostNum];
     private Wall[] wallList = new Wall[supposedWallNum];
     private Dot[] dotList = new Dot[supposedDotNum];
     private ShadowPacLogic glog;
 
-    public int getSTEP_SIZE() {
+    public static int getSTEP_SIZE() {
         return STEP_SIZE;
     }
 
@@ -72,7 +71,7 @@ public class ShadowPac extends AbstractGame  {
                 int y = Integer.parseInt(data[2]);
                 switch (type) {
                     case "Player":
-                        glog.setPlayer(new Player(x,y,glog));
+                        glog.setPlayer(x,y,glog);
                         break;
                     case "Ghost":
                         ghostList[ghostNum++] = new Ghost(x, y);

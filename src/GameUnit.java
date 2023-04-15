@@ -33,4 +33,16 @@ public abstract class GameUnit {
      */
     protected void DrawFixUnit(){};
 
+    /**
+     * check if a GameUnit is within 'NEAR' distance with this GameUnit in both coordinates.
+     * @param unit the examined GameUnit.
+     * @return true if unit isAround this.
+     */
+    protected boolean isAround(GameUnit unit){
+        final int NEARDISTANCE = ShadowPac.getSTEP_SIZE();
+        return (Math.abs(unit.coordinateX - this.coordinateX) < NEARDISTANCE &&
+                Math.abs(unit.coordinateY - this.coordinateY) < NEARDISTANCE);
+    }
+
+
 }
