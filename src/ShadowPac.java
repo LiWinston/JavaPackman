@@ -10,11 +10,14 @@ import bagel.Window;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
 public class ShadowPac extends AbstractGame  {
     private final short gamePID;
+    private static List<ShadowPac> allGames = new ArrayList<ShadowPac>();
     private final static int WINDOW_WIDTH = 1024;
     private final static int WINDOW_HEIGHT = 768;
     private final static int supposedGhostNum = 4;
@@ -56,9 +59,38 @@ public class ShadowPac extends AbstractGame  {
 
     public ShadowPac(){
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
-        Random random = new Random();
-        gamePID = (short) random.nextInt(Short.MAX_VALUE + 1);
+        allGames.add(this);
+        short ID = generateID();
+        do{
+            ID = generateID();
+        }while(!isUniqueId(ID));
+        this.gamePID = ID;
         glog = new ShadowPacLogic(this);
+        System.out.println("New game Initialized, ID : "+gamePID);
+    }
+
+    /**
+     * generate random Hash ID for game.
+     * @return next random short value.
+     */
+    public short generateID(){
+        Random random = new Random();
+        short ID = (short) random.nextInt(Short.MAX_VALUE + 1);
+        return ID;
+    }
+
+    /**
+     * Judge if ID is Unique among all instances of game
+     * @param id examined ID
+     * @return true for yes and vice versa
+     */
+    private boolean isUniqueId(short id) {
+        for (ShadowPac game : allGames) {
+            if (game.gamePID == id) {
+                return false;
+            }
+        }
+        return true;
     }
     public int getSupposedDotNum() {
         return supposedDotNum;
