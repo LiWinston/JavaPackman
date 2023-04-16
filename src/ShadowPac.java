@@ -1,11 +1,11 @@
 /**
  * Skeleton Code for SWEN20003 Project 1, Semester 1, 2023
  * Please enter your name below
+ *
  * @YongchunLi
  */
+
 import bagel.*;
-import bagel.Image;
-import bagel.Window;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -15,9 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class ShadowPac extends AbstractGame  {
-    private final short gamePID;
-    private static List<ShadowPac> allGames = new ArrayList<ShadowPac>();
+public class ShadowPac extends AbstractGame {
     private final static int WINDOW_WIDTH = 1024;
     private final static int WINDOW_HEIGHT = 768;
     private final static int supposedGhostNum = 4;
@@ -25,55 +23,61 @@ public class ShadowPac extends AbstractGame  {
     private final static int supposedDotNum = 121;
     private final static int MID_WIDTH = WINDOW_WIDTH / 2;
     private final static int MID_HEIGHT = WINDOW_HEIGHT / 2;
-
     private final static String GAME_TITLE = "SHADOW PAC";
-    private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
-
     private final static int STEP_SIZE = 3;
+    private static List<ShadowPac> allGames = new ArrayList<ShadowPac>();
+    private final short gamePID;
+    private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
     private final Ghost[] ghostList = new Ghost[supposedGhostNum];
     private final Wall[] wallList = new Wall[supposedWallNum];
     private final Dot[] dotList = new Dot[supposedDotNum];
     private final ShadowPacLogic glog;
+    private gameStage stage;
+
+    public ShadowPac() {
+        super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
+        short ID = generateID();
+        do {
+            ID = generateID();
+        } while (!isUniqueId(ID));
+        this.gamePID = ID;
+        this.glog = new ShadowPacLogic(this);
+        allGames.add(this);
+        System.out.println("New game Initialized, ID : " + gamePID);
+    }
 
     public static int getSTEP_SIZE() {
         return STEP_SIZE;
+    }
+
+    public static int getWindowWidth() {
+        return WINDOW_WIDTH;
+    }
+
+    public static int getWindowHeight() {
+        return WINDOW_HEIGHT;
+    }
+
+    /**
+     * The entry point for the program.
+     * DO:set game stage, read CSV and generate game units, call run Func.
+     */
+    public static void main(String[] args) {
+        ShadowPac game = new ShadowPac();
+        game.stage = gameStage.Welcome;
+        game.readCSV();//Read CSV once and solidify into Arrays
+        game.run();
     }
 
     public short getPID() {
         return gamePID;
     }
 
-    private enum gameStage {
-        Welcome, Gaming, Lose, Success
-    }
-
-    private gameStage stage;
-
-
-    public static int getWindowWidth(){
-        return WINDOW_WIDTH;
-    }
-    public static int getWindowHeight(){
-        return WINDOW_HEIGHT;
-    }
-
-    public ShadowPac(){
-        super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
-        short ID = generateID();
-        do{
-            ID = generateID();
-        }while(!isUniqueId(ID));
-        this.gamePID = ID;
-        this.glog = new ShadowPacLogic(this);
-        allGames.add(this);
-        System.out.println("New game Initialized, ID : "+gamePID);
-    }
-
     /**
      * generate random Hash ID for game.
      * @return next random short value.
      */
-    private short generateID(){
+    private short generateID() {
         Random random = new Random();
         short ID = (short) random.nextInt(Short.MAX_VALUE + 1);
         return ID;
@@ -92,6 +96,7 @@ public class ShadowPac extends AbstractGame  {
         }
         return true;
     }
+
     public int getSupposedDotNum() {
         return supposedDotNum;
     }
@@ -111,7 +116,7 @@ public class ShadowPac extends AbstractGame  {
                 int y = Integer.parseInt(data[2]);
                 switch (type) {
                     case "Player":
-                        glog.setPlayer(x,y,glog);
+                        glog.setPlayer(x, y, glog);
                         break;
                     case "Ghost":
                         ghostList[ghostNum++] = new Ghost(x, y);
@@ -127,8 +132,8 @@ public class ShadowPac extends AbstractGame  {
                         break;
                 }
             }
-            if(ghostNum != supposedGhostNum || dotNum != supposedDotNum || wallNum != supposedWallNum){
-                System.err.println("CSV File"+"res/level0.csv"+" maybe Wrong!");
+            if (ghostNum != supposedGhostNum || dotNum != supposedDotNum || wallNum != supposedWallNum) {
+                System.err.println("CSV File" + "res/level0.csv" + " maybe Wrong!");
             }
         } catch (FileNotFoundException e) {
             System.err.println("File not exist:" + e.getMessage());
@@ -154,27 +159,19 @@ public class ShadowPac extends AbstractGame  {
      * @param lgc ShadowPacLogic for verification
      */
     public void setGameStageLOSE(ShadowPacLogic lgc) {
-        if(lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID());;
+        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID());
+        ;
         stage = ShadowPac.gameStage.Lose;
     }
+
     /**
      * V2.3 prevent alien gameLogic from change game status
      * @param lgc ShadowPacLogic for verification
      */
     public void setGameStageWIN(ShadowPacLogic lgc) {
-        if(lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID());;
+        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID());
+        ;
         stage = gameStage.Success;
-    }
-
-    /**
-     * The entry point for the program.
-     * DO:set game stage, read CSV and generate game units, call run Func.
-     */
-    public static void main(String[] args) {
-        ShadowPac game = new ShadowPac();
-        game.stage = gameStage.Welcome;
-        game.readCSV();//Read CSV once and solidify into Arrays
-        game.run();
     }
 
     /**
@@ -190,75 +187,82 @@ public class ShadowPac extends AbstractGame  {
     @Override
     protected void update(Input input) {
 
-        if (input.wasPressed(Keys.ESCAPE)){
+        if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
         }
-        BACKGROUND_IMAGE.draw(Window.getWidth()/2.0, Window.getHeight()/2.0);
-        if(this.stage == gameStage.Welcome){
+        BACKGROUND_IMAGE.draw(Window.getWidth() / 2.0, Window.getHeight() / 2.0);
+        if (this.stage == gameStage.Welcome) {
             updateWelcome(input);
         }
-        if(this.stage == gameStage.Gaming) {
+        if (this.stage == gameStage.Gaming) {
             updateGaming(input);
         }
-        if(this.stage == gameStage.Success) {
+        if (this.stage == gameStage.Success) {
             updateSuccess(input);
         }
-        if(this.stage == gameStage.Lose) {
+        if (this.stage == gameStage.Lose) {
             updateLose(input);
         }
     }
 
     private void updateWelcome(Input input) {
-        ShowMessage SM_SHADOW_PAC = new ShowMessage(GAME_TITLE,260,250);
+        ShowMessage SM_SHADOW_PAC = new ShowMessage(GAME_TITLE, 260, 250);
         SM_SHADOW_PAC.Show();
-        ShowMessage SM_PRESS_SPACE_TO_START = new ShowMessage("PRESS SPACE TO START",320,440,24);
+        ShowMessage SM_PRESS_SPACE_TO_START = new ShowMessage("PRESS SPACE TO START", 320, 440, 24);
         SM_PRESS_SPACE_TO_START.Show();
-        ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE",310,480,24);
+        ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE", 310, 480, 24);
         SM_USE_ARROW_KEYS_TO_MOVE.Show();
 
-        if(input.wasPressed(Keys.SPACE)) {
+        if (input.wasPressed(Keys.SPACE)) {
             stage = gameStage.Gaming;
         }
     }
+
     private void updateGaming(Input input) {
-        ShowMessage SM_Score = new ShowMessage("SCORE " + glog.getPlayer().getScore(),25,25,20);
+        ShowMessage SM_Score = new ShowMessage("SCORE " + glog.getPlayer().getScore(), 25, 25, 20);
         SM_Score.Show();
         Image redHeart = new Image("res/heart.png");
-        switch (glog.getPlayer().getLife()){
-            case 3 :
-                redHeart.drawFromTopLeft(900,10);
-            case 2 :
-                redHeart.drawFromTopLeft(930,10);
-            case 1 :
-                redHeart.drawFromTopLeft(960,10);
+        switch (glog.getPlayer().getLife()) {
+            case 3:
+                redHeart.drawFromTopLeft(900, 10);
+            case 2:
+                redHeart.drawFromTopLeft(930, 10);
+            case 1:
+                redHeart.drawFromTopLeft(960, 10);
         }
         glog.getPlayer().Draw(input);
-        for(Ghost gst : ghostList){
+        for (Ghost gst : ghostList) {
             gst.DrawFixUnit();
         }
-        for(Wall wl : wallList){
+        for (Wall wl : wallList) {
             wl.DrawFixUnit();
         }
-        for(Dot dt : dotList){
+        for (Dot dt : dotList) {
             dt.DrawFixUnit();
         }
         glog.letPlayerCheckAround();
     }
+
     private void updateSuccess(Input input) {
         ShowMessage SM_WELL_DONE = new ShowMessage("WELL DONE!",
-                MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE/2);
+                MID_WIDTH - 4 * ShowMessage.SPECIFIC_FONTSIZE, MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE / 2);
         SM_WELL_DONE.Show();
-        if(input.wasPressed(Keys.SPACE)) {
+        if (input.wasPressed(Keys.SPACE)) {
             Window.close();
         }
     }
+
     private void updateLose(Input input) {
         ShowMessage SM_GAME_OVER = new ShowMessage("GAME OVER!",
-                MID_WIDTH - 4*ShowMessage.SPECIFIC_FONTSIZE,MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE/2);
+                MID_WIDTH - 4 * ShowMessage.SPECIFIC_FONTSIZE, MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE / 2);
         SM_GAME_OVER.Show();
-        if(input.wasPressed(Keys.SPACE)) {
+        if (input.wasPressed(Keys.SPACE)) {
             Window.close();
         }
+    }
+
+    private enum gameStage {
+        Welcome, Gaming, Lose, Success
     }
 }
 

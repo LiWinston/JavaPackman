@@ -4,8 +4,9 @@
  * the game is either failed or succeeded, and provides access to the lists
  * of Ghosts, Dots and Walls in the game.
  * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN player HAS BEEN INITIALIZED
+ *
  * @YongchunLi
-*/
+ */
 public class ShadowPacLogic implements GameLogic {
     private final short gamePID;//HashCode of game ID
     private final ShadowPac game;
@@ -22,16 +23,10 @@ public class ShadowPacLogic implements GameLogic {
         gamePID = game.getPID();
     }
 
-    /**
-     * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN player HAS BEEN INITIALIZED
-     * @param player Player Instance for initialization
-     */
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setPlayer(int x, int y, ShadowPacLogic logic) {
+        this.player = new Player(x, y, logic);
     }
-    public void setPlayer(int x, int y,ShadowPacLogic logic){
-        this.player = new Player(x,y,logic);
-    }
+
     /*
      * Method to retrieve the list of Ghosts in the ShadowPac game.
      *
@@ -41,6 +36,7 @@ public class ShadowPacLogic implements GameLogic {
     public Ghost[] getGhostList() {
         return game.getGhostList();
     }
+
     /**
      * Method to retrieve the list of Dots in the ShadowPac game.
      *
@@ -50,6 +46,7 @@ public class ShadowPacLogic implements GameLogic {
     public Dot[] getDotList() {
         return game.getDotList();
     }
+
     /**
      * Method to retrieve the list of Walls in the ShadowPac game.
      *
@@ -67,6 +64,7 @@ public class ShadowPacLogic implements GameLogic {
     public void gameFailed() {
         game.setGameStageLOSE(this);
     }
+
     /**
      * Method to set the game state to 'Success'.
      */
@@ -74,12 +72,13 @@ public class ShadowPacLogic implements GameLogic {
     public void gameSucceeded() {
         game.setGameStageWIN(this);
     }
+
     /**
      * Method to call Player to checkAround without receiving a Game reference.
      */
     @Override
     public void letPlayerCheckAround() {
-        if(null == this.player){
+        if (null == this.player) {
             System.err.println("Need Set player for ShadowPacLogic object!");
             return;
         }
@@ -92,17 +91,28 @@ public class ShadowPacLogic implements GameLogic {
     public int getSupposedDotNum() {
         return game.getSupposedDotNum();
     }
+
     /*
      * Method to get the game StepSize.
      */
     public int getSTEP_SIZE() {
         return ShadowPac.getSTEP_SIZE();
     }
+
     /*
      * Method to get the player instance reference.
      */
     public Player getPlayer() {
         return player;
+    }
+
+    /**
+     * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN player HAS BEEN INITIALIZED
+     *
+     * @param player Player Instance for initialization
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public short getPID() {

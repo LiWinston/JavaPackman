@@ -1,12 +1,13 @@
-import bagel.*;
+import bagel.Image;
+import bagel.Input;
 import bagel.util.Rectangle;
 
-public class Ghost extends GameUnit{
+public class Ghost extends GameUnit {
     private final static Image ghostRed = new Image("res/ghostRed.png");
 
     public Ghost(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
-        hitBox = new Rectangle(coordinateX,coordinateY,ghostRed.getWidth(),ghostRed.getHeight());
+        hitBox = new Rectangle(coordinateX, coordinateY, ghostRed.getWidth(), ghostRed.getHeight());
     }
 
     @Override
@@ -16,7 +17,7 @@ public class Ghost extends GameUnit{
 
     @Override
     public void DrawFixUnit() {
-        ghostRed.drawFromTopLeft(coordinateX,coordinateY);
+        ghostRed.drawFromTopLeft(coordinateX, coordinateY);
     }
 
     @Override

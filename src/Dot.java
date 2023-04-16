@@ -2,14 +2,14 @@ import bagel.Image;
 import bagel.Input;
 import bagel.util.Rectangle;
 
-public class Dot extends GameUnit{
-    boolean isExist;
+public class Dot extends GameUnit {
     private final static Image dot = new Image("res/dot.png");
+    boolean isExist;
 
     public Dot(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
         this.isExist = true;
-        hitBox = new Rectangle(coordinateX,coordinateY,dot.getWidth(),dot.getHeight());
+        hitBox = new Rectangle(coordinateX, coordinateY, dot.getWidth(), dot.getHeight());
     }
 
     @Override
@@ -19,7 +19,7 @@ public class Dot extends GameUnit{
 
     @Override
     public void DrawFixUnit() {
-        if(this.isExist) dot.drawFromTopLeft(coordinateX,coordinateY);
+        if (this.isExist) dot.drawFromTopLeft(coordinateX, coordinateY);
     }
 
     @Override
