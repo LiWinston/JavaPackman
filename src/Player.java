@@ -18,6 +18,11 @@ public class Player extends GameUnit {
     private int currentFrame; // current frame counter, for converting image
     private int currentStatus = 1;// current status of player mouth (1 for open, 0 for closed)
     private int score;// current score of the player
+    private static final double TOLEFT = -Math.PI;
+    private static final double TORIGHT = 0.0;
+    private static final double TOUP = -Math.PI/2;
+    private static final double TODOWN = Math.PI/2;
+
 
     /**
      * Constructor for the player class.
@@ -138,7 +143,6 @@ public class Player extends GameUnit {
                 break;
         }
     }
-
     /**
      * Draws the player on the screen based on the input received from the user.
      * @param input The input received from the user.TODO：Consider replace by interface
@@ -146,16 +150,16 @@ public class Player extends GameUnit {
     @Override
     public void Draw(Input input) {
         if (input.isDown(Keys.LEFT)) {
-            radians = -Math.PI;
+            radians = TOLEFT;
             move(Keys.LEFT);
         } else if (input.isDown(Keys.RIGHT)) {
-            radians = 0;
+            radians = TORIGHT;
             move(Keys.RIGHT);
         } else if (input.isDown(Keys.UP)) {
-            radians = -Math.PI / 2;
+            radians = TOUP;
             move(Keys.UP);
         } else if (input.isDown(Keys.DOWN)) {
-            radians = Math.PI / 2;
+            radians = TODOWN;
             move(Keys.DOWN);
         }
         hitBox.moveTo(new Point(coordinateX, coordinateY));// Move the hitbox to the new position
@@ -199,6 +203,7 @@ public class Player extends GameUnit {
         }
         coordinateX = (int) originPos.x;
         coordinateY = (int) originPos.y;
+        radians = TORIGHT;
     }
 
     public int getScore() {
