@@ -59,13 +59,13 @@ public class ShadowPac extends AbstractGame  {
 
     public ShadowPac(){
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
-        allGames.add(this);
         short ID = generateID();
         do{
             ID = generateID();
         }while(!isUniqueId(ID));
         this.gamePID = ID;
-        glog = new ShadowPacLogic(this);
+        this.glog = new ShadowPacLogic(this);
+        allGames.add(this);
         System.out.println("New game Initialized, ID : "+gamePID);
     }
 
