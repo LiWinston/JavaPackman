@@ -73,7 +73,7 @@ public class ShadowPac extends AbstractGame  {
      * generate random Hash ID for game.
      * @return next random short value.
      */
-    public short generateID(){
+    private short generateID(){
         Random random = new Random();
         short ID = (short) random.nextInt(Short.MAX_VALUE + 1);
         return ID;
@@ -126,6 +126,9 @@ public class ShadowPac extends AbstractGame  {
                         System.out.println("invalid csv data!");
                         break;
                 }
+            }
+            if(ghostNum != supposedGhostNum || dotNum != supposedDotNum || wallNum != supposedWallNum){
+                System.err.println("CSV File"+"res/level0.csv"+" maybe Wrong!");
             }
         } catch (FileNotFoundException e) {
             System.err.println("File not exist:" + e.getMessage());
