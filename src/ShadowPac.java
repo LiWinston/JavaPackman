@@ -10,9 +10,11 @@ import bagel.Window;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Random;
 
 
 public class ShadowPac extends AbstractGame  {
+    private final short gamePID;
     private final static int WINDOW_WIDTH = 1024;
     private final static int WINDOW_HEIGHT = 768;
     private final static int supposedGhostNum = 4;
@@ -34,6 +36,10 @@ public class ShadowPac extends AbstractGame  {
         return STEP_SIZE;
     }
 
+    public short getPID() {
+        return gamePID;
+    }
+
     private enum gameStage {
         Welcome, Gaming, Lose, Success
     }
@@ -50,6 +56,8 @@ public class ShadowPac extends AbstractGame  {
 
     public ShadowPac(){
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
+        Random random = new Random();
+        gamePID = (short) random.nextInt(Short.MAX_VALUE + 1);
         glog = new ShadowPacLogic(this);
     }
     public int getSupposedDotNum() {
@@ -106,10 +114,20 @@ public class ShadowPac extends AbstractGame  {
         return dotList;
     }
 
-    public void setGameStageLOSE() {
+    /**
+     * V2.3 prevent alien gameLogic from change game status
+     * @param lgc ShadowPacLogic for verification
+     */
+    public void setGameStageLOSE(ShadowPacLogic lgc) {
+        if(lgc.getPID() != this.getPID()) return;
         stage = ShadowPac.gameStage.Lose;
     }
-    public void setGameStageWIN() {
+    /**
+     * V2.3 prevent alien gameLogic from change game status
+     * @param lgc ShadowPacLogic for verification
+     */
+    public void setGameStageWIN(ShadowPacLogic lgc) {
+        if(lgc.getPID() != this.getPID()) return;
         stage = gameStage.Success;
     }
 

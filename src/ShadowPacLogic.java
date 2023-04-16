@@ -7,6 +7,7 @@
  * @YongchunLi
 */
 public class ShadowPacLogic implements GameLogic {
+    private final short gamePID;//HashCode of game ID
     private final ShadowPac game;
     private Player player;
 
@@ -18,6 +19,7 @@ public class ShadowPacLogic implements GameLogic {
      */
     public ShadowPacLogic(ShadowPac game) {
         this.game = game;
+        gamePID = game.getPID();
     }
 
     /**
@@ -63,14 +65,14 @@ public class ShadowPacLogic implements GameLogic {
      */
     @Override
     public void gameFailed() {
-        game.setGameStageLOSE();
+        game.setGameStageLOSE(this);
     }
     /**
      * Method to set the game state to 'Success'.
      */
     @Override
     public void gameSucceeded() {
-        game.setGameStageWIN();
+        game.setGameStageWIN(this);
     }
     /**
      * Method to call Player to checkAround without receiving a Game reference.
@@ -101,5 +103,9 @@ public class ShadowPacLogic implements GameLogic {
      */
     public Player getPlayer() {
         return player;
+    }
+
+    public short getPID() {
+        return gamePID;
     }
 }
