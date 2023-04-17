@@ -22,6 +22,27 @@ public class ShowMessage {
         this.ft = new Font("res/FSO8BITR.TTF", fontSize);
     }
 
+    /**
+     * improve extensibility for future Project
+     * for different possible customized fontTypes
+     * @param messageDetail Detail of message(String message)
+     * @param X             Left-Bottom coordinate X
+     * @param Y             Left-Bottom coordinate X
+     * @param fonttype      customized fontType addr
+     * @param fontSize      as literal mean
+     */
+    public ShowMessage(String messageDetail, int X, int Y, String fonttype,int fontSize) {
+        this.X = X;
+        this.Y = Y;
+        this.messageDetail = messageDetail;
+        try{
+            this.ft = new Font(fonttype, fontSize);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public void Show() {
         ft.drawString(messageDetail, X, Y);
     }
