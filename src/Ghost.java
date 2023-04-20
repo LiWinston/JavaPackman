@@ -7,7 +7,7 @@ public class Ghost extends GameUnit {
 
     public Ghost(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
-        hitBox = new Rectangle(coordinateX, coordinateY, ghostRed.getWidth(), ghostRed.getHeight());
+        setHitBox(new Rectangle(coordinateX, coordinateY, ghostRed.getWidth(), ghostRed.getHeight()));
     }
 
     @Override
@@ -17,7 +17,7 @@ public class Ghost extends GameUnit {
 
     @Override
     public void DrawFixUnit() {
-        ghostRed.drawFromTopLeft(coordinateX, coordinateY);
+        ghostRed.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
     }
 
     @Override

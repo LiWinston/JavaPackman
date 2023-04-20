@@ -6,12 +6,12 @@ public class Wall extends GameUnit {
 
     public Wall(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
-        hitBox = new Rectangle(coordinateX, coordinateY, wall.getWidth(), wall.getHeight());
+        setHitBox(new Rectangle(coordinateX, coordinateY, wall.getWidth(), wall.getHeight()));
     }
 
     @Override
     public void DrawFixUnit() {
-        wall.drawFromTopLeft(coordinateX, coordinateY);
+        wall.drawFromTopLeft(getCoordinateX(), getCoordinateY());
     }
 
     @Override

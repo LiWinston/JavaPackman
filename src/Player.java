@@ -39,7 +39,7 @@ public class Player extends GameUnit {
         this.Life = 3;
         this.score = 0;
         AIMSCORE = logic.getSupposedDotNum() * 10;
-        hitBox = new Rectangle(coordinateX, coordinateY, playerCloseMouth.getWidth(), playerCloseMouth.getHeight());
+        setHitBox(new Rectangle(coordinateX, coordinateY, playerCloseMouth.getWidth(), playerCloseMouth.getHeight()));
     }
 
     public int getLife() {
@@ -80,7 +80,7 @@ public class Player extends GameUnit {
      * @return true if the player has collided with the ghost, and call dieAndReset
      */
     private boolean checkCollideWithGhost(Ghost gst) {
-        if (this.hitBox.intersects(gst.hitBox)) {
+        if (this.getHitBox().intersects(gst.getHitBox())) {
             dieAndReset();
             return true;
         } else {
@@ -94,7 +94,7 @@ public class Player extends GameUnit {
      * @param dt the dot being checked for collision
      */
     private void EatDot(Dot dt) {
-        if (dt.isExist && this.hitBox.intersects(dt.hitBox)) {
+        if (dt.isExist && this.getHitBox().intersects(dt.getHitBox())) {
             dt.isExist = false;
             this.score += 10;
             checkWin();
@@ -114,7 +114,7 @@ public class Player extends GameUnit {
         Rectangle try_hit = new Rectangle(new Point(x, y), playerCloseMouth.getWidth(), playerCloseMouth.getHeight());
         for (Wall wl : logic.getWallList()) {
             if (newPl.isAround(wl)) {
-                if (try_hit.intersects(wl.hitBox)) {
+                if (try_hit.intersects(wl.getHitBox())) {
                     return true;
                 }
             }
@@ -128,18 +128,19 @@ public class Player extends GameUnit {
 
     public void move(Keys key) {
         int STEP_SIZE = logic.getSTEP_SIZE();
+        int X = getCoordinateX(), Y = getCoordinateY();
         switch (key) {
             case LEFT:
-                if (isValidPosition(coordinateX - STEP_SIZE, coordinateY)) coordinateX -= STEP_SIZE;
+                if (isValidPosition(X - STEP_SIZE, Y)) setCoordinateX(X - STEP_SIZE);
                 break;
             case RIGHT:
-                if (isValidPosition(coordinateX + STEP_SIZE, coordinateY)) coordinateX += STEP_SIZE;
+                if (isValidPosition(X + STEP_SIZE, Y)) setCoordinateX(X + STEP_SIZE);
                 break;
             case UP:
-                if (isValidPosition(coordinateX, coordinateY - STEP_SIZE)) coordinateY -= STEP_SIZE;
+                if (isValidPosition(X, Y - STEP_SIZE)) setCoordinateY(Y - STEP_SIZE);
                 break;
             case DOWN:
-                if (isValidPosition(coordinateX, coordinateY + STEP_SIZE)) coordinateY += STEP_SIZE;
+                if (isValidPosition(X, Y + STEP_SIZE)) setCoordinateY(Y + STEP_SIZE);
                 break;
         }
     }
@@ -162,7 +163,7 @@ public class Player extends GameUnit {
             radians = TODOWN;
             move(Keys.DOWN);
         }
-        hitBox.moveTo(new Point(coordinateX, coordinateY));// Move the hitbox to the new position
+        this.getHitBox().moveTo(new Point(getCoordinateX(), getCoordinateY()));// Move the hitbox to the new position
         ++currentFrame;
         if (currentFrame == Frequency_Modulation) {
             currentStatus = (currentStatus == 1 ? 0 : 1);
@@ -186,11 +187,11 @@ public class Player extends GameUnit {
     }
 
     private void DrawOpenMouth() {
-        playerOpenMouth.drawFromTopLeft(coordinateX, coordinateY, drop.setRotation(radians));
+        playerOpenMouth.drawFromTopLeft(getCoordinateX(), getCoordinateY(), drop.setRotation(radians));
     }
 
     private void DrawCloseMouth() {
-        playerCloseMouth.drawFromTopLeft(coordinateX, coordinateY, drop.setRotation(radians));
+        playerCloseMouth.drawFromTopLeft(getCoordinateX(), getCoordinateY(), drop.setRotation(radians));
     }
 
     /**
@@ -201,8 +202,8 @@ public class Player extends GameUnit {
         if (Life == 0) {
             logic.gameFailed();
         }
-        coordinateX = (int) originPos.x;
-        coordinateY = (int) originPos.y;
+        setCoordinateX((int) originPos.x);
+        setCoordinateY((int) originPos.y) ;
         radians = TORIGHT;
     }
 

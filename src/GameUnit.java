@@ -8,9 +8,9 @@ import bagel.util.Rectangle;
  * @YongchunLi
  */
 public abstract class GameUnit {
-    protected int coordinateX;
-    protected int coordinateY;
-    protected Rectangle hitBox;
+    private int coordinateX;
+    private int coordinateY;
+    private Rectangle hitBox;
 
     /**
      * Creates a new GameUnit object with the specified coordinates.
@@ -22,6 +22,49 @@ public abstract class GameUnit {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
     }
+
+    public int getCoordinateX() {
+        return coordinateX;
+    }
+
+    public void setCoordinateX(int coordinateX) {
+        this.coordinateX = coordinateX;
+    }
+
+    public int getCoordinateY() {
+        return coordinateY;
+    }
+
+    public void setCoordinateY(int coordinateY) {
+        this.coordinateY = coordinateY;
+    }
+    /**
+     * allow exposure of Hitbox safely
+     * allow other objects get this Hitbox
+     */
+    public Rectangle getHitBox() {
+        return hitBox;
+    }
+
+    /**
+     * direct setter for hitbox
+     * @param hitBox receive the existing Rectangle obj for setting.
+     */
+    public void setHitBox(Rectangle hitBox) {
+        this.hitBox = hitBox;
+    }
+
+    /**
+     * Detailed setter for Hitbox, alternative.
+     * @param X Hitbox X
+     * @param Y Hitbox Y
+     */
+    public void setHitBox(int X,int Y) {
+        this.hitBox = new Rectangle(X,Y,getImageSize(),getImageSize());
+    }
+
+
+
 
     /**
      * Draws the object based on the given input.
@@ -48,6 +91,7 @@ public abstract class GameUnit {
         return (Math.abs(unit.coordinateX - this.coordinateX) < NEARDISTANCE &&
                 Math.abs(unit.coordinateY - this.coordinateY) < NEARDISTANCE);
     }
+
 
     public abstract int getImageSize();
 

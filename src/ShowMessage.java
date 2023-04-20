@@ -27,7 +27,7 @@ public class ShowMessage {
      * for different possible customized fontTypes
      * @param messageDetail Detail of message(String message)
      * @param X             Left-Bottom coordinate X
-     * @param Y             Left-Bottom coordinate X
+     * @param Y             Left-Bottom coordinate Y
      * @param fonttype      customized fontType addr
      * @param fontSize      as literal mean
      */

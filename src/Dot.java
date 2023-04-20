@@ -9,7 +9,7 @@ public class Dot extends GameUnit {
     public Dot(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
         this.isExist = true;
-        hitBox = new Rectangle(coordinateX, coordinateY, dot.getWidth(), dot.getHeight());
+        this.setHitBox(new Rectangle(coordinateX, coordinateY, dot.getWidth(), dot.getHeight())) ;
     }
 
     @Override
@@ -19,7 +19,7 @@ public class Dot extends GameUnit {
 
     @Override
     public void DrawFixUnit() {
-        if (this.isExist) dot.drawFromTopLeft(coordinateX, coordinateY);
+        if (this.isExist) dot.drawFromTopLeft(getCoordinateX(), getCoordinateY());
     }
 
     @Override
