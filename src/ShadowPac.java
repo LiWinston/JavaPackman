@@ -160,7 +160,6 @@ public class ShadowPac extends AbstractGame {
      */
     public void setGameStageLOSE(ShadowPacLogic lgc) {
         if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID());
-        ;
         stage = ShadowPac.gameStage.Lose;
     }
 
@@ -170,7 +169,6 @@ public class ShadowPac extends AbstractGame {
      */
     public void setGameStageWIN(ShadowPacLogic lgc) {
         if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID());
-        ;
         stage = gameStage.Success;
     }
 
