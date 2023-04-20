@@ -25,23 +25,23 @@ public class ShadowPac extends AbstractGame {
     private final static int MID_HEIGHT = WINDOW_HEIGHT / 2;
     private final static String GAME_TITLE = "SHADOW PAC";
     private final static int STEP_SIZE = 3;
-    private static List<ShadowPac> allGames = new ArrayList<ShadowPac>();
+    private static final List<ShadowPac> allGames = new ArrayList<ShadowPac>();
     private final short gamePID;
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
     private final Ghost[] ghostList = new Ghost[supposedGhostNum];
     private final Wall[] wallList = new Wall[supposedWallNum];
     private final Dot[] dotList = new Dot[supposedDotNum];
-    private final ShadowPacLogic glog;
+    private final ShadowPacLogic gameManager;
     private gameStage stage;
 
     public ShadowPac() {
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
-        short ID = generateID();
+        short ID;
         do {
             ID = generateID();
         } while (!isUniqueId(ID));
         this.gamePID = ID;
-        this.glog = new ShadowPacLogic(this);
+        this.gameManager = new ShadowPacLogic(this);
         allGames.add(this);
         System.out.println("New game Initialized, ID : " + gamePID);
     }
@@ -79,8 +79,7 @@ public class ShadowPac extends AbstractGame {
      */
     private short generateID() {
         Random random = new Random();
-        short ID = (short) random.nextInt(Short.MAX_VALUE + 1);
-        return ID;
+        return (short) random.nextInt(Short.MAX_VALUE + 1);
     }
 
     /**
@@ -116,7 +115,7 @@ public class ShadowPac extends AbstractGame {
                 int y = Integer.parseInt(data[2]);
                 switch (type) {
                     case "Player":
-                        glog.setPlayer(x, y, glog);
+                        gameManager.setPlayer(x, y, gameManager);
                         break;
                     case "Ghost":
                         ghostList[ghostNum++] = new Ghost(x, y);
@@ -217,10 +216,10 @@ public class ShadowPac extends AbstractGame {
     }
 
     private void updateGaming(Input input) {
-        ShowMessage SM_Score = new ShowMessage("SCORE " + glog.getPlayer().getScore(), 25, 25, 20);
+        ShowMessage SM_Score = new ShowMessage("SCORE " + gameManager.getPlayer().getScore(), 25, 25, 20);
         SM_Score.Show();
         Image redHeart = new Image("res/heart.png");
-        switch (glog.getPlayer().getLife()) {
+        switch (gameManager.getPlayer().getLife()) {
             case 3:
                 redHeart.drawFromTopLeft(900, 10);
             case 2:
@@ -228,7 +227,7 @@ public class ShadowPac extends AbstractGame {
             case 1:
                 redHeart.drawFromTopLeft(960, 10);
         }
-        glog.getPlayer().Draw(input);
+        gameManager.getPlayer().Draw(input);
         for (Ghost gst : ghostList) {
             gst.DrawFixUnit();
         }
@@ -238,7 +237,7 @@ public class ShadowPac extends AbstractGame {
         for (Dot dt : dotList) {
             dt.DrawFixUnit();
         }
-        glog.letPlayerCheckAround();
+        gameManager.letPlayerCheckAround();
     }
 
     private void updateSuccess(Input input) {

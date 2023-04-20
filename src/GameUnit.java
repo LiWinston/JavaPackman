@@ -87,9 +87,9 @@ public abstract class GameUnit {
      * @return true if unit isAround this.
      */
     protected boolean isAround(GameUnit unit) {
-        final int NEARDISTANCE = ShadowPac.getSTEP_SIZE() + (this.getImageSize() + unit.getImageSize());
-        return (Math.abs(unit.coordinateX - this.coordinateX) < NEARDISTANCE &&
-                Math.abs(unit.coordinateY - this.coordinateY) < NEARDISTANCE);
+        final int definedDistance = ShadowPac.getSTEP_SIZE() + (this.getImageSize() + unit.getImageSize());
+        return (Math.abs(unit.coordinateX - this.coordinateX) < definedDistance &&
+                Math.abs(unit.coordinateY - this.coordinateY) < definedDistance);
     }
 
 
