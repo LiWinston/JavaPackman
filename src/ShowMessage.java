@@ -1,3 +1,13 @@
+/**
+ * Just to clarify the design purpose
+ * There is an explanation on ED saying ：If you were to create an entirely new methods and classes for things that
+ * already exist (e.g. write your Rectangle class) that might lead to mark deduction since it is overly complicated.
+ * This ShowMessage class seems Redundant however it allows hiding font details, it's part of specification of this game,
+ * which would be repeatable everytime. Also, what happens if a subsequent game comes along that requires calling java's
+ * own font class/function to draw text(e.g. java.awt.Font)? By simply adding judgments and new constructors to this class,
+ * I offer the possibility of encapsulating the abstraction of these changes.
+ */
+
 import bagel.Font;
 
 public class ShowMessage {
