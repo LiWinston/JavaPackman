@@ -221,11 +221,11 @@ public class ShadowPac extends AbstractGame {
         Image redHeart = new Image("res/heart.png");
         switch (gameManager.getPlayer().getLife()) {
             case 3:
-                redHeart.drawFromTopLeft(900, 10);
+                redHeart.drawFromTopLeft(960, 10);
             case 2:
                 redHeart.drawFromTopLeft(930, 10);
             case 1:
-                redHeart.drawFromTopLeft(960, 10);
+                redHeart.drawFromTopLeft(900, 10);
         }
         gameManager.getPlayer().Draw(input);
         for (Ghost gst : ghostList) {
