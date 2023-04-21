@@ -5,7 +5,9 @@
  * This ShowMessage class seems Redundant however it allows hiding font details, it's part of specification of this game,
  * which would be repeatable everytime. Also, what happens if a subsequent game comes along that requires calling java's
  * own font class/function to draw text(e.g. java.awt.Font)? By simply adding judgments and new constructors to this class,
- * I offer the possibility of encapsulating the abstraction of these changes.
+ * I offer the possibility of encapsulating the abstraction of these changes. In addition, if there are requirements for
+ * the display, such as text dithering, rotation, etc., this can be achieved by overloading Show() in order not to repeatedly
+ * take up space in ShadowPac.java
  */
 
 import bagel.Font;

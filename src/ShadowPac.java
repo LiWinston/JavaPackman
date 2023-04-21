@@ -132,12 +132,12 @@ public class ShadowPac extends AbstractGame {
                 }
             }
             if (ghostNum != supposedGhostNum || dotNum != supposedDotNum || wallNum != supposedWallNum) {
-                System.err.println("CSV File" + "res/level0.csv" + " maybe Wrong!");
+                System.err.println("CSV File" + "res/level0.csv" + " maybe Wrong!" + "\n");
             }
         } catch (FileNotFoundException e) {
-            System.err.println("File not exist:" + e.getMessage());
+            System.err.println("File not exist:" + e.getMessage() + "\n");
         } catch (Exception e) {
-            System.err.println("Unknown error:" + e.getMessage());
+            System.err.println("Unknown error:" + e.getMessage() + "\n");
         }
     }
 
@@ -158,7 +158,7 @@ public class ShadowPac extends AbstractGame {
      * @param lgc ShadowPacLogic for verification
      */
     public void setGameStageLOSE(ShadowPacLogic lgc) {
-        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID());
+        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
         stage = ShadowPac.gameStage.Lose;
     }
 
@@ -167,7 +167,7 @@ public class ShadowPac extends AbstractGame {
      * @param lgc ShadowPacLogic for verification
      */
     public void setGameStageWIN(ShadowPacLogic lgc) {
-        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID());
+        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
         stage = gameStage.Success;
     }
 

@@ -80,6 +80,7 @@ public class ShadowPacLogic implements GameLogic {
     public void letPlayerCheckAround() {
         if (null == this.player) {
             System.err.println("Need Set player for ShadowPacLogic object!");
+            System.err.println();
             return;
         }
         player.checkAround();
