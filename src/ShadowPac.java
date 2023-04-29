@@ -43,7 +43,7 @@ public class ShadowPac extends AbstractGame {
 
 
     public void setFrenzy(ShadowPacLogic_L1 lg1) {
-        if(getPID()!= lg1.getPID()) return;
+        if (getPID() != lg1.getPID()) return;
         isFrenzy = true;
         System.out.println("Frenzy Mode Begin!");
         counter_Frenzy = 0;
@@ -97,6 +97,7 @@ public class ShadowPac extends AbstractGame {
 
     /**
      * generate random Hash ID for game.
+     *
      * @return next random short value.
      */
     private short generateID() {
@@ -106,6 +107,7 @@ public class ShadowPac extends AbstractGame {
 
     /**
      * Judge if ID is Unique among all instances of game
+     *
      * @param id examined ID
      * @return true for yes and vice versa
      */
@@ -162,6 +164,7 @@ public class ShadowPac extends AbstractGame {
             System.err.println("Unknown error:" + e.getMessage() + "\n");
         }
     }
+
     private void readCSVLevelOne() {
         try (BufferedReader br = new BufferedReader(new FileReader("res/level1.csv"))) {
             String line;
@@ -226,12 +229,14 @@ public class ShadowPac extends AbstractGame {
 
     /**
      * V2.3 prevent alien gameLogic from change game status
+     *
      * @param lgc ShadowPacLogic for verification
      */
     public void setGameStageLOSE(ShadowPacLogic_L0 lgc) {
         if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
         stage = ShadowPac.gameStage.Lose;
     }
+
     public void setGameStageLOSE(ShadowPacLogic_L1 lgc) {
         if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
         stage = ShadowPac.gameStage.Lose;
@@ -240,12 +245,14 @@ public class ShadowPac extends AbstractGame {
 
     /**
      * V2.3 prevent alien gameLogic from change game status
+     *
      * @param lgc ShadowPacLogic for verification
      */
     public void setGameStageWIN(ShadowPacLogic_L0 lgc) {
         if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
         stage = gameStage.LEVEL_COMPLETE;
     }
+
     public void setGameStageWIN(ShadowPacLogic_L1 lgc) {
         if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
         stage = gameStage.Success;
@@ -260,6 +267,7 @@ public class ShadowPac extends AbstractGame {
      * If the game state is set to Gaming, the player's score & Lives remaining are displayed, and the player and game objects are drawn.
      * If the game state is set to Success or Lose, a message is displayed with the appropriate outcome of the game.
      * The user can also press the SPACE key to close the "Success or Lose" UI.(Not mentioned as Projcet Spec requirement)
+     *
      * @param input The input object that holds the user's input.
      */
     @Override
@@ -283,14 +291,14 @@ public class ShadowPac extends AbstractGame {
         if (this.stage == gameStage.GamingL0) {
             updateGamingL0(input);
         }
-        if(this.stage == gameStage.LEVEL_COMPLETE){
+        if (this.stage == gameStage.LEVEL_COMPLETE) {
             updateLevel_Complete();
         }
-        if(this.stage == gameStage.L1Welcome){
+        if (this.stage == gameStage.L1Welcome) {
             updateLevel1_Welcome(input);
         }
 
-        if(this.stage == gameStage.GamingL1){
+        if (this.stage == gameStage.GamingL1) {
             updateGamingL1(input);
         }
 
@@ -320,7 +328,7 @@ public class ShadowPac extends AbstractGame {
         SM_PRESS_SPACE_TO_START.Show();
         ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE", 190, 406, 40);
         SM_USE_ARROW_KEYS_TO_MOVE.Show();
-        ShowMessage SM_EAT_PELLET= new ShowMessage("EAT THE PELLET TO ATTACK", 160, 462, 40);
+        ShowMessage SM_EAT_PELLET = new ShowMessage("EAT THE PELLET TO ATTACK", 160, 462, 40);
         SM_EAT_PELLET.Show();
 
 
@@ -358,6 +366,7 @@ public class ShadowPac extends AbstractGame {
         }
         gameManager_L0.letPlayerCheckAround();
     }
+
     /*
     Update and count for Frenzy frames.
     If time over reset to Normal mode.
@@ -366,13 +375,13 @@ public class ShadowPac extends AbstractGame {
         if (input.wasPressed(Keys.W)) {
             stage = gameStage.Success;
         }
-        if(isFrenzy){
-            if(++counter_Frenzy >= 1000){
+        if (isFrenzy) {
+            if (++counter_Frenzy >= 1000) {
                 System.out.println("Frenzy Mode End!");
                 counter_Frenzy = 0;
                 isFrenzy = false;
-                for(Ghost gh : gameManager_L1.getGhostList()){
-                    if(gh.getHidden()){
+                for (Ghost gh : gameManager_L1.getGhostList()) {
+                    if (gh.getHidden()) {
                         gh.setHidden(false);
                         gh.reset();
                     }
@@ -406,7 +415,7 @@ public class ShadowPac extends AbstractGame {
 
     private void updateSuccess(Input input) {
         ShowMessage SM_WELL_DONE = new ShowMessage("WELL DONE!",
-                MID_WIDTH - 4 * ShowMessage.SPECIFIC_FONTSIZE, MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE / 2);
+                MID_WIDTH - 4 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2);
         SM_WELL_DONE.Show();
         if (input.wasPressed(Keys.SPACE)) {
             Window.close();
@@ -415,17 +424,17 @@ public class ShadowPac extends AbstractGame {
 
     private void updateLevel_Complete() {
         ShowMessage SM_LEVELCOMPLETE = new ShowMessage("LEVEL COMPLETE!",
-                MID_WIDTH - 6 * ShowMessage.SPECIFIC_FONTSIZE, MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE / 2);
+                MID_WIDTH - 6 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2);
         SM_LEVELCOMPLETE.Show();
-        ++ counter_LevelComplete;
-        if(counter_LevelComplete == 300){
+        ++counter_LevelComplete;
+        if (counter_LevelComplete == 300) {
             stage = gameStage.L1Welcome;
         }
     }
 
     private void updateLose(Input input) {
         ShowMessage SM_GAME_OVER = new ShowMessage("GAME OVER!",
-                MID_WIDTH - 4 * ShowMessage.SPECIFIC_FONTSIZE, MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE / 2);
+                MID_WIDTH - 4 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2);
         SM_GAME_OVER.Show();
         if (input.wasPressed(Keys.SPACE)) {
             Window.close();

@@ -10,15 +10,15 @@ import java.util.List;
 public class Player_L0 extends GameUnit{
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
-    protected static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
+    private static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
     private final int Frequency_Modulation = 15;// frequency of mouth opening and closing
     private final DrawOptions drop = new DrawOptions();// draw options for the player
 
-    protected int Life; // number of lives the player has left
-    protected double radians = 0;// angle of player movement, same as direction of drawing
-    protected int currentFrame; // current frame counter, for converting image
+    private int Life; // number of lives the player has left
+    private double radians = 0;// angle of player movement, same as direction of drawing
+    private int currentFrame; // current frame counter, for converting image
     private int currentStatus = 1;// current status of player mouth (1 for open, 0 for closed)
-    protected int score;// current score of the player
+    private int score;// current score of the player
 
     /**
      * Constructor for the player class.
@@ -29,16 +29,32 @@ public class Player_L0 extends GameUnit{
      */
     public Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L0 logic0) {
         super(coordinateX, coordinateY,logic0);
-        this.logicL0 = logic0;
-        currentFrame = 0;
-        originPos = new Point(coordinateX, coordinateY);
-        this.Life = 3;
-        this.score = 0;
-        AIMSCORE = logicL0.getSupposedDotNum() * 10;
-        setHitBox(new Rectangle(coordinateX, coordinateY, playerCloseMouth.getWidth(), playerCloseMouth.getHeight()));
+        this.setLogicL0(logic0);
+        setCurrentFrame(0);
+        setOriginPos(new Point(coordinateX, coordinateY));
+        this.setLife(3);
+        this.setScore(0);
+        setAIMSCORE(getLogicL0().getSupposedDotNum() * 10);
+        setHitBox(new Rectangle(coordinateX, coordinateY, getPlayerCloseMouth().getWidth(), getPlayerCloseMouth().getHeight()));
     }
     protected Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1){
         super(coordinateX, coordinateY, logic1);
+    }
+
+    protected static Image getPlayerOpenMouth() {
+        return playerOpenMouth;
+    }
+
+    protected static Image getPlayerCloseMouth() {
+        return playerCloseMouth;
+    }
+
+    protected static int getAIMSCORE() {
+        return AIMSCORE;
+    }
+
+    protected static void setAIMSCORE(int AIMSCORE) {
+        Player_L0.AIMSCORE = AIMSCORE;
     }
 
     public int getLife() {
@@ -53,8 +69,8 @@ public class Player_L0 extends GameUnit{
      * Checks whether the player has won and updates the game stage accordingly.
      */
     public void checkWin() {
-        if (this.score >= AIMSCORE) {
-            logicL0.level_completed();
+        if (this.getScore() >= getAIMSCORE()) {
+            getLogicL0().level_completed();
         }
     }
     /**
@@ -63,8 +79,8 @@ public class Player_L0 extends GameUnit{
      */
 
     public void checkLose() {
-        if (this.Life <= 0) {
-            logicL1.gameFailed();
+        if (this.getLife() <= 0) {
+            getLogicL1().gameFailed();
         }
     }
 
@@ -74,12 +90,12 @@ public class Player_L0 extends GameUnit{
      * Ver 2.0 : Only check if two unit are close enough
      */
     public void checkAround() {
-        for (Ghost gst : logicL0.getGhostList()) {
+        for (Ghost gst : getLogicL0().getGhostList()) {
             if (this.isAround(gst)) {
                 if (checkCollideWithGhost(gst)) break;
             }
         }
-        for (Dot dt : logicL0.getDotList()) {
+        for (Dot dt : getLogicL0().getDotList()) {
             if (this.isAround(dt)) {
                 EatDot(dt);
             }
@@ -107,9 +123,9 @@ public class Player_L0 extends GameUnit{
      * @param dt the dot being checked for collision
      */
     protected void EatDot(Dot dt) {
-        if (dt.isExist && this.getHitBox().intersects(dt.getHitBox())) {
-            dt.isExist = false;
-            this.score += dt.getScore();
+        if (dt.isExist() && this.getHitBox().intersects(dt.getHitBox())) {
+            dt.setExist(false);
+            this.setScore(this.getScore() + dt.getScore());
             checkWin();
         }
     }
@@ -129,7 +145,7 @@ public class Player_L0 extends GameUnit{
         } else if (logic instanceof ShadowPacLogic_L1){
             newPl = new Player_L1(x, y, (ShadowPacLogic_L1) logic);
         }
-        Rectangle try_hit = new Rectangle(new Point(x, y), playerCloseMouth.getWidth(), playerCloseMouth.getHeight());
+        Rectangle try_hit = new Rectangle(new Point(x, y), getPlayerCloseMouth().getWidth(), getPlayerCloseMouth().getHeight());
         if (logic instanceof ShadowPacLogic_L0) {
             Wall[] walls = ((ShadowPacLogic_L0) logic).getWallList();
             for (Wall wl : walls) {
@@ -154,11 +170,11 @@ public class Player_L0 extends GameUnit{
 
     private boolean isValidPosition(double X, double Y) {
         return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&
-                !(isToCollideWithWall(X, Y, logicL0)));
+                !(isToCollideWithWall(X, Y, getLogicL0())));
     }
 
     public void move(Keys key) {
-        int STEP_SIZE = logicL0.getSTEP_SIZE();
+        int STEP_SIZE = getLogicL0().getSTEP_SIZE();
         double X = getCoordinateX(), Y = getCoordinateY();
         switch (key) {
             case LEFT:
@@ -183,30 +199,30 @@ public class Player_L0 extends GameUnit{
      */
 
     public void Draw(Input input) {
-        if(logicL1 != null){
+        if(getLogicL1() != null){
             checkWin();
             checkLose();
         }
         if (input.isDown(Keys.LEFT)) {
-            radians = TOLEFT;
+            setRadians(getTOLEFT());
             move(Keys.LEFT);
         } else if (input.isDown(Keys.RIGHT)) {
-            radians = TORIGHT;
+            setRadians(getTORIGHT());
             move(Keys.RIGHT);
         } else if (input.isDown(Keys.UP)) {
-            radians = TOUP;
+            setRadians(getTOUP());
             move(Keys.UP);
         } else if (input.isDown(Keys.DOWN)) {
-            radians = TODOWN;
+            setRadians(getTODOWN());
             move(Keys.DOWN);
         }
         this.getHitBox().moveTo(new Point(getCoordinateX(), getCoordinateY()));// Move the hitbox to the new position
-        ++currentFrame;
-        if (currentFrame == Frequency_Modulation) {
-            currentStatus = (currentStatus == 1 ? 0 : 1);
-            currentFrame = 0;
+        setCurrentFrame(getCurrentFrame() + 1);
+        if (getCurrentFrame() == getFrequency_Modulation()) {
+            setCurrentStatus((getCurrentStatus() == 1 ? 0 : 1));
+            setCurrentFrame(0);
         }
-        switch (currentStatus) {
+        switch (getCurrentStatus()) {
             case 0:
                 DrawCloseMouth();
                 break;
@@ -219,32 +235,68 @@ public class Player_L0 extends GameUnit{
     }
 
     @Override
-    public int getImageSize() {
-        return (int) playerCloseMouth.getHeight();
+    public double getImageSize() {
+        return (int) getPlayerCloseMouth().getHeight();
     }
 
     private void DrawOpenMouth() {
-        playerOpenMouth.drawFromTopLeft(getCoordinateX(), getCoordinateY(), drop.setRotation(radians));
+        getPlayerOpenMouth().drawFromTopLeft(getCoordinateX(), getCoordinateY(), getDrop().setRotation(getRadians()));
     }
 
     private void DrawCloseMouth() {
-        playerCloseMouth.drawFromTopLeft(getCoordinateX(), getCoordinateY(), drop.setRotation(radians));
+        getPlayerCloseMouth().drawFromTopLeft(getCoordinateX(), getCoordinateY(), getDrop().setRotation(getRadians()));
     }
 
     /**
      * Resets the player's position to the original position and reduces the player's number of lives by 1.
      */
     public void dieAndReset() {
-        --Life;
-        if (Life == 0) {
-            logicL0.gameFailed();
+        setLife(getLife() - 1);
+        if (getLife() == 0) {
+            getLogicL0().gameFailed();
         }
-        setCoordinateX((int) originPos.x);
-        setCoordinateY((int) originPos.y) ;
-        radians = TORIGHT;
+        setCoordinateX((int) getOriginPos().x);
+        setCoordinateY((int) getOriginPos().y) ;
+        setRadians(getTORIGHT());
     }
 
     public int getScore() {
         return score;
+    }
+
+    protected int getFrequency_Modulation() {
+        return Frequency_Modulation;
+    }
+
+    protected DrawOptions getDrop() {
+        return drop;
+    }
+
+    protected double getRadians() {
+        return radians;
+    }
+
+    protected void setRadians(double radians) {
+        this.radians = radians;
+    }
+
+    protected int getCurrentFrame() {
+        return currentFrame;
+    }
+
+    protected void setCurrentFrame(int currentFrame) {
+        this.currentFrame = currentFrame;
+    }
+
+    protected int getCurrentStatus() {
+        return currentStatus;
+    }
+
+    protected void setCurrentStatus(int currentStatus) {
+        this.currentStatus = currentStatus;
+    }
+
+    protected void setScore(int score) {
+        this.score = score;
     }
 }

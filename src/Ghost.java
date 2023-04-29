@@ -11,7 +11,7 @@ public class Ghost extends GameUnit{
     private final double WIDTH = ghostIMG.getWidth();
     private final double HEIGHT = ghostIMG.getHeight();
     private double stepSize = 0;
-    protected final int score = 30;
+    private final int score = 30;
     private double direction;
     private boolean hidden = false;
 
@@ -31,22 +31,22 @@ public class Ghost extends GameUnit{
             case "GhostRed":
                 ghostIMG = new Image("res/ghostRed.png");
                 stepSize = 1;
-                direction = TORIGHT;
+                setDirection(getTORIGHT());
                 break;
             case "GhostBlue":
                 ghostIMG = new Image("res/ghostBlue.png");
                 stepSize = 2;
-                direction = TODOWN;
+                setDirection(getTODOWN());
                 break;
             case "GhostGreen":
                 ghostIMG = new Image("res/ghostGreen.png");
                 stepSize = 4;
-                direction = getRandomDirectionPositive();
+                setDirection(getRandomDirectionPositive());
                 break;
             case "GhostPink":
                 ghostIMG = new Image("res/ghostPink.png");
                 stepSize = 3;
-                direction = getRandomDirection();
+                setDirection(getRandomDirection());
                 break;
             default:
                 System.err.println("Given Wrong Ghost Type! " + this + " \n");
@@ -58,7 +58,7 @@ public class Ghost extends GameUnit{
 
     //use Random int to generate random direction of four
     private double getRandomDirection() {
-        double[] directions = new double[]{TORIGHT,TODOWN,TOLEFT,TOUP};
+        double[] directions = new double[]{getTORIGHT(), getTODOWN(), getTOLEFT(), getTOUP()};
         Random rand = new Random();
         int index = rand.nextInt(4);
         return directions[index];
@@ -66,7 +66,7 @@ public class Ghost extends GameUnit{
 
     //use Random int to generate random direction of TWO positive directions
     private double getRandomDirectionPositive() {
-        double[] directions = new double[]{TORIGHT,TODOWN};
+        double[] directions = new double[]{getTORIGHT(), getTODOWN()};
         Random rand = new Random();
         int index = rand.nextInt(2);
         return directions[index];
@@ -77,10 +77,10 @@ public class Ghost extends GameUnit{
      * Use logicL1 not null for object origin tracking
      */
     public void Draw() {
-        if(hidden) return;
-        if(this.logicL1 != null){
+        if(isHidden()) return;
+        if(this.getLogicL1() != null){
             move();
-            if(logicL1.getisFrenzy() && !this.hidden){
+            if(getLogicL1().getisFrenzy() && !this.isHidden()){
                 ghostFrenzy.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
             }else ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
         }else{
@@ -90,7 +90,7 @@ public class Ghost extends GameUnit{
     }
 
     @Override
-    public int getImageSize() {
+    public double getImageSize() {
         return (int) ghostIMG.getHeight();
     }
 
@@ -108,9 +108,9 @@ public class Ghost extends GameUnit{
             if (newGst.isAround(wl)) {
                 if (try_hit.intersects(wl.getHitBox())) {
                     if (this.type.equals("GhostRed") || this.type.equals("GhostBlue") || this.type.equals("GhostGreen")) {
-                        direction = getReverseDirection(direction);
+                        setDirection(getReverseDirection(getDirection()));
                     } else if (this.type.equals("GhostPink")) {
-                        direction = getRandomDirection();
+                        setDirection(getRandomDirection());
                     }
                     return true;
                 }
@@ -123,21 +123,21 @@ public class Ghost extends GameUnit{
     use this to get Reverse Direction gracefully
      */
     private double getReverseDirection(double direction) {
-        if (direction == TORIGHT) {
-            return TOLEFT;
-        } else if (direction == TOLEFT) {
-            return TORIGHT;
-        } else if (direction == TOUP) {
-            return TODOWN;
-        } else if (direction == TODOWN) {
-            return TOUP;
+        if (direction == getTORIGHT()) {
+            return getTOLEFT();
+        } else if (direction == getTOLEFT()) {
+            return getTORIGHT();
+        } else if (direction == getTOUP()) {
+            return getTODOWN();
+        } else if (direction == getTODOWN()) {
+            return getTOUP();
         }
         return direction;
     }
 
     private boolean isValidPosition(double X, double Y) {
         return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight()
-                && !(isToCollideWithWall(X, Y, logicL1)));
+                && !(isToCollideWithWall(X, Y, getLogicL1())));
     }
 
     /*
@@ -145,23 +145,23 @@ public class Ghost extends GameUnit{
      */
     public void move() {
         double X = getCoordinateX(), Y = getCoordinateY();
-        double STEP_SIZE = logicL1.getisFrenzy()? getSTEP_SIZE()-0.5 : getSTEP_SIZE();
-        if (direction == TOLEFT) {
+        double STEP_SIZE = getLogicL1().getisFrenzy()? getSTEP_SIZE()-0.5 : getSTEP_SIZE();
+        if (getDirection() == getTOLEFT()) {
             if (isValidPosition(X - STEP_SIZE, Y)) setCoordinateX(X - STEP_SIZE);
-        } else if (direction == TORIGHT) {
+        } else if (getDirection() == getTORIGHT()) {
             if (isValidPosition(X + STEP_SIZE, Y)) setCoordinateX(X + STEP_SIZE);
-        } else if (direction == TOUP) {
+        } else if (getDirection() == getTOUP()) {
             if (isValidPosition(X, Y - STEP_SIZE)) setCoordinateY(Y - STEP_SIZE);
-        } else if (direction == TODOWN) {
+        } else if (getDirection() == getTODOWN()) {
             if (isValidPosition(X, Y + STEP_SIZE)) setCoordinateY(Y + STEP_SIZE);
         }
         this.getHitBox().moveTo(new Point(getCoordinateX(), getCoordinateY()));
     }
 
     public void reset(){
-        setCoordinateX(originPos.x);
-        setCoordinateY(originPos.y);
-        this.getHitBox().moveTo(originPos);
+        setCoordinateX(getOriginPos().x);
+        setCoordinateY(getOriginPos().y);
+        this.getHitBox().moveTo(getOriginPos());
     }
     public double getSTEP_SIZE() {
         return stepSize;
@@ -172,13 +172,25 @@ public class Ghost extends GameUnit{
     }
 
     public void setHidden() {
-        this.hidden = true;
+        this.setHidden(true);
     }
     public void setHidden(boolean bl) {
         this.hidden = bl;
     }
 
     public boolean getHidden() {
+        return isHidden();
+    }
+
+    protected double getDirection() {
+        return direction;
+    }
+
+    protected void setDirection(double direction) {
+        this.direction = direction;
+    }
+
+    protected boolean isHidden() {
         return hidden;
     }
 }

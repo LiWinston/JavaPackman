@@ -13,12 +13,12 @@
 import bagel.Font;
 
 public class ShowMessage {
-    final static int SPECIFIC_FONTSIZE = 64;
+    private final static int SPECIFIC_FONTSIZE = 64;
     private final int X;
     private final int Y;
     private final String messageDetail;
     private final Font ft;
-    private int fontSize = SPECIFIC_FONTSIZE;
+    private int fontSize = getSpecificFontsize();
 
 
     public ShowMessage(String messageDetail, int X, int Y) {
@@ -54,6 +54,10 @@ public class ShowMessage {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected static int getSpecificFontsize() {
+        return SPECIFIC_FONTSIZE;
     }
 
 

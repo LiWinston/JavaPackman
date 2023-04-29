@@ -23,19 +23,28 @@ public class Player_L1 extends Player_L0 {
      */
     public Player_L1(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1) {
         super(coordinateX, coordinateY, logic1);
-        currentFrame = 0;
-        originPos = new Point(coordinateX, coordinateY);
-        this.Life = 3;
-        this.score = 0;
-        AIMSCORE = 800;
-        setHitBox(new Rectangle(coordinateX, coordinateY, playerOpenMouth.getWidth(), playerCloseMouth.getHeight()));
+        setCurrentFrame(0);
+        setOriginPos(new Point(coordinateX, coordinateY));
+        this.setLife(3);
+        this.setScore(0);
+        setAIMSCORE(800);
+        setHitBox(new Rectangle(coordinateX, coordinateY, getPlayerOpenMouth().getWidth(), getPlayerCloseMouth().getHeight()));
     }
+
+    protected static Image getPlayerOpenMouth() {
+        return playerOpenMouth;
+    }
+
+    protected static Image getPlayerCloseMouth() {
+        return playerCloseMouth;
+    }
+
     /**
      * Checks whether the player has won and updates the game stage accordingly.
      */
     public void checkWin() {
-        if (this.score >= AIMSCORE) {
-            logicL1.gameSucceeded();
+        if (this.getScore() >= getAIMSCORE()) {
+            getLogicL1().gameSucceeded();
         }
     }
 
@@ -45,12 +54,12 @@ public class Player_L1 extends Player_L0 {
      */
 
     public void checkAround() {
-        for (Ghost gst : logicL1.getGhostList()) {
+        for (Ghost gst : getLogicL1().getGhostList()) {
             if (this.isAround(gst)) {
                 if (checkCollideWithGhost(gst)) break;
             }
         }
-        for (Dot dt : logicL1.getDotList()) {
+        for (Dot dt : getLogicL1().getDotList()) {
             if (this.isAround(dt)) {
                 EatDot(dt);
             }
@@ -58,11 +67,11 @@ public class Player_L1 extends Player_L0 {
     }
     @Override
     protected void EatDot(Dot dt) {
-        if (dt.isExist && this.getHitBox().intersects(dt.getHitBox())) {
-            dt.isExist = false;
-            this.score += dt.getScore();
+        if (dt.isExist() && this.getHitBox().intersects(dt.getHitBox())) {
+            dt.setExist(false);
+            this.setScore(this.getScore() + dt.getScore());
             if(Objects.equals(dt.getType(), "Pellet")) {
-                logicL1.setFrenzy();
+                getLogicL1().setFrenzy();
             }
             checkWin();
         }
@@ -76,20 +85,20 @@ public class Player_L1 extends Player_L0 {
      */
     protected boolean checkCollideWithGhost(Ghost gst) {
         if(gst.getHidden()) return false;
-        if(gst == lastCollision){
+        if(gst == getLastCollision()){
             if (this.getHitBox().intersects(gst.getHitBox())){
                 return false;
             }
-            lastCollision = null;
+            setLastCollision(null);
         }
         if (this.getHitBox().intersects(gst.getHitBox())) {
-            if(logicL1.getisFrenzy()){
-                score+=gst.getScore();
+            if(getLogicL1().getisFrenzy()){
+                setScore(getScore() + gst.getScore());
                 gst.setHidden();
             }else{
                 dieAndReset();
                 gst.reset();
-                lastCollision = gst;
+                setLastCollision(gst);
             }
             return true;
         } else {
@@ -99,12 +108,12 @@ public class Player_L1 extends Player_L0 {
 
     private boolean isValidPosition(double X, double Y) {
         return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&
-                !(isToCollideWithWall(X, Y, logicL1)));
+                !(isToCollideWithWall(X, Y, getLogicL1())));
     }
 
     //Repeated codes here can not be once again streamline due to local method invoke
     public void move(Keys key) {
-        int STEP_SIZE = logicL1.getisFrenzy() ? 4 : 3;
+        int STEP_SIZE = getLogicL1().getisFrenzy() ? 4 : 3;
         double X = getCoordinateX(), Y = getCoordinateY();
         switch (key) {
             case LEFT:
@@ -122,15 +131,22 @@ public class Player_L1 extends Player_L0 {
         }
     }
     public void dieAndReset() {
-        --Life;
-        if (Life == 0) {
-            logicL1.gameFailed();
+        setLife(getLife() - 1);
+        if (getLife() == 0) {
+            getLogicL1().gameFailed();
         }
-        setCoordinateX((int) originPos.x);
-        setCoordinateY((int) originPos.y) ;
-        radians = TORIGHT;
+        setCoordinateX((int) getOriginPos().x);
+        setCoordinateY((int) getOriginPos().y) ;
+        setRadians(getTORIGHT());
     }
 
+    protected Ghost getLastCollision() {
+        return lastCollision;
+    }
+
+    protected void setLastCollision(Ghost lastCollision) {
+        this.lastCollision = lastCollision;
+    }
 }
 
 

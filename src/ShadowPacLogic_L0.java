@@ -23,7 +23,7 @@ public class ShadowPacLogic_L0 {
     }
 
     public void setPlayer_L0(int x, int y, ShadowPacLogic_L0 logic) {
-        this.playerL0 = new Player_L0(x, y, logic);
+        this.setPlayerL0(new Player_L0(x, y, logic));
     }
 
     /*
@@ -33,7 +33,7 @@ public class ShadowPacLogic_L0 {
      */
 
     public Ghost[] getGhostList() {
-        return game.getGhostList_L0();
+        return getGame().getGhostList_L0();
     }
 
     /**
@@ -43,7 +43,7 @@ public class ShadowPacLogic_L0 {
      */
 
     public Dot[] getDotList() {
-        return game.getDotList_L0();
+        return getGame().getDotList_L0();
     }
 
     /**
@@ -53,7 +53,7 @@ public class ShadowPacLogic_L0 {
      */
 
     public Wall[] getWallList() {
-        return game.getWallList_L0();
+        return getGame().getWallList_L0();
     }
 
     /**
@@ -61,7 +61,7 @@ public class ShadowPacLogic_L0 {
      */
 
     public void gameFailed() {
-        game.setGameStageLOSE(this);
+        getGame().setGameStageLOSE(this);
     }
 
     /**
@@ -69,7 +69,7 @@ public class ShadowPacLogic_L0 {
      */
 
     public void level_completed() {
-        game.setGameStageWIN(this);
+        getGame().setGameStageWIN(this);
     }
 
     /**
@@ -77,19 +77,19 @@ public class ShadowPacLogic_L0 {
      */
 
     public void letPlayerCheckAround() {
-        if (null == this.playerL0) {
+        if (null == this.getPlayerL0()) {
             System.err.println("Need Set playerL0 for ShadowPacLogic object!");
             System.err.println();
             return;
         }
-        playerL0.checkAround();
+        getPlayerL0().checkAround();
     }
 
     /*
      * Method to get the game DotNum.
      */
     public int getSupposedDotNum() {
-        return game.getSupposedDotNum();
+        return getGame().getSupposedDotNum();
     }
 
     /*
@@ -103,10 +103,26 @@ public class ShadowPacLogic_L0 {
      * Method to get the playerL0 instance reference.
      */
     public Player_L0 getPlayer() {
-        return playerL0;
+        return getPlayerL0();
     }
 
     public short getPID() {
+        return getGamePID();
+    }
+
+    protected short getGamePID() {
         return gamePID;
+    }
+
+    protected ShadowPac getGame() {
+        return game;
+    }
+
+    protected Player_L0 getPlayerL0() {
+        return playerL0;
+    }
+
+    protected void setPlayerL0(Player_L0 playerL0) {
+        this.playerL0 = playerL0;
     }
 }

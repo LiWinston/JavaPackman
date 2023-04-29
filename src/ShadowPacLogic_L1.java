@@ -23,8 +23,9 @@ public class ShadowPacLogic_L1 {
         this.game = game;
         gamePID = game.getPID();
     }
+
     public void setPlayer_L1(double x, double y, ShadowPacLogic_L1 logic) {
-        this.playerL1 = new Player_L1(x, y, logic);
+        this.setPlayerL1(new Player_L1(x, y, logic));
     }
 
 
@@ -35,7 +36,7 @@ public class ShadowPacLogic_L1 {
      */
 
     public List<Ghost> getGhostList() {
-        return game.getGhostList_L1();
+        return getGame().getGhostList_L1();
     }
 
     /**
@@ -45,7 +46,7 @@ public class ShadowPacLogic_L1 {
      */
 
     public List<Dot> getDotList() {
-        return game.getDotList_L1();
+        return getGame().getDotList_L1();
     }
 
     /**
@@ -55,7 +56,7 @@ public class ShadowPacLogic_L1 {
      */
 
     public List<Wall> getWallList() {
-        return game.getWallList_L1();
+        return getGame().getWallList_L1();
     }
 
     /**
@@ -63,7 +64,7 @@ public class ShadowPacLogic_L1 {
      */
 
     public void gameFailed() {
-        game.setGameStageLOSE(this);
+        getGame().setGameStageLOSE(this);
     }
 
     /**
@@ -71,7 +72,7 @@ public class ShadowPacLogic_L1 {
      */
 
     public void gameSucceeded() {
-        game.setGameStageWIN(this);
+        getGame().setGameStageWIN(this);
     }
 
     /**
@@ -79,29 +80,46 @@ public class ShadowPacLogic_L1 {
      */
 
     public void letPlayerCheckAround() {
-        if (null == this.playerL1) {
+        if (null == this.getPlayerL1()) {
             System.err.println("Need Set playerL1 for ShadowPacLogic object!");
             System.err.println();
             return;
         }
-        playerL1.checkAround();
+        getPlayerL1().checkAround();
     }
 
     /*
      * Method to get the playerL0 instance reference.
      */
     public Player_L1 getPlayer() {
-        return playerL1;
+        return getPlayerL1();
     }
 
     public short getPID() {
-        return gamePID;
+        return getGamePID();
     }
 
     public boolean getisFrenzy() {
-        return game.getisFrenzy();
+        return getGame().getisFrenzy();
     }
-    public void setFrenzy(){
-        game.setFrenzy(this);
+
+    public void setFrenzy() {
+        getGame().setFrenzy(this);
+    }
+
+    private short getGamePID() {
+        return gamePID;
+    }
+
+    private ShadowPac getGame() {
+        return game;
+    }
+
+    private Player_L1 getPlayerL1() {
+        return playerL1;
+    }
+
+    private void setPlayerL1(Player_L1 playerL1) {
+        this.playerL1 = playerL1;
     }
 }
