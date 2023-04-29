@@ -43,6 +43,7 @@ public abstract class GameUnit {
     public GameUnit(double coordinateX, double coordinateY, ShadowPacLogic_L0 lg0) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
+        originPos = new Point(coordinateX,coordinateY);// initial position of the player
         this.logicL0 = lg0;
         this.logicL1 = null;
     }
@@ -50,6 +51,7 @@ public abstract class GameUnit {
     public GameUnit(double coordinateX, double coordinateY, ShadowPacLogic_L1 lg1) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
+        originPos = new Point(coordinateX,coordinateY);// initial position of the player
         this.logicL1 = lg1;
         this.logicL0 = null;
     }

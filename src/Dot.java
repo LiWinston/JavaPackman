@@ -2,7 +2,7 @@ import bagel.Image;
 import bagel.util.Rectangle;
 
 public class Dot extends GameUnit {
-    private Image dotIMG;
+    private Image dotIMG = new Image("res/dot.png");
     boolean isExist;
     private final String type;
 
@@ -23,20 +23,21 @@ public class Dot extends GameUnit {
         super(coordinateX, coordinateY, lg1);
         this.type = str;
         this.isExist = true;
-        if (type.equals("Dot")) {
-            dotIMG = new Image("res/dot.png");
-        } else if (type.equals("Cherry")) {
-//            System.out.println(str+"\n");
-            dotIMG = new Image("res/cherry.png");
-            score = 20;
-        } else if (type.equals("Pellet")) {
-            dotIMG = new Image("res/pellet.png");
-            score = 0;
-        } else {
-            System.out.println("Invalid dot type: " + type);
+        switch (type) {
+            case "Dot":break;
+            case "Cherry":
+                dotIMG = new Image("res/cherry.png");
+                score = 20;
+                break;
+            case "Pellet":
+                dotIMG = new Image("res/pellet.png");
+                score = 0;
+                break;
+            default:
+                System.out.println("Invalid dot type: " + type);
+                break;
         }
         this.setHitBox(new Rectangle(coordinateX, coordinateY, dotIMG.getWidth(), dotIMG.getHeight()));
-
     }
     public int getScore() {
         return score;

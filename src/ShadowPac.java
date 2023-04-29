@@ -270,6 +270,11 @@ public class ShadowPac extends AbstractGame {
         if (input.wasPressed(Keys.NUM_1)) {
             stage = gameStage.GamingL1;
         }
+        if (input.wasPressed(Keys.LEFT_CTRL)) {
+            stage = gameStage.GamingL1;
+            gameManager_L1.getPlayer().setLife(3);
+        }
+
         BACKGROUND_IMAGE.draw(Window.getWidth() / 2.0, Window.getHeight() / 2.0);
         if (this.stage == gameStage.Welcome) {
             updateWelcome(input);
@@ -352,6 +357,10 @@ public class ShadowPac extends AbstractGame {
         }
         gameManager_L0.letPlayerCheckAround();
     }
+    /*
+    Update and count for Frenzy frames.
+    If time over reset to Normal mode.
+     */
     private void updateGamingL1(Input input) {
         if (input.wasPressed(Keys.W)) {
             stage = gameStage.Success;
@@ -360,6 +369,14 @@ public class ShadowPac extends AbstractGame {
             if(++counter_Frenzy >= 1000){
                 counter_Frenzy = 0;
                 isFrenzy = false;
+                for(Ghost gh : gameManager_L1.getGhostList()){
+                    if(gh.getHidden()){
+                        gh.setCoordinateX(gh.originPos.x);
+                        gh.setCoordinateY(gh.originPos.y);
+                        gh.setHidden(false);
+                        gh.setHitBox(gh.originPos.x,gh.originPos.y);
+                    }
+                }
             }
         }
         ShowMessage SM_Score = new ShowMessage("SCORE " + gameManager_L1.getPlayer().getScore(), 25, 25, 20);
@@ -383,7 +400,7 @@ public class ShadowPac extends AbstractGame {
         for (Dot dt : dotList_L1) {
             dt.DrawFixUnit();
         }
-        gameManager_L0.letPlayerCheckAround();
+        gameManager_L1.letPlayerCheckAround();
     }
 
 

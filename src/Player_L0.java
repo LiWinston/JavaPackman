@@ -13,6 +13,7 @@ public class Player_L0 extends GameUnit{
     protected static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
     private final int Frequency_Modulation = 15;// frequency of mouth opening and closing
     private final DrawOptions drop = new DrawOptions();// draw options for the player
+
     protected int Life; // number of lives the player has left
     protected double radians = 0;// angle of player movement, same as direction of drawing
     protected int currentFrame; // current frame counter, for converting image
@@ -43,6 +44,10 @@ public class Player_L0 extends GameUnit{
     public int getLife() {
         return Life;
     }
+    public void setLife(int life) {
+        Life = life;
+    }
+
 
     /**
      * Checks whether the player has won and updates the game stage accordingly.
@@ -50,6 +55,15 @@ public class Player_L0 extends GameUnit{
     public void checkWin() {
         if (this.score >= AIMSCORE) {
             logicL0.level_completed();
+        }
+    }
+    /**
+     * Checks whether the player has lost.
+     */
+
+    public void checkLose() {
+        if (this.Life <= 0) {
+            logicL1.gameFailed();
         }
     }
 
@@ -168,6 +182,10 @@ public class Player_L0 extends GameUnit{
      */
 
     public void Draw(Input input) {
+        if(logicL1 != null){
+            checkWin();
+            checkLose();
+        }
         if (input.isDown(Keys.LEFT)) {
             radians = TOLEFT;
             move(Keys.LEFT);

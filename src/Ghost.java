@@ -15,6 +15,7 @@ public class Ghost extends GameUnit{
     private double stepSize = 0;
     protected int score = 30;
     private double direction;
+    private boolean hidden = false;
 
 
     public Ghost(double coordinateX, double coordinateY) {
@@ -78,13 +79,15 @@ public class Ghost extends GameUnit{
      * Use logicL1 not null for object origin tracking
      */
     public void Draw() {
+        if(hidden) return;
         if(this.logicL1 != null){
             move();
-            if(logicL1.getisFrenzy()){
+            if(logicL1.getisFrenzy() && !this.hidden){
                 ghostFrenzy.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
-            }else{
-                ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
-            }
+                return;
+            }else if(logicL1.getisFrenzy() && this.hidden){
+                System.out.println("别打我");
+            }else ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
         }else{
             ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
         }
@@ -170,5 +173,16 @@ public class Ghost extends GameUnit{
 
     public int getScore() {
         return score;
+    }
+
+    public void setHidden() {
+        this.hidden = true;
+    }
+    public void setHidden(boolean bl) {
+        this.hidden = bl;
+    }
+
+    public boolean getHidden() {
+        return hidden;
     }
 }
