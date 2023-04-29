@@ -7,10 +7,11 @@ import bagel.util.Rectangle;
 import java.util.Random;
 
 public class Ghost extends GameUnit{
-    private static Image ghostIMG = new Image("res/ghostRed.png");
+    private String type = "Normal";
+    private Image ghostIMG = new Image("res/ghostRed.png");
     private final static Image ghostFrenzy = new Image("res/ghostFrenzy.png");
-    private final static double WIDTH = ghostIMG.getWidth();
-    private final static double HEIGHT = ghostIMG.getHeight();
+    private final double WIDTH = ghostIMG.getWidth();
+    private final double HEIGHT = ghostIMG.getHeight();
     private double stepSize = 0;
     protected int score = 30;
     private double direction;
@@ -23,25 +24,32 @@ public class Ghost extends GameUnit{
 
     public Ghost(double coordinateX, double coordinateY, ShadowPacLogic_L1 lg1, String str) {
         super(coordinateX, coordinateY,lg1);
-        if (str.equals("GhostRed")) {
-            ghostIMG = new Image("res/ghostRed.png");
-            stepSize = 1;
-            direction = TORIGHT;
-        } else if (str.equals("GhostBlue")) {
-            ghostIMG = new Image("res/ghostBlue.png");
-            stepSize = 2;
-            direction = TODOWN;
-        } else if (str.equals("GhostGreen")) {
-            ghostIMG = new Image("res/ghostGreen.png");
-            stepSize = 4;
-            direction = getRandomDirectionPositive();
-        } else if (str.equals("GhostPink")) {
-            ghostIMG = new Image("res/ghostPink.png");
-            stepSize = 3;
-            direction = getRandomDirection();
-        } else {
-            System.err.println("Given Wrong Ghost Type! " + this + " \n");
-            System.err.println("Default ghost is constructed. \n");
+        this.type = str;
+        switch (type) {
+            case "GhostRed":
+                ghostIMG = new Image("res/ghostRed.png");
+                stepSize = 1;
+                direction = TORIGHT;
+                break;
+            case "GhostBlue":
+                ghostIMG = new Image("res/ghostBlue.png");
+                stepSize = 2;
+                direction = TODOWN;
+                break;
+            case "GhostGreen":
+                ghostIMG = new Image("res/ghostGreen.png");
+                stepSize = 4;
+                direction = getRandomDirectionPositive();
+                break;
+            case "GhostPink":
+                ghostIMG = new Image("res/ghostPink.png");
+                stepSize = 3;
+                direction = getRandomDirection();
+                break;
+            default:
+                System.err.println("Given Wrong Ghost Type! " + this + " \n");
+                System.err.println("Default ghost is constructed. \n");
+                break;
         }
         setHitBox(new Rectangle(coordinateX, coordinateY, ghostIMG.getWidth(), ghostIMG.getHeight()));
     }
@@ -49,13 +57,13 @@ public class Ghost extends GameUnit{
     private double getRandomDirection() {
         double[] directions = new double[]{TORIGHT,TODOWN,TOLEFT,TOUP};
         Random rand = new Random();
-        int index = rand.nextInt(directions.length);
+        int index = rand.nextInt(4);
         return directions[index];
     }
     private double getRandomDirectionPositive() {
         double[] directions = new double[]{TORIGHT,TODOWN};
         Random rand = new Random();
-        int index = rand.nextInt(directions.length);
+        int index = rand.nextInt(2);
         return directions[index];
     }
 
@@ -81,15 +89,34 @@ public class Ghost extends GameUnit{
         for (Wall wl : logic.getWallList()) {
             if (newGst.isAround(wl)) {
                 if (try_hit.intersects(wl.getHitBox())) {
-                    direction *= -1;
+                    if (this.type.equals("GhostRed") || this.type.equals("GhostBlue") || this.type.equals("GhostGreen")) {
+                        direction = getReverseDirection(direction);
+                    } else if (this.type.equals("GhostPink")) {
+                        direction = getRandomDirection();
+                    }
                     return true;
                 }
             }
         }
         return false;
     }
+
+    private double getReverseDirection(double direction) {
+        if (direction == TORIGHT) {
+            return TOLEFT;
+        } else if (direction == TOLEFT) {
+            return TORIGHT;
+        } else if (direction == TOUP) {
+            return TODOWN;
+        } else if (direction == TODOWN) {
+            return TOUP;
+        }
+        return direction;
+    }
+
     private boolean isValidPosition(double X, double Y) {
-        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() && !(isToCollideWithWall(X, Y, logicL1)));
+        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight()
+                && !(isToCollideWithWall(X, Y, logicL1)));
     }
 
     public void move() {
@@ -104,7 +131,7 @@ public class Ghost extends GameUnit{
         } else if (direction == TODOWN) {
             if (isValidPosition(X, Y + STEP_SIZE)) setCoordinateY(Y + STEP_SIZE);
         }
-
+        this.getHitBox().moveTo(new Point(getCoordinateX(), getCoordinateY()));
     }
 
     public double getSTEP_SIZE() {

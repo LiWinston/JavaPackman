@@ -273,6 +273,9 @@ public class ShadowPac extends AbstractGame {
         if (input.wasPressed(Keys.ESCAPE)) {
             Window.close();
         }
+        if (input.wasPressed(Keys.NUM_1)) {
+            stage = gameStage.GamingL1;
+        }
         BACKGROUND_IMAGE.draw(Window.getWidth() / 2.0, Window.getHeight() / 2.0);
         if (this.stage == gameStage.Welcome) {
             updateWelcome(input);
