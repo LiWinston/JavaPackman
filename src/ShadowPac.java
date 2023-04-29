@@ -45,6 +45,7 @@ public class ShadowPac extends AbstractGame {
     public void setFrenzy(ShadowPacLogic_L1 lg1) {
         if(getPID()!= lg1.getPID()) return;
         isFrenzy = true;
+        System.out.println("Frenzy Mode Begin!");
         counter_Frenzy = 0;
     }
 
@@ -367,14 +368,13 @@ public class ShadowPac extends AbstractGame {
         }
         if(isFrenzy){
             if(++counter_Frenzy >= 1000){
+                System.out.println("Frenzy Mode End!");
                 counter_Frenzy = 0;
                 isFrenzy = false;
                 for(Ghost gh : gameManager_L1.getGhostList()){
                     if(gh.getHidden()){
-                        gh.setCoordinateX(gh.originPos.x);
-                        gh.setCoordinateY(gh.originPos.y);
                         gh.setHidden(false);
-                        gh.setHitBox(gh.originPos.x,gh.originPos.y);
+                        gh.reset();
                     }
                 }
             }

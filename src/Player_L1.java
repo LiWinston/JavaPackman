@@ -9,7 +9,6 @@ public class Player_L1 extends Player_L0 {
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
     private Ghost lastCollision = null;
-//    private final ShadowPacLogic_L1 logicL1;
 
 
     /**
@@ -37,7 +36,7 @@ public class Player_L1 extends Player_L0 {
     }
 
     /**
-     * Checks whether the player has collided with a ghost or eaten a dot(inludes dot-like units).
+     * Checks whether the player has collided with a ghost or eaten a dot(includes dot-like units).
      * executed based on current position(or rather after move)
      */
 
@@ -84,6 +83,7 @@ public class Player_L1 extends Player_L0 {
                 gst.setHidden();
             }else{
                 dieAndReset();
+                gst.reset();
                 lastCollision = gst;
             }
             return true;

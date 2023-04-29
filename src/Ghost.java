@@ -1,6 +1,4 @@
 import bagel.Image;
-import bagel.Input;
-import bagel.Keys;
 import bagel.util.Point;
 import bagel.util.Rectangle;
 
@@ -13,7 +11,7 @@ public class Ghost extends GameUnit{
     private final double WIDTH = ghostIMG.getWidth();
     private final double HEIGHT = ghostIMG.getHeight();
     private double stepSize = 0;
-    protected int score = 30;
+    protected final int score = 30;
     private double direction;
     private boolean hidden = false;
 
@@ -84,7 +82,6 @@ public class Ghost extends GameUnit{
             move();
             if(logicL1.getisFrenzy() && !this.hidden){
                 ghostFrenzy.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
-                return;
             }else if(logicL1.getisFrenzy() && this.hidden){
                 System.out.println("别打我");
             }else ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
@@ -92,10 +89,6 @@ public class Ghost extends GameUnit{
             ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
         }
 
-    }
-
-    public void DrawFixUnit() {
-        ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
     }
 
     @Override
@@ -167,6 +160,11 @@ public class Ghost extends GameUnit{
         this.getHitBox().moveTo(new Point(getCoordinateX(), getCoordinateY()));
     }
 
+    public void reset(){
+        setCoordinateX(originPos.x);
+        setCoordinateY(originPos.y);
+        this.getHitBox().moveTo(originPos);
+    }
     public double getSTEP_SIZE() {
         return stepSize;
     }

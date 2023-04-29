@@ -51,7 +51,7 @@ public class ShadowPacLogic_L1 {
     /**
      * Method to retrieve the list of Walls in the ShadowPac game.
      *
-     * @return an array of Wall objects representing the Walls in the game
+     * @return a List of Wall objects representing the Walls in the game
      */
 
     public List<Wall> getWallList() {
@@ -92,15 +92,6 @@ public class ShadowPacLogic_L1 {
      */
     public Player_L1 getPlayer() {
         return playerL1;
-    }
-
-    /**
-     * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZED
-     *
-     * @param playerL1 Player_L0 Instance for initialization
-     */
-    public void setPlayer(Player_L1 playerL1) {
-        this.playerL1 = playerL1;
     }
 
     public short getPID() {

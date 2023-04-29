@@ -106,15 +106,6 @@ public class ShadowPacLogic_L0 {
         return playerL0;
     }
 
-    /**
-     * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZED
-     *
-     * @param playerL0 Player_L0 Instance for initialization
-     */
-    public void setPlayer(Player_L0 playerL0) {
-        this.playerL0 = playerL0;
-    }
-
     public short getPID() {
         return gamePID;
     }
