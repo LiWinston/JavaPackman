@@ -56,6 +56,7 @@ public class Player_L1 extends Player_L0 {
             }
         }
     }
+    @Override
     protected void EatDot(Dot dt) {
         if (dt.isExist && this.getHitBox().intersects(dt.getHitBox())) {
             dt.isExist = false;
@@ -101,6 +102,7 @@ public class Player_L1 extends Player_L0 {
                 !(isToCollideWithWall(X, Y, logicL1)));
     }
 
+    //Repeated codes here can not be once again streamline due to local method invoke
     public void move(Keys key) {
         int STEP_SIZE = logicL1.getisFrenzy() ? 4 : 3;
         double X = getCoordinateX(), Y = getCoordinateY();

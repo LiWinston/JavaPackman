@@ -43,10 +43,6 @@ public class Dot extends GameUnit {
         return score;
     }
 
-    public void Draw() {
-        DrawFixUnit();
-    }
-
 //    @Override
     public void DrawFixUnit() {
         if (this.isExist) dotIMG.drawFromTopLeft(getCoordinateX(), getCoordinateY());
