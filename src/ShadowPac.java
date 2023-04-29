@@ -164,7 +164,7 @@ public class ShadowPac extends AbstractGame {
                         gameManager_L1.setPlayer_L1(x, y, gameManager_L1);
                         break;
                     case "Ghost":
-                        ghostList_L1[ghostNum++] = new Ghost(x, y);
+                        ghostList_L1[ghostNum++] = new Ghost(x, y,this.gameManager_L1);
                         break;
                     case "Wall":
                         wallList_L1[wallNum++] = new Wall(x, y);

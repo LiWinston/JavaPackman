@@ -5,24 +5,19 @@ import bagel.Keys;
 import bagel.util.Point;
 import bagel.util.Rectangle;
 
-public class Player_L0 extends GameUnit {
+public class Player_L0 extends GameUnit implements Moveable{
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
     protected static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
     protected Point originPos;// initial position of the player
     private final int Frequency_Modulation = 15;// frequency of mouth opening and closing
     private final DrawOptions drop = new DrawOptions();// draw options for the player
-    private final ShadowPacLogic_L0 logicL0;
     protected int Life; // number of lives the player has left
     private double radians = 0;// angle of player movement, same as direction of drawing
     protected int currentFrame; // current frame counter, for converting image
     private int currentStatus = 1;// current status of player mouth (1 for open, 0 for closed)
     protected int score;// current score of the player
 
-    protected Player_L0(int coordinateX, int coordinateY){
-        super(coordinateX,coordinateY);
-        logicL0 = null;
-    }
     /**
      * Constructor for the player class.
      *
@@ -30,8 +25,8 @@ public class Player_L0 extends GameUnit {
      * @param coordinateY the Y coordinate of the player
      * @param logic0       the instance of the gameLogic (Delegation interface applied)
      */
-    public Player_L0(int coordinateX, int coordinateY, ShadowPacLogic_L0 logic0) {
-        super(coordinateX, coordinateY);
+    public Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L0 logic0) {
+        super(coordinateX, coordinateY,logic0);
         this.logicL0 = logic0;
         currentFrame = 0;
         originPos = new Point(coordinateX, coordinateY);
@@ -39,6 +34,9 @@ public class Player_L0 extends GameUnit {
         this.score = 0;
         AIMSCORE = logicL0.getSupposedDotNum() * 10;
         setHitBox(new Rectangle(coordinateX, coordinateY, playerCloseMouth.getWidth(), playerCloseMouth.getHeight()));
+    }
+    protected Player_L0(int coordinateX, int coordinateY, ShadowPacLogic_L1 logic1){
+        super(coordinateX, coordinateY, logic1);
     }
 
     public int getLife() {
@@ -108,7 +106,7 @@ public class Player_L0 extends GameUnit {
      * @param logic the ShadowPacLogic instance used for delegation.
      * @return true for invalid due to Wall
      */
-    private boolean isToCollideWithWall(int x, int y, ShadowPacLogic_L0 logic) {
+    public boolean isToCollideWithWall(double x, double y, ShadowPacLogic_L0 logic) {
         Player_L0 newPl = new Player_L0(x, y, logic);
         Rectangle try_hit = new Rectangle(new Point(x, y), playerCloseMouth.getWidth(), playerCloseMouth.getHeight());
         for (Wall wl : logic.getWallList()) {
@@ -121,13 +119,18 @@ public class Player_L0 extends GameUnit {
         return false;
     }
 
-    private boolean isValidPosition(int X, int Y) {
+    @Override
+    public boolean isToCollideWithWall(double X, double Y, ShadowPacLogic_L1 lg1) {
+        return true;
+    }
+
+    private boolean isValidPosition(double X, double Y) {
         return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() && !(isToCollideWithWall(X, Y, logicL0)));
     }
 
     public void move(Keys key) {
         int STEP_SIZE = logicL0.getSTEP_SIZE();
-        int X = getCoordinateX(), Y = getCoordinateY();
+        double X = getCoordinateX(), Y = getCoordinateY();
         switch (key) {
             case LEFT:
                 if (isValidPosition(X - STEP_SIZE, Y)) setCoordinateX(X - STEP_SIZE);
@@ -143,6 +146,12 @@ public class Player_L0 extends GameUnit {
                 break;
         }
     }
+
+    @Override
+    public double getSTEP_SIZE() {
+        return 0;
+    }
+
     /**
      * Draws the player on the screen based on the input received from the user.
      * @param input The input received from the user.TODO：Consider replace by interface

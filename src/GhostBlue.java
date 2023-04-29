@@ -5,4 +5,5 @@ public class GhostBlue extends Ghost{
     public GhostBlue(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
     }
+
 }

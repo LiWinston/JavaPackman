@@ -1,4 +1,5 @@
 import bagel.Input;
+import bagel.Keys;
 import bagel.util.Rectangle;
 
 /**
@@ -8,13 +9,17 @@ import bagel.util.Rectangle;
  * @YongchunLi
  */
 public abstract class GameUnit {
-    private int coordinateX;
-    private int coordinateY;
+    private double coordinateX;
+    private double coordinateY;
     private Rectangle hitBox;
     protected static final double TOLEFT = -Math.PI;
     protected static final double TORIGHT = 0.0;
     protected static final double TOUP = -Math.PI/2;
     protected static final double TODOWN = Math.PI/2;
+    private double stepSize;
+    protected ShadowPacLogic_L0 logicL0;
+    protected ShadowPacLogic_L1 logicL1;
+
 
 
     /**
@@ -23,24 +28,40 @@ public abstract class GameUnit {
      * @param coordinateX the x-coordinate of the player
      * @param coordinateY the y-coordinate of the player
      */
-    public GameUnit(int coordinateX, int coordinateY) {
+    public GameUnit(double coordinateX, double coordinateY) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
+        this.logicL0 = null;
+        this.logicL1 = null;
     }
 
-    public int getCoordinateX() {
+    public GameUnit(double coordinateX, double coordinateY, ShadowPacLogic_L0 lg0) {
+        this.coordinateX = coordinateX;
+        this.coordinateY = coordinateY;
+        this.logicL0 = lg0;
+        this.logicL1 = null;
+    }
+    public GameUnit(double coordinateX, double coordinateY, ShadowPacLogic_L1 lg1) {
+        this.coordinateX = coordinateX;
+        this.coordinateY = coordinateY;
+        this.logicL1 = lg1;
+        this.logicL0 = null;
+    }
+
+
+    public double getCoordinateX() {
         return coordinateX;
     }
 
-    public void setCoordinateX(int coordinateX) {
+    public void setCoordinateX(double coordinateX) {
         this.coordinateX = coordinateX;
     }
 
-    public int getCoordinateY() {
+    public double getCoordinateY() {
         return coordinateY;
     }
 
-    public void setCoordinateY(int coordinateY) {
+    public void setCoordinateY(double coordinateY) {
         this.coordinateY = coordinateY;
     }
     /**
@@ -64,12 +85,15 @@ public abstract class GameUnit {
      * @param X Hitbox X
      * @param Y Hitbox Y
      */
-    public void setHitBox(int X,int Y) {
+    public void setHitBox(double X,double Y) {
         this.hitBox = new Rectangle(X,Y,getImageSize(),getImageSize());
     }
 
 
 
+    private double getSTEP_SIZE() {
+        return stepSize;
+    }
 
     /**
      * Draws the object based on the given input.

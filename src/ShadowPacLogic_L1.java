@@ -84,9 +84,6 @@ public class ShadowPacLogic_L1 {
         }
         playerL1.checkAround();
     }
-    public int getSTEP_SIZE() {
-        return ShadowPac.getSTEP_SIZE();
-    }
 
     /*
      * Method to get the playerL0 instance reference.
