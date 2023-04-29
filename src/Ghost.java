@@ -82,8 +82,6 @@ public class Ghost extends GameUnit{
             move();
             if(logicL1.getisFrenzy() && !this.hidden){
                 ghostFrenzy.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
-            }else if(logicL1.getisFrenzy() && this.hidden){
-                System.out.println("别打我");
             }else ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
         }else{
             ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());

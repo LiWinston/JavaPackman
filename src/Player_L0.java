@@ -59,6 +59,7 @@ public class Player_L0 extends GameUnit{
     }
     /**
      * Checks whether the player has lost.
+     * Shared between L0 and L1
      */
 
     public void checkLose() {
