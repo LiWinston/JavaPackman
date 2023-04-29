@@ -4,6 +4,8 @@ import bagel.Keys;
 import bagel.util.Point;
 import bagel.util.Rectangle;
 
+import java.util.Objects;
+
 public class Player_L1 extends Player_L0 {
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
@@ -50,6 +52,15 @@ public class Player_L1 extends Player_L0 {
             }
         }
     }
+    protected void EatDot(Dot dt) {
+        if (dt.isExist && this.getHitBox().intersects(dt.getHitBox())) {
+            dt.isExist = false;
+            this.score += dt.getScore();
+            if(Objects.equals(dt.getType(), "Pellet")) logicL1.setFrenzy();
+            checkWin();
+        }
+    }
+
     protected boolean checkCollideWithGhost(Ghost gst) {
         if (this.getHitBox().intersects(gst.getHitBox())) {
             if(logicL1.getisFrenzy()){

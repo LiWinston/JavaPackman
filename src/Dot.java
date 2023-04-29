@@ -2,9 +2,13 @@ import bagel.Image;
 import bagel.util.Rectangle;
 
 public class Dot extends GameUnit {
-    private static Image dotIMG;
+    private Image dotIMG;
     boolean isExist;
-    private String type;
+    private final String type;
+
+    public String getType() {
+        return type;
+    }
 
     protected int score = 10;
 
@@ -22,6 +26,7 @@ public class Dot extends GameUnit {
         if (type.equals("Dot")) {
             dotIMG = new Image("res/dot.png");
         } else if (type.equals("Cherry")) {
+//            System.out.println(str+"\n");
             dotIMG = new Image("res/cherry.png");
             score = 20;
         } else if (type.equals("Pellet")) {

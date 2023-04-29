@@ -22,7 +22,7 @@ public class ShadowPac extends AbstractGame {
     private final static int MID_HEIGHT = WINDOW_HEIGHT / 2;
     private final static String GAME_TITLE = "SHADOW PAC";
     private final static int STEP_SIZE = 3;
-    private static final List<ShadowPac> allGames = new ArrayList<ShadowPac>();
+    private static final List<ShadowPac> allGames = new ArrayList<>();
     private final static int supposedGhostNum_L0 = 4;
     private final static int supposedWallNum_L0 = 145;
     private final static int supposedDotNum_L0 = 121;
@@ -38,14 +38,15 @@ public class ShadowPac extends AbstractGame {
     private final List<Dot> dotList_L1;
     private gameStage stage;
     private int counter_LevelComplete;
+    private int counter_Frenzy;
+    private boolean isFrenzy = false;
+
 
     public void setFrenzy(ShadowPacLogic_L1 lg1) {
         if(getPID()!= lg1.getPID()) return;
         isFrenzy = true;
+        counter_Frenzy = 0;
     }
-
-    private boolean isFrenzy = false;
-
 
     public ShadowPac() {
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
@@ -277,7 +278,7 @@ public class ShadowPac extends AbstractGame {
             updateGamingL0(input);
         }
         if(this.stage == gameStage.LEVEL_COMPLETE){
-            updateLevel_Complete(input);
+            updateLevel_Complete();
         }
         if(this.stage == gameStage.L1Welcome){
             updateLevel1_Welcome(input);
@@ -355,7 +356,12 @@ public class ShadowPac extends AbstractGame {
         if (input.wasPressed(Keys.W)) {
             stage = gameStage.Success;
         }
-
+        if(isFrenzy){
+            if(++counter_Frenzy >= 1000){
+                counter_Frenzy = 0;
+                isFrenzy = false;
+            }
+        }
         ShowMessage SM_Score = new ShowMessage("SCORE " + gameManager_L1.getPlayer().getScore(), 25, 25, 20);
         SM_Score.Show();
         Image redHeart = new Image("res/heart.png");
@@ -390,7 +396,7 @@ public class ShadowPac extends AbstractGame {
         }
     }
 
-    private void updateLevel_Complete(Input input) {
+    private void updateLevel_Complete() {
         ShowMessage SM_LEVELCOMPLETE = new ShowMessage("LEVEL COMPLETE!",
                 MID_WIDTH - 6 * ShowMessage.SPECIFIC_FONTSIZE, MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE / 2);
         SM_LEVELCOMPLETE.Show();
