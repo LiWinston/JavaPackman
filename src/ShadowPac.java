@@ -1,5 +1,5 @@
 /**
- * Skeleton Code for SWEN20003 Project 1, Semester 1, 2023
+ * Code for SWEN20003 Project 2 Part B, Semester 1, 2023
  * Please enter your name below
  *
  * @YongchunLi
@@ -18,9 +18,6 @@ import java.util.Random;
 public class ShadowPac extends AbstractGame {
     private final static int WINDOW_WIDTH = 1024;
     private final static int WINDOW_HEIGHT = 768;
-    private final static int supposedGhostNum = 4;
-    private final static int supposedWallNum = 145;
-    private final static int supposedDotNum = 121;
     private final static int MID_WIDTH = WINDOW_WIDTH / 2;
     private final static int MID_HEIGHT = WINDOW_HEIGHT / 2;
     private final static String GAME_TITLE = "SHADOW PAC";
@@ -28,11 +25,21 @@ public class ShadowPac extends AbstractGame {
     private static final List<ShadowPac> allGames = new ArrayList<ShadowPac>();
     private final short gamePID;
     private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
-    private final Ghost[] ghostList = new Ghost[supposedGhostNum];
-    private final Wall[] wallList = new Wall[supposedWallNum];
-    private final Dot[] dotList = new Dot[supposedDotNum];
-    private final ShadowPacLogic gameManager;
+    private final static int supposedGhostNum_L0 = 4;
+    private final static int supposedWallNum_L0 = 145;
+    private final static int supposedDotNum_L0 = 121;
+
+    private final Ghost[] ghostList_L0 = new Ghost[supposedGhostNum_L0];
+    private final Wall[] wallList_L0 = new Wall[supposedWallNum_L0];
+    private final Dot[] dotList_L0 = new Dot[supposedDotNum_L0];
+    private Ghost[] ghostList_L1;
+    private Wall[] wallList_L1;
+    private Dot[] dotList_L1;
+
+    private final ShadowPacLogic_L0 gameManager_L0;
+    private final ShadowPacLogic_L1 gameManager_L1;
     private gameStage stage;
+    private int counter_LevelComplete;
 
     public ShadowPac() {
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
@@ -41,9 +48,12 @@ public class ShadowPac extends AbstractGame {
             ID = generateID();
         } while (!isUniqueId(ID));
         this.gamePID = ID;
-        this.gameManager = new ShadowPacLogic(this);
+        this.gameManager_L0 = new ShadowPacLogic_L0(this);
+        this.gameManager_L1 = new ShadowPacLogic_L1(this);
+
         allGames.add(this);
         System.out.println("New game Initialized, ID : " + gamePID);
+        counter_LevelComplete = 0;
     }
 
     public static int getSTEP_SIZE() {
@@ -65,7 +75,7 @@ public class ShadowPac extends AbstractGame {
     public static void main(String[] args) {
         ShadowPac game = new ShadowPac();
         game.stage = gameStage.Welcome;
-        game.readCSV();//Read CSV once and solidify into Arrays
+        game.readCSVLevelZero();//Read CSV once and solidify into Arrays
         game.run();
     }
 
@@ -97,14 +107,14 @@ public class ShadowPac extends AbstractGame {
     }
 
     public int getSupposedDotNum() {
-        return supposedDotNum;
+        return supposedDotNum_L0;
     }
 
     /**
      * Method used to read file and create objects
      * With Error handling
      */
-    private void readCSV() {
+    private void readCSVLevelZero() {
         try (BufferedReader br = new BufferedReader(new FileReader("res/level0.csv"))) {
             String line;
             int ghostNum = 0, wallNum = 0, dotNum = 0;
@@ -115,23 +125,23 @@ public class ShadowPac extends AbstractGame {
                 int y = Integer.parseInt(data[2]);
                 switch (type) {
                     case "Player":
-                        gameManager.setPlayer(x, y, gameManager);
+                        gameManager_L0.setPlayer_L0(x, y, gameManager_L0);
                         break;
                     case "Ghost":
-                        ghostList[ghostNum++] = new Ghost(x, y);
+                        ghostList_L0[ghostNum++] = new Ghost(x, y);
                         break;
                     case "Wall":
-                        wallList[wallNum++] = new Wall(x, y);
+                        wallList_L0[wallNum++] = new Wall(x, y);
                         break;
                     case "Dot":
-                        dotList[dotNum++] = new Dot(x, y);
+                        dotList_L0[dotNum++] = new Dot(x, y);
                         break;
                     default:
                         System.out.println("invalid csv data!");
                         break;
                 }
             }
-            if (ghostNum != supposedGhostNum || dotNum != supposedDotNum || wallNum != supposedWallNum) {
+            if (ghostNum != supposedGhostNum_L0 || dotNum != supposedDotNum_L0 || wallNum != supposedWallNum_L0) {
                 System.err.println("CSV File" + "res/level0.csv" + " maybe Wrong!" + "\n");
             }
         } catch (FileNotFoundException e) {
@@ -140,36 +150,79 @@ public class ShadowPac extends AbstractGame {
             System.err.println("Unknown error:" + e.getMessage() + "\n");
         }
     }
-
-    public Ghost[] getGhostList() {
-        return ghostList;
+    private void readCSVLevelOne() {
+        try (BufferedReader br = new BufferedReader(new FileReader("res/level1.csv"))) {
+            String line;
+            int ghostNum = 0, wallNum = 0, dotNum = 0;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                String type = data[0];
+                int x = Integer.parseInt(data[1]);
+                int y = Integer.parseInt(data[2]);
+                switch (type) {
+                    case "Player":
+                        gameManager_L1.setPlayer_L1(x, y, gameManager_L0);
+                        break;
+                    case "Ghost":
+                        ghostList_L1[ghostNum++] = new Ghost(x, y);
+                        break;
+                    case "Wall":
+                        wallList_L1[wallNum++] = new Wall(x, y);
+                        break;
+                    case "Dot":
+                        dotList_L1[dotNum++] = new Dot(x, y);
+                        break;
+                    default:
+                        System.out.println("invalid csv data!");
+                        break;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not exist:" + e.getMessage() + "\n");
+        } catch (Exception e) {
+            System.err.println("Unknown error:" + e.getMessage() + "\n");
+        }
     }
 
-    public Wall[] getWallList() {
-        return wallList;
+    public Ghost[] getGhostList_L0() {
+        return ghostList_L0;
     }
 
-    public Dot[] getDotList() {
-        return dotList;
+    public Wall[] getWallList_L0() {
+        return wallList_L0;
+    }
+
+    public Dot[] getDotList_L0() {
+        return dotList_L0;
     }
 
     /**
      * V2.3 prevent alien gameLogic from change game status
      * @param lgc ShadowPacLogic for verification
      */
-    public void setGameStageLOSE(ShadowPacLogic lgc) {
+    public void setGameStageLOSE(ShadowPacLogic_L0 lgc) {
+        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
+        stage = ShadowPac.gameStage.Lose;
+    }
+    public void setGameStageLOSE(ShadowPacLogic_L1 lgc) {
         if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
         stage = ShadowPac.gameStage.Lose;
     }
 
+
     /**
      * V2.3 prevent alien gameLogic from change game status
      * @param lgc ShadowPacLogic for verification
      */
-    public void setGameStageWIN(ShadowPacLogic lgc) {
+    public void setGameStageWIN(ShadowPacLogic_L0 lgc) {
+        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
+        stage = gameStage.LEVEL_COMPLETE;
+    }
+    public void setGameStageWIN(ShadowPacLogic_L1 lgc) {
         if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
         stage = gameStage.Success;
     }
+
 
     /**
      * Updates the game state based on the user's input.
@@ -191,9 +244,16 @@ public class ShadowPac extends AbstractGame {
         if (this.stage == gameStage.Welcome) {
             updateWelcome(input);
         }
-        if (this.stage == gameStage.Gaming) {
-            updateGaming(input);
+        if (this.stage == gameStage.GamingL0) {
+            updateGamingL0(input);
         }
+        if(this.stage == gameStage.LEVEL_COMPLETE){
+            updateLevel_complete(input);
+        }
+        if(this.stage == gameStage.GamingL1){
+            updateGamingL1(input);
+        }
+
         if (this.stage == gameStage.Success) {
             updateSuccess(input);
         }
@@ -211,15 +271,19 @@ public class ShadowPac extends AbstractGame {
         SM_USE_ARROW_KEYS_TO_MOVE.Show();
 
         if (input.wasPressed(Keys.SPACE)) {
-            stage = gameStage.Gaming;
+            stage = gameStage.GamingL0;
         }
     }
 
-    private void updateGaming(Input input) {
-        ShowMessage SM_Score = new ShowMessage("SCORE " + gameManager.getPlayer().getScore(), 25, 25, 20);
+    private void updateGamingL0(Input input) {
+        if (input.wasPressed(Keys.W)) {
+            stage = gameStage.LEVEL_COMPLETE;
+        }
+
+        ShowMessage SM_Score = new ShowMessage("SCORE " + gameManager_L0.getPlayer().getScore(), 25, 25, 20);
         SM_Score.Show();
         Image redHeart = new Image("res/heart.png");
-        switch (gameManager.getPlayer().getLife()) {
+        switch (gameManager_L0.getPlayer().getLife()) {
             case 3:
                 redHeart.drawFromTopLeft(960, 10);
             case 2:
@@ -227,17 +291,20 @@ public class ShadowPac extends AbstractGame {
             case 1:
                 redHeart.drawFromTopLeft(900, 10);
         }
-        gameManager.getPlayer().Draw(input);
-        for (Ghost gst : ghostList) {
+        gameManager_L0.getPlayer().Draw(input);
+        for (Ghost gst : ghostList_L0) {
             gst.DrawFixUnit();
         }
-        for (Wall wl : wallList) {
+        for (Wall wl : wallList_L0) {
             wl.DrawFixUnit();
         }
-        for (Dot dt : dotList) {
+        for (Dot dt : dotList_L0) {
             dt.DrawFixUnit();
         }
-        gameManager.letPlayerCheckAround();
+        gameManager_L0.letPlayerCheckAround();
+    }
+    private void updateGamingL1(Input input) {
+//        TODO
     }
 
     private void updateSuccess(Input input) {
@@ -246,6 +313,16 @@ public class ShadowPac extends AbstractGame {
         SM_WELL_DONE.Show();
         if (input.wasPressed(Keys.SPACE)) {
             Window.close();
+        }
+    }
+
+    private void updateLevel_complete(Input input) {
+        ShowMessage SM_LEVELCOMPLETE = new ShowMessage("LEVEL COMPLETE!",
+                MID_WIDTH - 6 * ShowMessage.SPECIFIC_FONTSIZE, MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE / 2);
+        SM_LEVELCOMPLETE.Show();
+        ++ counter_LevelComplete;
+        if(counter_LevelComplete == 300){
+            stage = gameStage.GamingL1;
         }
     }
 
@@ -259,7 +336,7 @@ public class ShadowPac extends AbstractGame {
     }
 
     private enum gameStage {
-        Welcome, Gaming, Lose, Success
+        Welcome, GamingL0, GamingL1, Lose, LEVEL_COMPLETE, Success
     }
 }
 

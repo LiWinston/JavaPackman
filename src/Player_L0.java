@@ -5,14 +5,14 @@ import bagel.Keys;
 import bagel.util.Point;
 import bagel.util.Rectangle;
 
-public class Player extends GameUnit {
+public class Player_L0 extends GameUnit {
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
     private static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
     private final Point originPos;// initial position of the player
     private final int Frequency_Modulation = 15;// frequency of mouth opening and closing
     private final DrawOptions drop = new DrawOptions();// draw options for the player
-    private final ShadowPacLogic logic;
+    private final ShadowPacLogic_L0 logicL0;
     private int Life; // number of lives the player has left
     private double radians = 0;// angle of player movement, same as direction of drawing
     private int currentFrame; // current frame counter, for converting image
@@ -31,14 +31,14 @@ public class Player extends GameUnit {
      * @param coordinateY the Y coordinate of the player
      * @param logic       the instance of the gameLogic (Delegation interface applied)
      */
-    public Player(int coordinateX, int coordinateY, ShadowPacLogic logic) {
+    public Player_L0(int coordinateX, int coordinateY, ShadowPacLogic_L0 logic0) {
         super(coordinateX, coordinateY);
-        this.logic = logic;
+        this.logicL0 = logic0;
         currentFrame = 0;
         originPos = new Point(coordinateX, coordinateY);
         this.Life = 3;
         this.score = 0;
-        AIMSCORE = logic.getSupposedDotNum() * 10;
+        AIMSCORE = logicL0.getSupposedDotNum() * 10;
         setHitBox(new Rectangle(coordinateX, coordinateY, playerCloseMouth.getWidth(), playerCloseMouth.getHeight()));
     }
 
@@ -51,7 +51,7 @@ public class Player extends GameUnit {
      */
     public void checkWin() {
         if (this.score >= AIMSCORE) {
-            logic.gameSucceeded();
+            logicL0.level_completed();
         }
     }
 
@@ -61,12 +61,12 @@ public class Player extends GameUnit {
      * Ver 2.0 : Only check if two unit are close enough
      */
     public void checkAround() {
-        for (Ghost gst : logic.getGhostList()) {
+        for (Ghost gst : logicL0.getGhostList()) {
             if (this.isAround(gst)) {
                 if (checkCollideWithGhost(gst)) break;
             }
         }
-        for (Dot dt : logic.getDotList()) {
+        for (Dot dt : logicL0.getDotList()) {
             if (this.isAround(dt)) {
                 EatDot(dt);
             }
@@ -102,15 +102,15 @@ public class Player extends GameUnit {
     }
 
     /**
-     * check whether the attempt step is valid move for limiting the actual move of Player.
+     * check whether the attempt step is valid move for limiting the actual move of Player_L0.
      *
      * @param x     attemptX
      * @param y     attemptY
      * @param logic the ShadowPacLogic instance used for delegation.
      * @return true for invalid due to Wall
      */
-    private boolean isToCollideWithWall(int x, int y, ShadowPacLogic logic) {
-        Player newPl = new Player(x, y, logic);
+    private boolean isToCollideWithWall(int x, int y, ShadowPacLogic_L0 logic) {
+        Player_L0 newPl = new Player_L0(x, y, logic);
         Rectangle try_hit = new Rectangle(new Point(x, y), playerCloseMouth.getWidth(), playerCloseMouth.getHeight());
         for (Wall wl : logic.getWallList()) {
             if (newPl.isAround(wl)) {
@@ -123,11 +123,11 @@ public class Player extends GameUnit {
     }
 
     private boolean isValidPosition(int X, int Y) {
-        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() && !(isToCollideWithWall(X, Y, logic)));
+        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() && !(isToCollideWithWall(X, Y, logicL0)));
     }
 
     public void move(Keys key) {
-        int STEP_SIZE = logic.getSTEP_SIZE();
+        int STEP_SIZE = logicL0.getSTEP_SIZE();
         int X = getCoordinateX(), Y = getCoordinateY();
         switch (key) {
             case LEFT:
@@ -200,7 +200,7 @@ public class Player extends GameUnit {
     public void dieAndReset() {
         --Life;
         if (Life == 0) {
-            logic.gameFailed();
+            logicL0.gameFailed();
         }
         setCoordinateX((int) originPos.x);
         setCoordinateY((int) originPos.y) ;

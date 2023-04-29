@@ -1,16 +1,15 @@
 /**
- * The ShadowPacLogic class implements the GameLogic interface and provides
- * custom logic for the ShadowPac game. This class handles the game state when
- * the game is either failed or succeeded, and provides access to the lists
- * of Ghosts, Dots and Walls in the game.
- * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN player HAS BEEN INITIALIZED
+ * The ShadowPacLogic(Level 0) class provides custom logic for the ShadowPac game.
+ * This class handles the game state when the game is either failed or succeeded,
+ * and provides access to the lists of Ghosts, Dots and Walls in the game.
+ * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZED
  *
  * @YongchunLi
  */
-public class ShadowPacLogic implements GameLogic {
+public class ShadowPacLogic_L0 {
     private final short gamePID;//HashCode of game ID
     private final ShadowPac game;
-    private Player player;
+    private Player_L0 playerL0;
 
     /**
      * Constructor for ShadowPacLogic class that takes in a ShadowPac game instance
@@ -18,13 +17,13 @@ public class ShadowPacLogic implements GameLogic {
      *
      * @param game the ShadowPac game instance
      */
-    public ShadowPacLogic(ShadowPac game) {
+    public ShadowPacLogic_L0(ShadowPac game) {
         this.game = game;
         gamePID = game.getPID();
     }
 
-    public void setPlayer(int x, int y, ShadowPacLogic logic) {
-        this.player = new Player(x, y, logic);
+    public void setPlayer_L0(int x, int y, ShadowPacLogic_L0 logic) {
+        this.playerL0 = new Player_L0(x, y, logic);
     }
 
     /*
@@ -32,9 +31,9 @@ public class ShadowPacLogic implements GameLogic {
      *
      * @return an array of Ghost objects representing the Ghosts in the game
      */
-    @Override
+
     public Ghost[] getGhostList() {
-        return game.getGhostList();
+        return game.getGhostList_L0();
     }
 
     /**
@@ -42,9 +41,9 @@ public class ShadowPacLogic implements GameLogic {
      *
      * @return an array of Dot objects representing the Dots in the game
      */
-    @Override
+
     public Dot[] getDotList() {
-        return game.getDotList();
+        return game.getDotList_L0();
     }
 
     /**
@@ -52,15 +51,15 @@ public class ShadowPacLogic implements GameLogic {
      *
      * @return an array of Wall objects representing the Walls in the game
      */
-    @Override
+
     public Wall[] getWallList() {
-        return game.getWallList();
+        return game.getWallList_L0();
     }
 
     /**
      * Method to set the game state to 'Failed'.
      */
-    @Override
+
     public void gameFailed() {
         game.setGameStageLOSE(this);
     }
@@ -68,22 +67,22 @@ public class ShadowPacLogic implements GameLogic {
     /**
      * Method to set the game state to 'Success'.
      */
-    @Override
-    public void gameSucceeded() {
+
+    public void level_completed() {
         game.setGameStageWIN(this);
     }
 
     /**
-     * Method to call Player to checkAround without receiving a Game reference.
+     * Method to call Player_L0 to checkAround without receiving a Game reference.
      */
-    @Override
+
     public void letPlayerCheckAround() {
-        if (null == this.player) {
-            System.err.println("Need Set player for ShadowPacLogic object!");
+        if (null == this.playerL0) {
+            System.err.println("Need Set playerL0 for ShadowPacLogic object!");
             System.err.println();
             return;
         }
-        player.checkAround();
+        playerL0.checkAround();
     }
 
     /*
@@ -101,19 +100,19 @@ public class ShadowPacLogic implements GameLogic {
     }
 
     /*
-     * Method to get the player instance reference.
+     * Method to get the playerL0 instance reference.
      */
-    public Player getPlayer() {
-        return player;
+    public Player_L0 getPlayer() {
+        return playerL0;
     }
 
     /**
-     * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN player HAS BEEN INITIALIZED
+     * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZED
      *
-     * @param player Player Instance for initialization
+     * @param playerL0 Player_L0 Instance for initialization
      */
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setPlayer(Player_L0 playerL0) {
+        this.playerL0 = playerL0;
     }
 
     public short getPID() {

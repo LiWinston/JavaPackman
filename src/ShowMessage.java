@@ -18,20 +18,22 @@ public class ShowMessage {
     private final int Y;
     private final String messageDetail;
     private final Font ft;
+    private int fontSize = SPECIFIC_FONTSIZE;
 
 
     public ShowMessage(String messageDetail, int X, int Y) {
         this.messageDetail = messageDetail;
         this.X = X;
         this.Y = Y;
-        ft = new Font("res/FSO8BITR.TTF", SPECIFIC_FONTSIZE);
+        ft = new Font("res/FSO8BITR.TTF", fontSize);
     }
 
-    public ShowMessage(String messageDetail, int X, int Y, int fontSize) {
+    public ShowMessage(String messageDetail, int X, int Y, int myfontSize) {
         this.X = X;
         this.Y = Y;
+        this.fontSize = myfontSize;
         this.messageDetail = messageDetail;
-        this.ft = new Font("res/FSO8BITR.TTF", fontSize);
+        this.ft = new Font("res/FSO8BITR.TTF", myfontSize);
     }
 
     /**

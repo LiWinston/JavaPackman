@@ -9,7 +9,7 @@ public class Wall extends GameUnit {
         setHitBox(new Rectangle(coordinateX, coordinateY, wall.getWidth(), wall.getHeight()));
     }
 
-    @Override
+//    @Override
     public void DrawFixUnit() {
         wall.drawFromTopLeft(getCoordinateX(), getCoordinateY());
     }
