@@ -14,7 +14,7 @@ public class Player_L0 extends GameUnit{
     private final int Frequency_Modulation = 15;// frequency of mouth opening and closing
     private final DrawOptions drop = new DrawOptions();// draw options for the player
     protected int Life; // number of lives the player has left
-    private double radians = 0;// angle of player movement, same as direction of drawing
+    protected double radians = 0;// angle of player movement, same as direction of drawing
     protected int currentFrame; // current frame counter, for converting image
     private int currentStatus = 1;// current status of player mouth (1 for open, 0 for closed)
     protected int score;// current score of the player
@@ -133,11 +133,13 @@ public class Player_L0 extends GameUnit{
                     }
                 }
             }
-        }        return false;
+        }
+        return false;
     }
 
     private boolean isValidPosition(double X, double Y) {
-        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() && !(isToCollideWithWall(X, Y, logicL0)));
+        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&
+                !(isToCollideWithWall(X, Y, logicL0)));
     }
 
     public void move(Keys key) {

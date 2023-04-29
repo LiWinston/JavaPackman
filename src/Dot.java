@@ -8,7 +8,7 @@ public class Dot extends GameUnit {
 
     protected int score = 10;
 
-    public Dot(int coordinateX, int coordinateY) {
+    public Dot(double coordinateX, double coordinateY) {
         super(coordinateX, coordinateY);
         this.isExist = true;
         type = "Dot";

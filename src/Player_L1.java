@@ -64,7 +64,8 @@ public class Player_L1 extends Player_L0 {
     }
 
     private boolean isValidPosition(double X, double Y) {
-        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() && !(isToCollideWithWall(X, Y, logicL0)));
+        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&
+                !(isToCollideWithWall(X, Y, logicL1)));
     }
 
     public void move(Keys key) {
@@ -85,7 +86,15 @@ public class Player_L1 extends Player_L0 {
                 break;
         }
     }
-
+    public void dieAndReset() {
+        --Life;
+        if (Life == 0) {
+            logicL1.gameFailed();
+        }
+        setCoordinateX((int) originPos.x);
+        setCoordinateY((int) originPos.y) ;
+        radians = TORIGHT;
+    }
 
 }
 

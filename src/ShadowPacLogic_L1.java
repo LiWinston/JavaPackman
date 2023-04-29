@@ -23,7 +23,7 @@ public class ShadowPacLogic_L1 {
         this.game = game;
         gamePID = game.getPID();
     }
-    public void setPlayer_L1(int x, int y, ShadowPacLogic_L1 logic) {
+    public void setPlayer_L1(double x, double y, ShadowPacLogic_L1 logic) {
         this.playerL1 = new Player_L1(x, y, logic);
     }
 

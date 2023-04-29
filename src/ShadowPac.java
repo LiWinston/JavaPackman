@@ -163,12 +163,11 @@ public class ShadowPac extends AbstractGame {
     private void readCSVLevelOne() {
         try (BufferedReader br = new BufferedReader(new FileReader("res/level1.csv"))) {
             String line;
-            int ghostNum = 0, wallNum = 0, dotNum = 0;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 String type = data[0];
-                int x = Integer.parseInt(data[1]);
-                int y = Integer.parseInt(data[2]);
+                double x = Double.parseDouble(data[1]);
+                double y = Double.parseDouble(data[2]);
                 switch (type) {
                     case "Player":
                         gameManager_L1.setPlayer_L1(x, y, gameManager_L1);
