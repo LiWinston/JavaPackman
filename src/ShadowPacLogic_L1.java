@@ -41,7 +41,7 @@ public class ShadowPacLogic_L1 {
     /**
      * Method to retrieve the list of Dots in the ShadowPac game.
      *
-     * @return an array of Dot objects representing the Dots in the game
+     * @return a List of Dot objects representing the Dots in the game
      */
 
     public List<Dot> getDotList() {
@@ -105,5 +105,12 @@ public class ShadowPacLogic_L1 {
 
     public short getPID() {
         return gamePID;
+    }
+
+    public boolean getisFrenzy() {
+        return game.getisFrenzy();
+    }
+    public void setFrenzy(){
+        game.setFrenzy(this);
     }
 }

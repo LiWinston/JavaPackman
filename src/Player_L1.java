@@ -1,5 +1,6 @@
 import bagel.DrawOptions;
 import bagel.Image;
+import bagel.Keys;
 import bagel.util.Point;
 import bagel.util.Rectangle;
 
@@ -15,7 +16,7 @@ public class Player_L1 extends Player_L0 {
      * @param coordinateX the x-coordinate of the player
      * @param coordinateY the y-coordinate of the player
      */
-    public Player_L1(int coordinateX, int coordinateY, ShadowPacLogic_L1 logic1) {
+    public Player_L1(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1) {
         super(coordinateX, coordinateY, logic1);
         currentFrame = 0;
         originPos = new Point(coordinateX, coordinateY);
@@ -49,6 +50,42 @@ public class Player_L1 extends Player_L0 {
             }
         }
     }
+    protected boolean checkCollideWithGhost(Ghost gst) {
+        if (this.getHitBox().intersects(gst.getHitBox())) {
+            if(logicL1.getisFrenzy()){
+                score+=gst.getScore();
+            }else{
+                dieAndReset();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isValidPosition(double X, double Y) {
+        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() && !(isToCollideWithWall(X, Y, logicL0)));
+    }
+
+    public void move(Keys key) {
+        int STEP_SIZE = logicL1.getisFrenzy() ? 4 : 3;
+        double X = getCoordinateX(), Y = getCoordinateY();
+        switch (key) {
+            case LEFT:
+                if (isValidPosition(X - STEP_SIZE, Y)) setCoordinateX(X - STEP_SIZE);
+                break;
+            case RIGHT:
+                if (isValidPosition(X + STEP_SIZE, Y)) setCoordinateX(X + STEP_SIZE);
+                break;
+            case UP:
+                if (isValidPosition(X, Y - STEP_SIZE)) setCoordinateY(Y - STEP_SIZE);
+                break;
+            case DOWN:
+                if (isValidPosition(X, Y + STEP_SIZE)) setCoordinateY(Y + STEP_SIZE);
+                break;
+        }
+    }
+
 
 }
 

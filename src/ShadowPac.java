@@ -39,6 +39,14 @@ public class ShadowPac extends AbstractGame {
     private gameStage stage;
     private int counter_LevelComplete;
 
+    public void setFrenzy(ShadowPacLogic_L1 lg1) {
+        if(getPID()!= lg1.getPID()) return;
+        isFrenzy = true;
+    }
+
+    private boolean isFrenzy = false;
+
+
     public ShadowPac() {
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
         short ID;
@@ -163,16 +171,16 @@ public class ShadowPac extends AbstractGame {
                         gameManager_L1.setPlayer_L1(x, y, gameManager_L1);
                         break;
                     case "GhostRed":
-                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1));
+                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1,type));
                         break;
                     case "GhostBlue":
-                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1));
+                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1,type));
                         break;
                     case "GhostGreen":
-                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1));
+                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1,type));
                         break;
                     case "GhostPink":
-                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1));
+                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1,type));
                         break;
                     case "Wall":
                         wallList_L1.set(wallNum++, new Wall(x, y));
@@ -406,6 +414,10 @@ public class ShadowPac extends AbstractGame {
         if (input.wasPressed(Keys.SPACE)) {
             Window.close();
         }
+    }
+
+    public boolean getisFrenzy() {
+        return isFrenzy;
     }
 
     private enum gameStage {

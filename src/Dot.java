@@ -18,7 +18,6 @@ public class Dot extends GameUnit {
         return score;
     }
 
-    @Override
     public void Draw() {
         DrawFixUnit();
     }

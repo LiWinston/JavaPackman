@@ -5,11 +5,12 @@ import bagel.Keys;
 import bagel.util.Point;
 import bagel.util.Rectangle;
 
-public class Player_L0 extends GameUnit implements Moveable{
+import java.util.List;
+
+public class Player_L0 extends GameUnit{
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
     protected static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
-    protected Point originPos;// initial position of the player
     private final int Frequency_Modulation = 15;// frequency of mouth opening and closing
     private final DrawOptions drop = new DrawOptions();// draw options for the player
     protected int Life; // number of lives the player has left
@@ -35,7 +36,7 @@ public class Player_L0 extends GameUnit implements Moveable{
         AIMSCORE = logicL0.getSupposedDotNum() * 10;
         setHitBox(new Rectangle(coordinateX, coordinateY, playerCloseMouth.getWidth(), playerCloseMouth.getHeight()));
     }
-    protected Player_L0(int coordinateX, int coordinateY, ShadowPacLogic_L1 logic1){
+    protected Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1){
         super(coordinateX, coordinateY, logic1);
     }
 
@@ -106,22 +107,33 @@ public class Player_L0 extends GameUnit implements Moveable{
      * @param logic the ShadowPacLogic instance used for delegation.
      * @return true for invalid due to Wall
      */
-    public boolean isToCollideWithWall(double x, double y, ShadowPacLogic_L0 logic) {
-        Player_L0 newPl = new Player_L0(x, y, logic);
+    public boolean isToCollideWithWall(double x, double y, Object logic) {
+        Player_L0 newPl = null;
+        if (logic instanceof ShadowPacLogic_L0) {
+            newPl = new Player_L0(x, y, (ShadowPacLogic_L0) logic);
+        } else if (logic instanceof ShadowPacLogic_L1){
+            newPl = new Player_L1(x, y, (ShadowPacLogic_L1) logic);
+        }
         Rectangle try_hit = new Rectangle(new Point(x, y), playerCloseMouth.getWidth(), playerCloseMouth.getHeight());
-        for (Wall wl : logic.getWallList()) {
-            if (newPl.isAround(wl)) {
-                if (try_hit.intersects(wl.getHitBox())) {
-                    return true;
+        if (logic instanceof ShadowPacLogic_L0) {
+            Wall[] walls = ((ShadowPacLogic_L0) logic).getWallList();
+            for (Wall wl : walls) {
+                if (newPl.isAround(wl)) {
+                    if (try_hit.intersects(wl.getHitBox())) {
+                        return true;
+                    }
                 }
             }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isToCollideWithWall(double X, double Y, ShadowPacLogic_L1 lg1) {
-        return true;
+        } else if (logic instanceof ShadowPacLogic_L1) {
+            List<Wall> walls = ((ShadowPacLogic_L1) logic).getWallList();
+            for (Wall wl : walls) {
+                if (newPl.isAround(wl)) {
+                    if (try_hit.intersects(wl.getHitBox())) {
+                        return true;
+                    }
+                }
+            }
+        }        return false;
     }
 
     private boolean isValidPosition(double X, double Y) {
@@ -147,10 +159,6 @@ public class Player_L0 extends GameUnit implements Moveable{
         }
     }
 
-    @Override
-    public double getSTEP_SIZE() {
-        return 0;
-    }
 
     /**
      * Draws the player on the screen based on the input received from the user.

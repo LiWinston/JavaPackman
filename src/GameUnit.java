@@ -1,5 +1,6 @@
 import bagel.Input;
 import bagel.Keys;
+import bagel.util.Point;
 import bagel.util.Rectangle;
 
 /**
@@ -12,11 +13,11 @@ public abstract class GameUnit {
     private double coordinateX;
     private double coordinateY;
     private Rectangle hitBox;
+    protected Point originPos;// initial position of the player
     protected static final double TOLEFT = -Math.PI;
     protected static final double TORIGHT = 0.0;
     protected static final double TOUP = -Math.PI/2;
     protected static final double TODOWN = Math.PI/2;
-    private double stepSize;
     protected ShadowPacLogic_L0 logicL0;
     protected ShadowPacLogic_L1 logicL1;
 
@@ -34,6 +35,7 @@ public abstract class GameUnit {
     public GameUnit(double coordinateX, double coordinateY) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
+        originPos = new Point(coordinateX,coordinateY);// initial position of the player
         this.logicL0 = null;
         this.logicL1 = null;
     }
@@ -92,24 +94,6 @@ public abstract class GameUnit {
     public void setHitBox(double X,double Y) {
         this.hitBox = new Rectangle(X,Y,getImageSize(),getImageSize());
     }
-
-
-
-    private double getSTEP_SIZE() {
-        return stepSize;
-    }
-
-    /**
-     * Draws the object based on the given input.
-     */
-    public void Draw() {
-    }
-
-    /**
-     * Draws the object as a fixed unit, not subject to an input.
-     */
-//    protected void DrawFixUnit() {
-//    }
 
     /**
      * check if a GameUnit is within 'NEAR' distance with this GameUnit in both coordinates.
