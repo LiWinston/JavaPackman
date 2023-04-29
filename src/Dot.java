@@ -1,19 +1,38 @@
 import bagel.Image;
-import bagel.Input;
 import bagel.util.Rectangle;
 
 public class Dot extends GameUnit {
-    private final static Image dot = new Image("res/dot.png");
+    private static Image dotIMG;
     boolean isExist;
+    private String type;
 
     protected int score = 10;
 
     public Dot(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
         this.isExist = true;
-        this.setHitBox(new Rectangle(coordinateX, coordinateY, dot.getWidth(), dot.getHeight())) ;
+        type = "Dot";
+        dotIMG = new Image("res/dot.png");
+        this.setHitBox(new Rectangle(coordinateX, coordinateY, dotIMG.getWidth(), dotIMG.getHeight())) ;
     }
+    public Dot(double coordinateX, double coordinateY, ShadowPacLogic_L1 lg1, String str) {
+        super(coordinateX, coordinateY, lg1);
+        this.type = str;
+        this.isExist = true;
+        if (type.equals("Dot")) {
+            dotIMG = new Image("res/dot.png");
+        } else if (type.equals("Cherry")) {
+            dotIMG = new Image("res/cherry.png");
+            score = 20;
+        } else if (type.equals("Pellet")) {
+            dotIMG = new Image("res/pellet.png");
+            score = 0;
+        } else {
+            System.out.println("Invalid dot type: " + type);
+        }
+        this.setHitBox(new Rectangle(coordinateX, coordinateY, dotIMG.getWidth(), dotIMG.getHeight()));
 
+    }
     public int getScore() {
         return score;
     }
@@ -24,11 +43,11 @@ public class Dot extends GameUnit {
 
 //    @Override
     public void DrawFixUnit() {
-        if (this.isExist) dot.drawFromTopLeft(getCoordinateX(), getCoordinateY());
+        if (this.isExist) dotIMG.drawFromTopLeft(getCoordinateX(), getCoordinateY());
     }
 
     @Override
     public int getImageSize() {
-        return (int) dot.getHeight();
+        return (int) dotIMG.getHeight();
     }
 }

@@ -177,21 +177,15 @@ public class ShadowPac extends AbstractGame {
                     case "GhostBlue":
                     case "GhostGreen":
                     case "GhostPink":
-                        ghostList_L1.add(ghostNum++, new Ghost(x, y, this.gameManager_L1, type));
+                        ghostList_L1.add(new Ghost(x, y, this.gameManager_L1, type));
                         break;
                     case "Wall":
-                        wallList_L1.add(wallNum++, new Wall(x, y));
-                        break;
-                    case "Dot":
-                        dotList_L1.add(dotNum++, new Dot(x, y));
+                        wallList_L1.add(new Wall(x, y));
                         break;
                     case "Cherry":
-//                        dotList_L1[dotNum++] = new Cherry(x, y);
-                        dotList_L1.add(dotNum++, new Dot(x, y));
-                        break;
+                    case "Dot":
                     case "Pellet":
-//                        dotList_L1[dotNum++] = new Pellet(x, y);
-                        dotList_L1.add(dotNum++, new Dot(x, y));
+                        dotList_L1.add(new Dot(x, y, gameManager_L1, type));
                         break;
                     default:
                         System.out.println("invalid csv data!");
