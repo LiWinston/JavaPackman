@@ -1,5 +1,3 @@
-import bagel.Input;
-import bagel.Keys;
 import bagel.util.Point;
 import bagel.util.Rectangle;
 
@@ -19,7 +17,7 @@ public abstract class GameUnit {
     protected static final double TOUP = -Math.PI/2;
     protected static final double TODOWN = Math.PI/2;
     protected ShadowPacLogic_L0 logicL0;
-    protected ShadowPacLogic_L1 logicL1;
+    protected final ShadowPacLogic_L1 logicL1;
 
 
 
