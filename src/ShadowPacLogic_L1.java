@@ -21,10 +21,10 @@ public class ShadowPacLogic_L1 {
         this.game = game;
         gamePID = game.getPID();
     }
-
     public void setPlayer_L1(int x, int y, ShadowPacLogic_L1 logic) {
-        this.playerL0 = new Player_L1(x, y, logic);
+        this.playerL1 = new Player_L1(x, y, logic);
     }
+
 
     /*
      * Method to retrieve the list of Ghosts in the ShadowPac game.
@@ -53,7 +53,7 @@ public class ShadowPacLogic_L1 {
      */
 
     public Wall[] getWallList() {
-        return game.getWallList_L0();
+        return game.getWallList_L1();
     }
 
     /**
@@ -77,12 +77,12 @@ public class ShadowPacLogic_L1 {
      */
 
     public void letPlayerCheckAround() {
-        if (null == this.playerL0) {
-            System.err.println("Need Set playerL0 for ShadowPacLogic object!");
+        if (null == this.playerL1) {
+            System.err.println("Need Set playerL1 for ShadowPacLogic object!");
             System.err.println();
             return;
         }
-        playerL0.checkAround();
+        playerL1.checkAround();
     }
     public int getSTEP_SIZE() {
         return ShadowPac.getSTEP_SIZE();
@@ -91,17 +91,17 @@ public class ShadowPacLogic_L1 {
     /*
      * Method to get the playerL0 instance reference.
      */
-    public Player_L0 getPlayer() {
-        return playerL0;
+    public Player_L1 getPlayer() {
+        return playerL1;
     }
 
     /**
      * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZED
      *
-     * @param playerL0 Player_L0 Instance for initialization
+     * @param playerL1 Player_L0 Instance for initialization
      */
-    public void setPlayer(Player_L0 playerL0) {
-        this.playerL0 = playerL0;
+    public void setPlayer(Player_L1 playerL1) {
+        this.playerL1 = playerL1;
     }
 
     public short getPID() {

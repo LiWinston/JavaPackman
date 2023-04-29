@@ -161,7 +161,7 @@ public class ShadowPac extends AbstractGame {
                 int y = Integer.parseInt(data[2]);
                 switch (type) {
                     case "Player":
-                        gameManager_L1.setPlayer_L1(x, y, gameManager_L0);
+                        gameManager_L1.setPlayer_L1(x, y, gameManager_L1);
                         break;
                     case "Ghost":
                         ghostList_L1[ghostNum++] = new Ghost(x, y);
@@ -194,6 +194,18 @@ public class ShadowPac extends AbstractGame {
 
     public Dot[] getDotList_L0() {
         return dotList_L0;
+    }
+
+    public Ghost[] getGhostList_L1() {
+        return ghostList_L1;
+    }
+
+    public Dot[] getDotList_L1() {
+        return dotList_L1;
+    }
+
+    public Wall[] getWallList_L1() {
+        return wallList_L1;
     }
 
     /**

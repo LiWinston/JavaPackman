@@ -8,28 +8,27 @@ import bagel.util.Rectangle;
 public class Player_L0 extends GameUnit {
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
-    private static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
-    private final Point originPos;// initial position of the player
+    protected static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
+    protected Point originPos;// initial position of the player
     private final int Frequency_Modulation = 15;// frequency of mouth opening and closing
     private final DrawOptions drop = new DrawOptions();// draw options for the player
     private final ShadowPacLogic_L0 logicL0;
-    private int Life; // number of lives the player has left
+    protected int Life; // number of lives the player has left
     private double radians = 0;// angle of player movement, same as direction of drawing
-    private int currentFrame; // current frame counter, for converting image
+    protected int currentFrame; // current frame counter, for converting image
     private int currentStatus = 1;// current status of player mouth (1 for open, 0 for closed)
-    private int score;// current score of the player
-    private static final double TOLEFT = -Math.PI;
-    private static final double TORIGHT = 0.0;
-    private static final double TOUP = -Math.PI/2;
-    private static final double TODOWN = Math.PI/2;
+    protected int score;// current score of the player
 
-
+    protected Player_L0(int coordinateX, int coordinateY){
+        super(coordinateX,coordinateY);
+        logicL0 = null;
+    }
     /**
      * Constructor for the player class.
      *
      * @param coordinateX the X coordinate of the player
      * @param coordinateY the Y coordinate of the player
-     * @param logic       the instance of the gameLogic (Delegation interface applied)
+     * @param logic0       the instance of the gameLogic (Delegation interface applied)
      */
     public Player_L0(int coordinateX, int coordinateY, ShadowPacLogic_L0 logic0) {
         super(coordinateX, coordinateY);
@@ -79,7 +78,7 @@ public class Player_L0 extends GameUnit {
      * @param gst the ghost being checked for collision
      * @return true if the player has collided with the ghost, and call dieAndReset
      */
-    private boolean checkCollideWithGhost(Ghost gst) {
+    protected boolean checkCollideWithGhost(Ghost gst) {
         if (this.getHitBox().intersects(gst.getHitBox())) {
             dieAndReset();
             return true;
@@ -93,7 +92,7 @@ public class Player_L0 extends GameUnit {
      *
      * @param dt the dot being checked for collision
      */
-    private void EatDot(Dot dt) {
+    protected void EatDot(Dot dt) {
         if (dt.isExist && this.getHitBox().intersects(dt.getHitBox())) {
             dt.isExist = false;
             this.score += 10;

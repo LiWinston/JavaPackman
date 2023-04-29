@@ -11,6 +11,11 @@ public abstract class GameUnit {
     private int coordinateX;
     private int coordinateY;
     private Rectangle hitBox;
+    protected static final double TOLEFT = -Math.PI;
+    protected static final double TORIGHT = 0.0;
+    protected static final double TOUP = -Math.PI/2;
+    protected static final double TODOWN = Math.PI/2;
+
 
     /**
      * Creates a new GameUnit object with the specified coordinates.
