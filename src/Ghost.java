@@ -16,7 +16,7 @@ public class Ghost extends GameUnit{
     private double direction;
 
 
-    public Ghost(int coordinateX, int coordinateY) {
+    public Ghost(double coordinateX, double coordinateY) {
         super(coordinateX, coordinateY, (ShadowPacLogic_L0) null);
         setHitBox(new Rectangle(coordinateX, coordinateY, ghostIMG.getWidth(), ghostIMG.getHeight()));
     }
@@ -80,30 +80,35 @@ public class Ghost extends GameUnit{
         return (int) ghostIMG.getHeight();
     }
 
-    private boolean isToCollideWithWall(int x, int y, ShadowPacLogic_L1 logic) {
+    private boolean isToCollideWithWall(double x, double y, ShadowPacLogic_L1 logic) {
         Ghost newGst = new Ghost(x, y);
         Rectangle try_hit = new Rectangle(new Point(x, y), WIDTH, HEIGHT);
         for (Wall wl : logic.getWallList()) {
             if (newGst.isAround(wl)) {
                 if (try_hit.intersects(wl.getHitBox())) {
+                    direction *= -1;
                     return true;
                 }
             }
         }
         return false;
     }
-
-
-    public boolean isToCollideWithWall(double X, double Y, ShadowPacLogic_L0 lg0) {
-        return false;
+    private boolean isValidPosition(double X, double Y) {
+        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() && !(isToCollideWithWall(X, Y, logicL1)));
     }
-
-    public boolean isToCollideWithWall(double X, double Y, ShadowPacLogic_L1 lg1) {
-        return false;
-    }
-
 
     public void move() {
+        double X = getCoordinateX(), Y = getCoordinateY();
+        double STEP_SIZE = logicL1.getisFrenzy()? getSTEP_SIZE()-0.5 : getSTEP_SIZE();
+        if (direction == TOLEFT) {
+            if (isValidPosition(X - STEP_SIZE, Y)) setCoordinateX(X - STEP_SIZE);
+        } else if (direction == TORIGHT) {
+            if (isValidPosition(X + STEP_SIZE, Y)) setCoordinateX(X + STEP_SIZE);
+        } else if (direction == TOUP) {
+            if (isValidPosition(X, Y - STEP_SIZE)) setCoordinateY(Y - STEP_SIZE);
+        } else if (direction == TODOWN) {
+            if (isValidPosition(X, Y + STEP_SIZE)) setCoordinateY(Y + STEP_SIZE);
+        }
 
     }
 
