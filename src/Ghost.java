@@ -21,32 +21,27 @@ public class Ghost extends GameUnit{
         setHitBox(new Rectangle(coordinateX, coordinateY, ghostIMG.getWidth(), ghostIMG.getHeight()));
     }
 
-    public Ghost(int coordinateX, int coordinateY, ShadowPacLogic_L1 lg1, String str) {
+    public Ghost(double coordinateX, double coordinateY, ShadowPacLogic_L1 lg1, String str) {
         super(coordinateX, coordinateY,lg1);
-        switch (str){
-            case "GhostRed":
-                ghostIMG = new Image("res/ghostRed.png");
-                stepSize = 1;
-                direction = TORIGHT;
-                break;
-            case "GhostBlue":
-                ghostIMG = new Image("res/ghostBlue.png");
-                stepSize = 2;
-                direction = TODOWN;
-                break;
-            case "GhostGreen":
-                ghostIMG = new Image("res/ghostGreen.png");
-                stepSize = 4;
-                direction = getRandomDirectionPositive();
-                break;
-            case "GhostPink":
-                ghostIMG = new Image("res/ghostPink.png");
-                stepSize = 3;
-                direction = getRandomDirection();
-                break;
-            default:
-                System.err.println("Given Wrong Ghost Type! "+ this +" \n");
-                System.err.println("Default ghost is constructed. \n");
+        if (str.equals("GhostRed")) {
+            ghostIMG = new Image("res/ghostRed.png");
+            stepSize = 1;
+            direction = TORIGHT;
+        } else if (str.equals("GhostBlue")) {
+            ghostIMG = new Image("res/ghostBlue.png");
+            stepSize = 2;
+            direction = TODOWN;
+        } else if (str.equals("GhostGreen")) {
+            ghostIMG = new Image("res/ghostGreen.png");
+            stepSize = 4;
+            direction = getRandomDirectionPositive();
+        } else if (str.equals("GhostPink")) {
+            ghostIMG = new Image("res/ghostPink.png");
+            stepSize = 3;
+            direction = getRandomDirection();
+        } else {
+            System.err.println("Given Wrong Ghost Type! " + this + " \n");
+            System.err.println("Default ghost is constructed. \n");
         }
         setHitBox(new Rectangle(coordinateX, coordinateY, ghostIMG.getWidth(), ghostIMG.getHeight()));
     }

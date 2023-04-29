@@ -33,9 +33,9 @@ public class ShadowPac extends AbstractGame {
     private final Dot[] dotList_L0 = new Dot[supposedDotNum_L0];
     private final ShadowPacLogic_L0 gameManager_L0;
     private final ShadowPacLogic_L1 gameManager_L1;
-    private final List<Ghost> ghostList_L1 = new ArrayList<>();
-    private final List<Wall> wallList_L1 = new ArrayList<>();
-    private final List<Dot> dotList_L1 = new ArrayList<>();
+    private final List<Ghost> ghostList_L1;
+    private final List<Wall> wallList_L1;
+    private final List<Dot> dotList_L1;
     private gameStage stage;
     private int counter_LevelComplete;
 
@@ -60,6 +60,9 @@ public class ShadowPac extends AbstractGame {
         allGames.add(this);
         System.out.println("New game Initialized, ID : " + gamePID);
         counter_LevelComplete = 0;
+        ghostList_L1 = new ArrayList<>();
+        wallList_L1 = new ArrayList<>();
+        dotList_L1 = new ArrayList<>();
     }
 
     public static int getSTEP_SIZE() {
@@ -171,30 +174,24 @@ public class ShadowPac extends AbstractGame {
                         gameManager_L1.setPlayer_L1(x, y, gameManager_L1);
                         break;
                     case "GhostRed":
-                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1,type));
-                        break;
                     case "GhostBlue":
-                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1,type));
-                        break;
                     case "GhostGreen":
-                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1,type));
-                        break;
                     case "GhostPink":
-                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1,type));
+                        ghostList_L1.add(ghostNum++, new Ghost(x, y, this.gameManager_L1, type));
                         break;
                     case "Wall":
-                        wallList_L1.set(wallNum++, new Wall(x, y));
+                        wallList_L1.add(wallNum++, new Wall(x, y));
                         break;
                     case "Dot":
-                        dotList_L1.set(dotNum++, new Dot(x, y));
+                        dotList_L1.add(dotNum++, new Dot(x, y));
                         break;
                     case "Cherry":
 //                        dotList_L1[dotNum++] = new Cherry(x, y);
-                        dotList_L1.set(dotNum++, new Dot(x, y));
+                        dotList_L1.add(dotNum++, new Dot(x, y));
                         break;
                     case "Pellet":
 //                        dotList_L1[dotNum++] = new Pellet(x, y);
-                        dotList_L1.set(dotNum++, new Dot(x, y));
+                        dotList_L1.add(dotNum++, new Dot(x, y));
                         break;
                     default:
                         System.out.println("invalid csv data!");
