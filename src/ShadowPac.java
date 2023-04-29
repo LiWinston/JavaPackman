@@ -23,21 +23,19 @@ public class ShadowPac extends AbstractGame {
     private final static String GAME_TITLE = "SHADOW PAC";
     private final static int STEP_SIZE = 3;
     private static final List<ShadowPac> allGames = new ArrayList<ShadowPac>();
-    private final short gamePID;
-    private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
     private final static int supposedGhostNum_L0 = 4;
     private final static int supposedWallNum_L0 = 145;
     private final static int supposedDotNum_L0 = 121;
-
+    private final short gamePID;
+    private final Image BACKGROUND_IMAGE = new Image("res/background0.png");
     private final Ghost[] ghostList_L0 = new Ghost[supposedGhostNum_L0];
     private final Wall[] wallList_L0 = new Wall[supposedWallNum_L0];
     private final Dot[] dotList_L0 = new Dot[supposedDotNum_L0];
-    private Ghost[] ghostList_L1;
-    private Wall[] wallList_L1;
-    private Dot[] dotList_L1;
-
     private final ShadowPacLogic_L0 gameManager_L0;
     private final ShadowPacLogic_L1 gameManager_L1;
+    private final List<Ghost> ghostList_L1 = new ArrayList<>();
+    private final List<Wall> wallList_L1 = new ArrayList<>();
+    private final List<Dot> dotList_L1 = new ArrayList<>();
     private gameStage stage;
     private int counter_LevelComplete;
 
@@ -75,7 +73,8 @@ public class ShadowPac extends AbstractGame {
     public static void main(String[] args) {
         ShadowPac game = new ShadowPac();
         game.stage = gameStage.Welcome;
-        game.readCSVLevelZero();//Read CSV once and solidify into Arrays
+        game.readCSVLevelZero();
+        game.readCSVLevelOne();
         game.run();
     }
 
@@ -163,14 +162,31 @@ public class ShadowPac extends AbstractGame {
                     case "Player":
                         gameManager_L1.setPlayer_L1(x, y, gameManager_L1);
                         break;
-                    case "Ghost":
-                        ghostList_L1[ghostNum++] = new Ghost(x, y,this.gameManager_L1);
+                    case "GhostRed":
+                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1));
+                        break;
+                    case "GhostBlue":
+                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1));
+                        break;
+                    case "GhostGreen":
+                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1));
+                        break;
+                    case "GhostPink":
+                        ghostList_L1.set(ghostNum++, new Ghost(x, y, this.gameManager_L1));
                         break;
                     case "Wall":
-                        wallList_L1[wallNum++] = new Wall(x, y);
+                        wallList_L1.set(wallNum++, new Wall(x, y));
                         break;
                     case "Dot":
-                        dotList_L1[dotNum++] = new Dot(x, y);
+                        dotList_L1.set(dotNum++, new Dot(x, y));
+                        break;
+                    case "Cherry":
+//                        dotList_L1[dotNum++] = new Cherry(x, y);
+                        dotList_L1.set(dotNum++, new Dot(x, y));
+                        break;
+                    case "Pellet":
+//                        dotList_L1[dotNum++] = new Pellet(x, y);
+                        dotList_L1.set(dotNum++, new Dot(x, y));
                         break;
                     default:
                         System.out.println("invalid csv data!");
@@ -196,15 +212,15 @@ public class ShadowPac extends AbstractGame {
         return dotList_L0;
     }
 
-    public Ghost[] getGhostList_L1() {
+    public List<Ghost> getGhostList_L1() {
         return ghostList_L1;
     }
 
-    public Dot[] getDotList_L1() {
+    public List<Dot> getDotList_L1() {
         return dotList_L1;
     }
 
-    public Wall[] getWallList_L1() {
+    public List<Wall> getWallList_L1() {
         return wallList_L1;
     }
 
@@ -260,8 +276,12 @@ public class ShadowPac extends AbstractGame {
             updateGamingL0(input);
         }
         if(this.stage == gameStage.LEVEL_COMPLETE){
-            updateLevel_complete(input);
+            updateLevel_Complete(input);
         }
+        if(this.stage == gameStage.L1Welcome){
+            updateLevel1_Welcome(input);
+        }
+
         if(this.stage == gameStage.GamingL1){
             updateGamingL1(input);
         }
@@ -275,8 +295,8 @@ public class ShadowPac extends AbstractGame {
     }
 
     private void updateWelcome(Input input) {
-        ShowMessage SM_SHADOW_PAC = new ShowMessage(GAME_TITLE, 260, 250);
-        SM_SHADOW_PAC.Show();
+        ShowMessage SM_Welcome = new ShowMessage(GAME_TITLE, 260, 250);
+        SM_Welcome.Show();
         ShowMessage SM_PRESS_SPACE_TO_START = new ShowMessage("PRESS SPACE TO START", 320, 440, 24);
         SM_PRESS_SPACE_TO_START.Show();
         ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE", 310, 480, 24);
@@ -285,6 +305,21 @@ public class ShadowPac extends AbstractGame {
         if (input.wasPressed(Keys.SPACE)) {
             stage = gameStage.GamingL0;
         }
+    }
+
+    private void updateLevel1_Welcome(Input input) {
+        ShowMessage SM_PRESS_SPACE_TO_START = new ShowMessage("PRESS SPACE TO START", 200, 350, 40);
+        SM_PRESS_SPACE_TO_START.Show();
+        ShowMessage SM_USE_ARROW_KEYS_TO_MOVE = new ShowMessage("USE ARROW KEYS TO MOVE", 190, 406, 40);
+        SM_USE_ARROW_KEYS_TO_MOVE.Show();
+        ShowMessage SM_EAT_PELLET= new ShowMessage("EAT THE PELLET TO ATTACK", 160, 462, 40);
+        SM_EAT_PELLET.Show();
+
+
+        if (input.wasPressed(Keys.SPACE)) {
+            stage = gameStage.GamingL1;
+        }
+
     }
 
     private void updateGamingL0(Input input) {
@@ -316,8 +351,34 @@ public class ShadowPac extends AbstractGame {
         gameManager_L0.letPlayerCheckAround();
     }
     private void updateGamingL1(Input input) {
-//        TODO
+        if (input.wasPressed(Keys.W)) {
+            stage = gameStage.Success;
+        }
+
+        ShowMessage SM_Score = new ShowMessage("SCORE " + gameManager_L1.getPlayer().getScore(), 25, 25, 20);
+        SM_Score.Show();
+        Image redHeart = new Image("res/heart.png");
+        switch (gameManager_L1.getPlayer().getLife()) {
+            case 3:
+                redHeart.drawFromTopLeft(960, 10);
+            case 2:
+                redHeart.drawFromTopLeft(930, 10);
+            case 1:
+                redHeart.drawFromTopLeft(900, 10);
+        }
+        gameManager_L1.getPlayer().Draw(input);
+        for (Ghost gst : ghostList_L1) {
+            gst.Draw();
+        }
+        for (Wall wl : wallList_L1) {
+            wl.DrawFixUnit();
+        }
+        for (Dot dt : dotList_L1) {
+            dt.DrawFixUnit();
+        }
+        gameManager_L0.letPlayerCheckAround();
     }
+
 
     private void updateSuccess(Input input) {
         ShowMessage SM_WELL_DONE = new ShowMessage("WELL DONE!",
@@ -328,13 +389,13 @@ public class ShadowPac extends AbstractGame {
         }
     }
 
-    private void updateLevel_complete(Input input) {
+    private void updateLevel_Complete(Input input) {
         ShowMessage SM_LEVELCOMPLETE = new ShowMessage("LEVEL COMPLETE!",
                 MID_WIDTH - 6 * ShowMessage.SPECIFIC_FONTSIZE, MID_HEIGHT + ShowMessage.SPECIFIC_FONTSIZE / 2);
         SM_LEVELCOMPLETE.Show();
         ++ counter_LevelComplete;
         if(counter_LevelComplete == 300){
-            stage = gameStage.GamingL1;
+            stage = gameStage.L1Welcome;
         }
     }
 
@@ -348,7 +409,7 @@ public class ShadowPac extends AbstractGame {
     }
 
     private enum gameStage {
-        Welcome, GamingL0, GamingL1, Lose, LEVEL_COMPLETE, Success
+        Welcome, GamingL0, LEVEL_COMPLETE, L1Welcome, GamingL1, Lose, Success
     }
 }
 

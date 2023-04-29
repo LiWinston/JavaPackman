@@ -6,14 +6,20 @@ public class Dot extends GameUnit {
     private final static Image dot = new Image("res/dot.png");
     boolean isExist;
 
+    protected int score = 10;
+
     public Dot(int coordinateX, int coordinateY) {
         super(coordinateX, coordinateY);
         this.isExist = true;
         this.setHitBox(new Rectangle(coordinateX, coordinateY, dot.getWidth(), dot.getHeight())) ;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     @Override
-    public void Draw(Input input) {
+    public void Draw() {
         DrawFixUnit();
     }
 

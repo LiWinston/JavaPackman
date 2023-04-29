@@ -93,7 +93,7 @@ public class Player_L0 extends GameUnit implements Moveable{
     protected void EatDot(Dot dt) {
         if (dt.isExist && this.getHitBox().intersects(dt.getHitBox())) {
             dt.isExist = false;
-            this.score += 10;
+            this.score += dt.getScore();
             checkWin();
         }
     }
@@ -156,7 +156,7 @@ public class Player_L0 extends GameUnit implements Moveable{
      * Draws the player on the screen based on the input received from the user.
      * @param input The input received from the user.TODO：Consider replace by interface
      */
-    @Override
+
     public void Draw(Input input) {
         if (input.isDown(Keys.LEFT)) {
             radians = TOLEFT;

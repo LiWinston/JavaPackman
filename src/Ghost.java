@@ -21,8 +21,8 @@ public class Ghost extends GameUnit implements Moveable{
         setHitBox(new Rectangle(coordinateX, coordinateY, ghostIMG.getWidth(), ghostIMG.getHeight()));
     }
 
-    @Override
-    public void Draw(Input input) {
+
+    public void Draw() {
         DrawFixUnit();
     }
 

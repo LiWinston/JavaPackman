@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * The ShadowPacLogic(Level 0) class provides custom logic for the ShadowPac game.
  * This class handles the game state when the game is either failed or succeeded,
@@ -32,7 +34,7 @@ public class ShadowPacLogic_L1 {
      * @return an array of Ghost objects representing the Ghosts in the game
      */
 
-    public Ghost[] getGhostList() {
+    public List<Ghost> getGhostList() {
         return game.getGhostList_L1();
     }
 
@@ -42,7 +44,7 @@ public class ShadowPacLogic_L1 {
      * @return an array of Dot objects representing the Dots in the game
      */
 
-    public Dot[] getDotList() {
+    public List<Dot> getDotList() {
         return game.getDotList_L1();
     }
 
@@ -52,7 +54,7 @@ public class ShadowPacLogic_L1 {
      * @return an array of Wall objects representing the Walls in the game
      */
 
-    public Wall[] getWallList() {
+    public List<Wall> getWallList() {
         return game.getWallList_L1();
     }
 
