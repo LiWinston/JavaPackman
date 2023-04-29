@@ -348,7 +348,7 @@ public class ShadowPac extends AbstractGame {
         }
         gameManager_L0.getPlayer().Draw(input);
         for (Ghost gst : ghostList_L0) {
-            gst.DrawFixUnit();
+            gst.Draw();
         }
         for (Wall wl : wallList_L0) {
             wl.DrawFixUnit();

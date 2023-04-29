@@ -22,6 +22,9 @@ public class Ghost extends GameUnit{
         setHitBox(new Rectangle(coordinateX, coordinateY, ghostIMG.getWidth(), ghostIMG.getHeight()));
     }
 
+    /*
+     Construct various Ghost based on received str : type
+     */
     public Ghost(double coordinateX, double coordinateY, ShadowPacLogic_L1 lg1, String str) {
         super(coordinateX, coordinateY,lg1);
         this.type = str;
@@ -54,12 +57,15 @@ public class Ghost extends GameUnit{
         setHitBox(new Rectangle(coordinateX, coordinateY, ghostIMG.getWidth(), ghostIMG.getHeight()));
     }
 
+    //use Random int to generate random direction of four
     private double getRandomDirection() {
         double[] directions = new double[]{TORIGHT,TODOWN,TOLEFT,TOUP};
         Random rand = new Random();
         int index = rand.nextInt(4);
         return directions[index];
     }
+
+    //use Random int to generate random direction of TWO positive directions
     private double getRandomDirectionPositive() {
         double[] directions = new double[]{TORIGHT,TODOWN};
         Random rand = new Random();
@@ -67,13 +73,24 @@ public class Ghost extends GameUnit{
         return directions[index];
     }
 
-
+    /**
+     * If in GAMESTAGE gaming1, ghost moves before drawing
+     * Use logicL1 not null for object origin tracking
+     */
     public void Draw() {
-        if(this.logicL1 != null) move();
-        DrawFixUnit();
+        if(this.logicL1 != null){
+            move();
+            if(logicL1.getisFrenzy()){
+                ghostFrenzy.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
+            }else{
+                ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
+            }
+        }else{
+            ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
+        }
+
     }
 
-//    @Override
     public void DrawFixUnit() {
         ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
     }
@@ -83,6 +100,13 @@ public class Ghost extends GameUnit{
         return (int) ghostIMG.getHeight();
     }
 
+    /**
+     * Wall collision Detection and accordingly action defined
+     * @param x received intended X position
+     * @param y received intended Y position
+     * @param logic The gameManager, used for ObjList accessing
+     * @return T/F with direction converting in required ways
+     */
     private boolean isToCollideWithWall(double x, double y, ShadowPacLogic_L1 logic) {
         Ghost newGst = new Ghost(x, y);
         Rectangle try_hit = new Rectangle(new Point(x, y), WIDTH, HEIGHT);
@@ -100,7 +124,10 @@ public class Ghost extends GameUnit{
         }
         return false;
     }
-
+    /*
+    Due to confusion of representation 'Rad * -1'
+    use this to get Reverse Direction gracefully
+     */
     private double getReverseDirection(double direction) {
         if (direction == TORIGHT) {
             return TOLEFT;
@@ -119,6 +146,9 @@ public class Ghost extends GameUnit{
                 && !(isToCollideWithWall(X, Y, logicL1)));
     }
 
+    /*
+    Conduct the automatic movement together with its Hitbox
+     */
     public void move() {
         double X = getCoordinateX(), Y = getCoordinateY();
         double STEP_SIZE = logicL1.getisFrenzy()? getSTEP_SIZE()-0.5 : getSTEP_SIZE();
