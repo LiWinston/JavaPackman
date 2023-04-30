@@ -2,24 +2,24 @@ import bagel.Image;
 import bagel.util.Rectangle;
 
 public class Wall extends GameUnit {
-    private final static Image wall = new Image("res/wall.png");
+    private final static Image wallIMG = new Image("res/wall.png");
 
     public Wall(double coordinateX, double coordinateY) {
         super(coordinateX, coordinateY, (ShadowPacLogic_L0) null);
-        setHitBox(new Rectangle(coordinateX, coordinateY, getWall().getWidth(), getWall().getHeight()));
+        setHitBox(new Rectangle(coordinateX, coordinateY, getWallIMG().getWidth(), getWallIMG().getHeight()));
     }
 
-    protected static Image getWall() {
-        return wall;
+    protected static Image getWallIMG() {
+        return wallIMG;
     }
 
     //    @Override
     public void DrawFixUnit() {
-        getWall().drawFromTopLeft(getCoordinateX(), getCoordinateY());
+        getWallIMG().drawFromTopLeft(getCoordinateX(), getCoordinateY());
     }
 
     @Override
     public double getImageSize() {
-        return getWall().getHeight();
+        return getWallIMG().getHeight();
     }
 }

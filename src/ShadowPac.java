@@ -107,7 +107,6 @@ public class ShadowPac extends AbstractGame {
 
     /**
      * Judge if ID is Unique among all instances of game
-     *
      * @param id examined ID
      * @return true for yes and vice versa
      */
