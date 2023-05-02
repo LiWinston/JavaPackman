@@ -4,6 +4,16 @@ import bagel.util.Rectangle;
 
 import java.util.Random;
 
+/**
+ * The ghost class, which also contains ghosts of different colors, is constructed and initialized by category.
+ * It can randomly roll out one of the four or two initial directions to initialize the direction as required,
+ * and can draw according to whether it is level 1, whether it is frenzy mode, or whether it is hidden:
+ * if it is in level 1, it can move automatically, and can rely on the manager to judge independently Whether
+ * it hits the wall or not, it can change the step size in response to the frenzy mode
+ *
+ * @author YongchunLi
+ */
+
 public class Ghost extends GameUnit {
     private final static Image ghostFrenzy = new Image("res/ghostFrenzy.png");
     private String type = "Normal";

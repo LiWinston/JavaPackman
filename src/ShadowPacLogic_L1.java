@@ -6,7 +6,7 @@ import java.util.List;
  * and provides access to the lists of Ghosts, Dots and Walls in the game.
  * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZE
  *
- * @YongchunLi
+ * @author @YongchunLi
  */
 public class ShadowPacLogic_L1 {
     private final short gamePID;//HashCode of game ID

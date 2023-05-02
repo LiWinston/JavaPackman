@@ -8,6 +8,8 @@ import java.util.Objects;
 /**
  * Player_L1 extends Player_L0, All methods and properties that should be inherited and shared are encapsulated in the
  * parent class, and only the parts related to game logic 2 are rewritten or added
+ *
+ * @author YongchunLi
  */
 public class Player_L1 extends Player_L0 {
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth

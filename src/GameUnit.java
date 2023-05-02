@@ -3,9 +3,11 @@ import bagel.util.Rectangle;
 
 /**
  * GameUnit Class
- * Implement basic game unit behaviours
+ * Implement basic game unit behaviours, Especially the direction, coordinates, collision box, original position,
+ * game manager that can manipulate this unit (in fact, it is mutually exclusive for each unit, if there is 1, there is
+ * no 0, and vice versa)
  *
- * @YongchunLi
+ * @author YongchunLi
  */
 public abstract class GameUnit {
     private static final double TOLEFT = -Math.PI;
@@ -13,11 +15,11 @@ public abstract class GameUnit {
     private static final double TOUP = -Math.PI / 2;
     private static final double TODOWN = Math.PI / 2;
     private final ShadowPacLogic_L1 logicL1;
+    private ShadowPacLogic_L0 logicL0;
     private double coordinateX;
     private double coordinateY;
     private Rectangle hitBox;
     private Point originPos;// initial position of the game-unit
-    private ShadowPacLogic_L0 logicL0;
     private double checkScope;//= Math.max(ShadowPac.getWindowWidth(),ShadowPac.getWindowHeight());
 
 
@@ -127,6 +129,8 @@ public abstract class GameUnit {
     /**
      * allow exposure of Hitbox safely
      * allow other objects get this Hitbox for collision detection
+     *
+     * @return hitbox of this unit
      */
     public Rectangle getHitBox() {
         return hitBox;

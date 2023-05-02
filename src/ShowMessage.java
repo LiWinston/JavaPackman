@@ -1,6 +1,7 @@
+import bagel.Font;
 /**
  * Just to clarify the design purpose
- * There is an explanation on ED saying ：If you were to create an entirely new methods and classes for things that
+ * There is an explanation on ED saying : If you were to create an entirely new methods and classes for things that
  * already exist (e.g. write your Rectangle class) that might lead to mark deduction since it is overly complicated.
  * This ShowMessage class seems Redundant however it allows hiding font details, it's part of specification of this game,
  * which would be repeatable everytime. Also, what happens if a subsequent game comes along that requires calling java's
@@ -8,10 +9,9 @@
  * I offer the possibility of encapsulating the abstraction of these changes. In addition, if there are requirements for
  * the display, such as text dithering, rotation, etc., this can be achieved by overloading Show() in order not to repeatedly
  * take up space in ShadowPac.java
+ *
+ * @author YongchunLi
  */
-
-import bagel.Font;
-
 public class ShowMessage {
     private final static int SPECIFIC_FONTSIZE = 64;
     private final int X;

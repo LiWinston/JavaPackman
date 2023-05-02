@@ -2,8 +2,10 @@ import bagel.Image;
 import bagel.util.Rectangle;
 
 /**
- * Beans in a broad sense aggregate several things with similar functions and properties.
+ * Dots in a broad sense aggregate several things with similar functions and properties.
  * inherited from GameUnit
+ *
+ * @author YongchunLi
  */
 public class Dot extends GameUnit {
     private final String type;

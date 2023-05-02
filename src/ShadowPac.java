@@ -1,10 +1,3 @@
-/**
- * Code for SWEN20003 Project 2 Part B, Semester 1, 2023
- * Please enter your name below
- *
- * @YongchunLi
- */
-
 import bagel.*;
 
 import java.io.BufferedReader;
@@ -13,8 +6,12 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-
+/**
+ * Code for SWEN20003 Project 2 Part B, Semester 1, 2023
+ * Please enter your name below
+ *
+ * @author YongchunLi
+ */
 public class ShadowPac extends AbstractGame {
     private final static int WINDOW_WIDTH = 1024;
     private final static int WINDOW_HEIGHT = 768;
