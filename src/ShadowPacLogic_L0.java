@@ -3,7 +3,6 @@
  * This class handles the game state when the game is either failed or succeeded,
  * and provides access to the lists of Ghosts, Dots and Walls in the game.
  * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZED
- *
  * The establishment of GameLogic is basically to decouple ShadowPac and Player, especially to provide a layer of
  * delegation to provide players with surrounding information, so that players can obtain game unit pools while avoiding
  * storing game class references — cross reference is always bad practice, and this kind of thing should be reduced-but the

@@ -11,7 +11,6 @@ public class Player_L0 extends GameUnit{
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
     private static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
-    private final int Frequency_Modulation = 15;// frequency of mouth opening and closing
     private final DrawOptions drop = new DrawOptions();// draw options for the player
 
     private int Life; // number of lives the player has left
@@ -265,7 +264,9 @@ public class Player_L0 extends GameUnit{
     }
 
     protected int getFrequency_Modulation() {
-        return Frequency_Modulation;
+        // frequency of mouth opening and closing
+        int frequency_Modulation = 15;
+        return frequency_Modulation;
     }
 
     protected DrawOptions getDrop() {
