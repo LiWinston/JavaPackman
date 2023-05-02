@@ -18,6 +18,8 @@ public abstract class GameUnit {
     private Rectangle hitBox;
     private Point originPos;// initial position of the player
     private ShadowPacLogic_L0 logicL0;
+    private double checkScope ;//= Math.max(ShadowPac.getWindowWidth(),ShadowPac.getWindowHeight());
+
 
 
     /**
@@ -109,11 +111,28 @@ public abstract class GameUnit {
      * @return true if unit isAround this.
      */
     protected boolean isAround(GameUnit unit) {
-        final double definedDistance = ShadowPac.getSTEP_SIZE() + (this.getImageSize() + unit.getImageSize());
-        return (Math.abs(unit.coordinateX - this.coordinateX) < definedDistance &&
-                Math.abs(unit.coordinateY - this.coordinateY) < definedDistance);
+        double l1 = this.getImageSize();
+        double l2 = unit.getImageSize();
+        final double sqrt2 = Math.sqrt(2.0);
+        if(this.getClass().equals(Player_L0.class)){
+            checkScope = ShadowPac.getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
+        } else if (this instanceof Player_L1) {
+            checkScope = ((Player_L1)this).getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
+        } else if (this instanceof Ghost) {
+            checkScope = ((Ghost)this).getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
+        }
+        final double EPSILON = 1e-10;
+//        if(distance(unit.coordinateX, unit.coordinateY, this.coordinateX, this.coordinateY) - checkScope <= EPSILON){
+//            System.out.println(this.getClass().toString() +"  "+ unit.getClass().toString() +"  "  + distance(unit.coordinateX, unit.coordinateY, this.coordinateX, this.coordinateY) + " 比较半径" + checkScope);
+//            System.out.println(distance(unit.coordinateX, unit.coordinateY, this.coordinateX, this.coordinateY) - checkScope <= EPSILON);
+//        }
+        return distance(unit.coordinateX, unit.coordinateY, this.coordinateX, this.coordinateY) - checkScope <= EPSILON;
     }
-
+    private static double distance(double x1, double y1, double x2, double y2) {
+        double dx = x1 - x2;
+        double dy = y1 - y2;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 
     public abstract double getImageSize();
 

@@ -10,7 +10,7 @@ public class Ghost extends GameUnit{
     private final static Image ghostFrenzy = new Image("res/ghostFrenzy.png");
     private final double WIDTH = ghostIMG.getWidth();
     private final double HEIGHT = ghostIMG.getHeight();
-    private double stepSize = 0;
+    private double stepSize;
     private double direction;
     private boolean hidden = false;
 
@@ -90,7 +90,7 @@ public class Ghost extends GameUnit{
 
     @Override
     public double getImageSize() {
-        return (int) ghostIMG.getHeight();
+        return ghostIMG.getHeight();
     }
 
     /**
@@ -101,7 +101,7 @@ public class Ghost extends GameUnit{
      * @return T/F with direction converting in required ways
      */
     private boolean isToCollideWithWall(double x, double y, ShadowPacLogic_L1 logic) {
-        Ghost newGst = new Ghost(x, y);
+        Ghost newGst = new Ghost(x, y, logic,this.type);
         Rectangle try_hit = new Rectangle(new Point(x, y), WIDTH, HEIGHT);
         for (Wall wl : logic.getWallList()) {
             if (newGst.isAround(wl)) {
@@ -144,7 +144,7 @@ public class Ghost extends GameUnit{
      */
     public void move() {
         double X = getCoordinateX(), Y = getCoordinateY();
-        double STEP_SIZE = getLogicL1().getisFrenzy()? getSTEP_SIZE()-0.5 : getSTEP_SIZE();
+        double STEP_SIZE = getSTEP_SIZE();
         if (getDirection() == getTOLEFT()) {
             if (isValidPosition(X - STEP_SIZE, Y)) setCoordinateX(X - STEP_SIZE);
         } else if (getDirection() == getTORIGHT()) {
@@ -163,7 +163,7 @@ public class Ghost extends GameUnit{
         this.getHitBox().moveTo(getOriginPos());
     }
     public double getSTEP_SIZE() {
-        return stepSize;
+        return getLogicL1().getisFrenzy() ? stepSize - 0.5 : stepSize;
     }
 
     public int getScore() {

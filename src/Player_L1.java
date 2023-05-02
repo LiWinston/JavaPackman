@@ -147,6 +147,10 @@ public class Player_L1 extends Player_L0 {
     protected void setLastCollision(Ghost lastCollision) {
         this.lastCollision = lastCollision;
     }
+
+    public double getSTEP_SIZE(){
+        return getLogicL1().getisFrenzy() ? 4 : 3;
+    }
 }
 
 

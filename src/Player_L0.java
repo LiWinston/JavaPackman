@@ -235,7 +235,7 @@ public class Player_L0 extends GameUnit{
 
     @Override
     public double getImageSize() {
-        return (int) getPlayerCloseMouth().getHeight();
+        return getPlayerCloseMouth().getHeight();
     }
 
     private void DrawOpenMouth() {
@@ -265,8 +265,7 @@ public class Player_L0 extends GameUnit{
 
     protected int getFrequency_Modulation() {
         // frequency of mouth opening and closing
-        int frequency_Modulation = 15;
-        return frequency_Modulation;
+        return 15;
     }
 
     protected DrawOptions getDrop() {
