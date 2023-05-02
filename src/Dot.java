@@ -1,6 +1,10 @@
 import bagel.Image;
 import bagel.util.Rectangle;
 
+/**
+ * Beans in a broad sense aggregate several things with similar functions and properties.
+ * inherited from GameUnit
+ */
 public class Dot extends GameUnit {
     private Image dotIMG = new Image("res/dot.png");
     private boolean isExist;
@@ -12,6 +16,11 @@ public class Dot extends GameUnit {
 
     private int score = 10;
 
+    /**
+     * default constructor for normal dot object, mainly used in level 0
+     * @param coordinateX position x
+     * @param coordinateY position y
+     */
     public Dot(double coordinateX, double coordinateY) {
         super(coordinateX, coordinateY);
         this.setExist(true);
@@ -19,6 +28,14 @@ public class Dot extends GameUnit {
         setDotIMG(new Image("res/dot.png"));
         this.setHitBox(new Rectangle(coordinateX, coordinateY, getDotIMG().getWidth(), getDotIMG().getHeight())) ;
     }
+
+    /**
+     * Specialized constructor for different kinds of dot,including normal Dot, Cherry and Pellet
+     * @param coordinateX position x
+     * @param coordinateY position y
+     * @param lg1 set the game logic1 manager for parent class -- gameunit
+     * @param str the dot type given, namely "Dot", "Cherry" or "Pellet"
+     */
     public Dot(double coordinateX, double coordinateY, ShadowPacLogic_L1 lg1, String str) {
         super(coordinateX, coordinateY, lg1);
         this.type = str;
@@ -43,7 +60,6 @@ public class Dot extends GameUnit {
         return score;
     }
 
-//    @Override
     public void DrawFixUnit() {
         if (this.isExist()) getDotIMG().drawFromTopLeft(getCoordinateX(), getCoordinateY());
     }

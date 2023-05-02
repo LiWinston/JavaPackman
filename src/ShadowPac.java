@@ -49,6 +49,10 @@ public class ShadowPac extends AbstractGame {
         counter_Frenzy = 0;
     }
 
+    /**
+     *Initialize the game class with two new logic managers, generate the gamePID, add the game object to the object pool,
+     * and initialize three level1 object lists. Note that it is only initialized but also needs to read csv to import object information
+     */
     public ShadowPac() {
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
         short ID;
@@ -124,8 +128,7 @@ public class ShadowPac extends AbstractGame {
     }
 
     /**
-     * Method used to read file and create objects
-     * With Error handling
+     * Method used to read file and create objects With Error handling
      */
     private void readCSV(int level) {
         if(level == 1){
@@ -231,34 +234,38 @@ public class ShadowPac extends AbstractGame {
     }
 
     /**
-     * V2.3 prevent alien gameLogic from change game status
-     *
-     * @param lgc ShadowPacLogic for verification
+     * check if the access of logic manager to the game is valid(with same ID)
+     * @param lgc logic manager to be checked
      */
-    public void setGameStageLOSE(ShadowPacLogic_L0 lgc) {
-        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
-        stage = ShadowPac.gameStage.Lose;
+    private boolean checkAccess(Object lgc) {
+        if(lgc instanceof ShadowPacLogic_L0){
+            if (((ShadowPacLogic_L0)lgc).getPID() != this.getPID()){
+                System.err.println("Unauthorized access:" + ((ShadowPacLogic_L0)lgc).getPID() + "\n");
+                return false;
+            }
+        }else if (lgc instanceof ShadowPacLogic_L1) {
+            if (((ShadowPacLogic_L1) lgc).getPID() != this.getPID()) {
+                System.err.println("Unauthorized access:" + ((ShadowPacLogic_L1) lgc).getPID() + "\n");
+                return false;
+            }
+        }else return false;
+        return true;
     }
-
-    public void setGameStageLOSE(ShadowPacLogic_L1 lgc) {
-        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
-        stage = ShadowPac.gameStage.Lose;
-    }
-
 
     /**
      * V2.3 prevent alien gameLogic from change game status
-     *
      * @param lgc ShadowPacLogic for verification
      */
+    public void setGameStageLOSE(Object lgc) {
+        if (checkAccess(lgc)) stage = ShadowPac.gameStage.Lose;
+    }
+
     public void setGameStageWIN(ShadowPacLogic_L0 lgc) {
-        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
-        stage = gameStage.LEVEL_COMPLETE;
+        if (checkAccess(lgc)) stage = gameStage.LEVEL_COMPLETE;
     }
 
     public void setGameStageWIN(ShadowPacLogic_L1 lgc) {
-        if (lgc.getPID() != this.getPID()) System.err.println("Unauthorized access:" + lgc.getPID() + "\n");
-        stage = gameStage.Success;
+        if (checkAccess(lgc)) stage = gameStage.Success;
     }
 
 

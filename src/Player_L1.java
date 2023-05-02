@@ -65,6 +65,13 @@ public class Player_L1 extends Player_L0 {
             }
         }
     }
+
+    /**
+     * Eats a dot if the player has collided with it and set gamemode to frenzy if the dot is a Pellet
+     * after eating turn the Dot existence to false
+     * @param dt the dot being checked for collision
+     */
+
     @Override
     protected void EatDot(Dot dt) {
         if (dt.isExist() && this.getHitBox().intersects(dt.getHitBox())) {
@@ -135,8 +142,7 @@ public class Player_L1 extends Player_L0 {
         if (getLife() == 0) {
             getLogicL1().gameFailed();
         }
-        setCoordinateX((int) getOriginPos().x);
-        setCoordinateY((int) getOriginPos().y) ;
+        setPosition(getOriginPos());
         setRadians(getTORIGHT());
     }
 

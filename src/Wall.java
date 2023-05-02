@@ -13,7 +13,6 @@ public class Wall extends GameUnit {
         return wallIMG;
     }
 
-    //    @Override
     public void DrawFixUnit() {
         getWallIMG().drawFromTopLeft(getCoordinateX(), getCoordinateY());
     }

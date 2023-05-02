@@ -20,11 +20,10 @@ public class Player_L0 extends GameUnit{
     private int score;// current score of the player
 
     /**
-     * Constructor for the player class.
-     *
+     * Constructor for the player0 class.
      * @param coordinateX the X coordinate of the player
      * @param coordinateY the Y coordinate of the player
-     * @param logic0       the instance of the gameLogic (Delegation interface applied)
+     * @param logic0       the instance of the gameLogic0
      */
     public Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L0 logic0) {
         super(coordinateX, coordinateY,logic0);
@@ -36,6 +35,15 @@ public class Player_L0 extends GameUnit{
         setAIMSCORE(getLogicL0().getSupposedDotNum() * 10);
         setHitBox(new Rectangle(coordinateX, coordinateY, getPlayerCloseMouth().getWidth(), getPlayerCloseMouth().getHeight()));
     }
+
+    /**
+     * super Constructor for the player class for subclass to invoke.
+     *
+     * @param coordinateX the X coordinate of the player
+     * @param coordinateY the Y coordinate of the player
+     * @param logic1 the instance of the gameLogic1
+     */
+
     protected Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1){
         super(coordinateX, coordinateY, logic1);
     }
@@ -103,7 +111,6 @@ public class Player_L0 extends GameUnit{
 
     /**
      * Checks whether the player has collided with a ghost.
-     *
      * @param gst the ghost being checked for collision
      * @return true if the player has collided with the ghost, and call dieAndReset
      */
@@ -118,7 +125,7 @@ public class Player_L0 extends GameUnit{
 
     /**
      * Eats a dot if the player has collided with it.
-     *
+     * after eating turn the Dot existence to false
      * @param dt the dot being checked for collision
      */
     protected void EatDot(Dot dt) {
@@ -130,8 +137,9 @@ public class Player_L0 extends GameUnit{
     }
 
     /**
-     * check whether the attempt step is valid move for limiting the actual move of Player_L0.
-     *
+     * check whether the attempt step is valid move for limiting the actual move of both Player_L0 and Player_L1.
+     * Third parameter roughly defined as Object to react accordingly on game logic type.
+     * If none of ShadowPacLogic_L0 and ShadowPacLogic_L1 matches the given logic, do nothing with a false return.
      * @param x     attemptX
      * @param y     attemptY
      * @param logic the ShadowPacLogic instance used for delegation.
@@ -167,11 +175,21 @@ public class Player_L0 extends GameUnit{
         return false;
     }
 
+    /**
+     * Check whether it is within bounds at the edge of the map, and check whether it touches a wall
+     * @param X position x to be checked Z
+     * @param Y position y to be checked Z
+     * @return true if the given position is Valid Position and vice versa
+     */
     private boolean isValidPosition(double X, double Y) {
         return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&
                 !(isToCollideWithWall(X, Y, getLogicL0())));
     }
 
+    /**
+     * Move the player according to the input after performing a feasibility check
+     * @param key keyboard and mouse input
+     */
     public void move(Keys key) {
         int STEP_SIZE = getLogicL0().getSTEP_SIZE();
         double X = getCoordinateX(), Y = getCoordinateY();
@@ -194,9 +212,8 @@ public class Player_L0 extends GameUnit{
 
     /**
      * Draws the player on the screen based on the input received from the user.
-     * @param input The input received from the user.TODO：Consider replace by interface
+     * @param input The input received from the user.
      */
-
     public void Draw(Input input) {
         if(getLogicL1() != null){
             checkWin();
@@ -254,9 +271,14 @@ public class Player_L0 extends GameUnit{
         if (getLife() == 0) {
             getLogicL0().gameFailed();
         }
-        setCoordinateX((int) getOriginPos().x);
-        setCoordinateY((int) getOriginPos().y) ;
+        setPosition(getOriginPos());
         setRadians(getTORIGHT());
+    }
+
+    protected void setPosition(Point Pos) {
+        setCoordinateX((int) Pos.x);
+        setCoordinateY((int) Pos.y) ;
+        setHitBox(new Rectangle(Pos,getPlayerCloseMouth().getWidth(),getPlayerCloseMouth().getHeight()));
     }
 
     public int getScore() {
