@@ -1,11 +1,11 @@
 import java.util.List;
 
 /**
- * The ShadowPacLogic(Level 0) class provides custom logic for the ShadowPac game.
+ * The ShadowPacLogic(Level 1) class provides custom logic for the ShadowPac game.
  * This class handles the game state when the game is either failed or succeeded,
  * and provides access to the lists of Ghosts, Dots and Walls in the game.
- * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZED
- *
+ * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZE
+  *
  * @YongchunLi
  */
 public class ShadowPacLogic_L1 {

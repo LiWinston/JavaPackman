@@ -86,8 +86,8 @@ public class ShadowPac extends AbstractGame {
     public static void main(String[] args) {
         ShadowPac game = new ShadowPac();
         game.stage = gameStage.Welcome;
-        game.readCSVLevelZero();
-        game.readCSVLevelOne();
+        game.readCSV(0);
+        game.readCSV(1);
         game.run();
     }
 
@@ -127,40 +127,44 @@ public class ShadowPac extends AbstractGame {
      * Method used to read file and create objects
      * With Error handling
      */
-    private void readCSVLevelZero() {
-        try (BufferedReader br = new BufferedReader(new FileReader("res/level0.csv"))) {
-            String line;
-            int ghostNum = 0, wallNum = 0, dotNum = 0;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                String type = data[0];
-                int x = Integer.parseInt(data[1]);
-                int y = Integer.parseInt(data[2]);
-                switch (type) {
-                    case "Player":
-                        gameManager_L0.setPlayer_L0(x, y, gameManager_L0);
-                        break;
-                    case "Ghost":
-                        ghostList_L0[ghostNum++] = new Ghost(x, y);
-                        break;
-                    case "Wall":
-                        wallList_L0[wallNum++] = new Wall(x, y);
-                        break;
-                    case "Dot":
-                        dotList_L0[dotNum++] = new Dot(x, y);
-                        break;
-                    default:
-                        System.out.println("invalid csv data!");
-                        break;
+    private void readCSV(int level) {
+        if(level == 1){
+            readCSVLevelOne();
+        }else if (level == 0){
+            try (BufferedReader br = new BufferedReader(new FileReader("res/level0.csv"))) {
+                String line;
+                int ghostNum = 0, wallNum = 0, dotNum = 0;
+                while ((line = br.readLine()) != null) {
+                    String[] data = line.split(",");
+                    String type = data[0];
+                    int x = Integer.parseInt(data[1]);
+                    int y = Integer.parseInt(data[2]);
+                    switch (type) {
+                        case "Player":
+                            gameManager_L0.setPlayer_L0(x, y, gameManager_L0);
+                            break;
+                        case "Ghost":
+                            ghostList_L0[ghostNum++] = new Ghost(x, y);
+                            break;
+                        case "Wall":
+                            wallList_L0[wallNum++] = new Wall(x, y);
+                            break;
+                        case "Dot":
+                            dotList_L0[dotNum++] = new Dot(x, y);
+                            break;
+                        default:
+                            System.out.println("invalid csv data!");
+                            break;
+                    }
                 }
+                if (ghostNum != supposedGhostNum_L0 || dotNum != supposedDotNum_L0 || wallNum != supposedWallNum_L0) {
+                    System.err.println("CSV File" + "res/level0.csv" + " maybe Wrong!" + "\n");
+                }
+            } catch (FileNotFoundException e) {
+                System.err.println("File not exist:" + e.getMessage() + "\n");
+            } catch (Exception e) {
+                System.err.println("Unknown error:" + e.getMessage() + "\n");
             }
-            if (ghostNum != supposedGhostNum_L0 || dotNum != supposedDotNum_L0 || wallNum != supposedWallNum_L0) {
-                System.err.println("CSV File" + "res/level0.csv" + " maybe Wrong!" + "\n");
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("File not exist:" + e.getMessage() + "\n");
-        } catch (Exception e) {
-            System.err.println("Unknown error:" + e.getMessage() + "\n");
         }
     }
 

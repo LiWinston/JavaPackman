@@ -11,7 +11,6 @@ public class Ghost extends GameUnit{
     private final double WIDTH = ghostIMG.getWidth();
     private final double HEIGHT = ghostIMG.getHeight();
     private double stepSize = 0;
-    private final int score = 30;
     private double direction;
     private boolean hidden = false;
 
@@ -168,7 +167,7 @@ public class Ghost extends GameUnit{
     }
 
     public int getScore() {
-        return score;
+        return 30;
     }
 
     public void setHidden() {
