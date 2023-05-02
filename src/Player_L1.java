@@ -68,7 +68,8 @@ public class Player_L1 extends Player_L0 {
 
     /**
      * Eats a dot if the player has collided with it and set gamemode to frenzy if the dot is a Pellet
-     * after eating turn the Dot existence to false
+     * after eating turn the Dot existence to false.
+     *
      * @param dt the dot being checked for collision
      */
 
@@ -77,7 +78,7 @@ public class Player_L1 extends Player_L0 {
         if (dt.isExist() && this.getHitBox().intersects(dt.getHitBox())) {
             dt.setExist(false);
             this.setScore(this.getScore() + dt.getScore());
-            if(Objects.equals(dt.getType(), "Pellet")) {
+            if (Objects.equals(dt.getType(), "Pellet")) {
                 getLogicL1().setFrenzy();
             }
             checkWin();
@@ -87,22 +88,23 @@ public class Player_L1 extends Player_L0 {
     /**
      * Introduce lastCollision to record ghost in case it keeps to deduce Life
      * while a collision happens and ghost has not left the player hitbox area
+     *
      * @param gst the ghost being checked for collision
      * @return T/F
      */
     protected boolean checkCollideWithGhost(Ghost gst) {
-        if(gst.getHidden()) return false;
-        if(gst == getLastCollision()){
-            if (this.getHitBox().intersects(gst.getHitBox())){
+        if (gst.getHidden()) return false;
+        if (gst == getLastCollision()) {
+            if (this.getHitBox().intersects(gst.getHitBox())) {
                 return false;
             }
             setLastCollision(null);
         }
         if (this.getHitBox().intersects(gst.getHitBox())) {
-            if(getLogicL1().getisFrenzy()){
+            if (getLogicL1().getisFrenzy()) {
                 setScore(getScore() + gst.getScore());
                 gst.setHidden();
-            }else{
+            } else {
                 dieAndReset();
                 gst.reset();
                 setLastCollision(gst);
@@ -120,7 +122,7 @@ public class Player_L1 extends Player_L0 {
 
     //Repeated codes here can not be once again streamline due to local method invoke
     public void move(Keys key) {
-        int STEP_SIZE = getLogicL1().getisFrenzy() ? 4 : 3;
+        double STEP_SIZE = getSTEP_SIZE();
         double X = getCoordinateX(), Y = getCoordinateY();
         switch (key) {
             case LEFT:
@@ -137,6 +139,7 @@ public class Player_L1 extends Player_L0 {
                 break;
         }
     }
+
     public void dieAndReset() {
         setLife(getLife() - 1);
         if (getLife() == 0) {
@@ -154,7 +157,7 @@ public class Player_L1 extends Player_L0 {
         this.lastCollision = lastCollision;
     }
 
-    public double getSTEP_SIZE(){
+    public double getSTEP_SIZE() {
         return getLogicL1().getisFrenzy() ? 4 : 3;
     }
 }

@@ -42,15 +42,8 @@ public class ShadowPac extends AbstractGame {
     private boolean isFrenzy = false;
 
 
-    public void setFrenzy(ShadowPacLogic_L1 lg1) {
-        if (getPID() != lg1.getPID()) return;
-        isFrenzy = true;
-        System.out.println("Frenzy Mode Begin!");
-        counter_Frenzy = 0;
-    }
-
     /**
-     *Initialize the game class with two new logic managers, generate the gamePID, add the game object to the object pool,
+     * Initialize the game class with two new logic managers, generate the gamePID, add the game object to the object pool,
      * and initialize three level1 object lists. Note that it is only initialized but also needs to read csv to import object information
      */
     public ShadowPac() {
@@ -95,6 +88,13 @@ public class ShadowPac extends AbstractGame {
         game.run();
     }
 
+    public void setFrenzy(ShadowPacLogic_L1 lg1) {
+        if (getPID() != lg1.getPID()) return;
+        isFrenzy = true;
+        System.out.println("Frenzy Mode Begin!");
+        counter_Frenzy = 0;
+    }
+
     public short getPID() {
         return gamePID;
     }
@@ -111,6 +111,7 @@ public class ShadowPac extends AbstractGame {
 
     /**
      * Judge if ID is Unique among all instances of game
+     *
      * @param id examined ID
      * @return true for yes and vice versa
      */
@@ -131,9 +132,9 @@ public class ShadowPac extends AbstractGame {
      * Method used to read file and create objects With Error handling
      */
     private void readCSV(int level) {
-        if(level == 1){
+        if (level == 1) {
             readCSVLevelOne();
-        }else if (level == 0){
+        } else if (level == 0) {
             try (BufferedReader br = new BufferedReader(new FileReader("res/level0.csv"))) {
                 String line;
                 int ghostNum = 0, wallNum = 0, dotNum = 0;
@@ -235,25 +236,27 @@ public class ShadowPac extends AbstractGame {
 
     /**
      * check if the access of logic manager to the game is valid(with same ID)
+     *
      * @param lgc logic manager to be checked
      */
     private boolean checkAccess(Object lgc) {
-        if(lgc instanceof ShadowPacLogic_L0){
-            if (((ShadowPacLogic_L0)lgc).getPID() != this.getPID()){
-                System.err.println("Unauthorized access:" + ((ShadowPacLogic_L0)lgc).getPID() + "\n");
+        if (lgc instanceof ShadowPacLogic_L0) {
+            if (((ShadowPacLogic_L0) lgc).getPID() != this.getPID()) {
+                System.err.println("Unauthorized access:" + ((ShadowPacLogic_L0) lgc).getPID() + "\n");
                 return false;
             }
-        }else if (lgc instanceof ShadowPacLogic_L1) {
+        } else if (lgc instanceof ShadowPacLogic_L1) {
             if (((ShadowPacLogic_L1) lgc).getPID() != this.getPID()) {
                 System.err.println("Unauthorized access:" + ((ShadowPacLogic_L1) lgc).getPID() + "\n");
                 return false;
             }
-        }else return false;
+        } else return false;
         return true;
     }
 
     /**
      * V2.3 prevent alien gameLogic from change game status
+     *
      * @param lgc ShadowPacLogic for verification
      */
     public void setGameStageLOSE(Object lgc) {

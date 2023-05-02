@@ -6,18 +6,14 @@ import bagel.util.Rectangle;
  * inherited from GameUnit
  */
 public class Dot extends GameUnit {
+    private final String type;
     private Image dotIMG = new Image("res/dot.png");
     private boolean isExist;
-    private final String type;
-
-    public String getType() {
-        return type;
-    }
-
     private int score = 10;
 
     /**
      * default constructor for normal dot object, mainly used in level 0
+     *
      * @param coordinateX position x
      * @param coordinateY position y
      */
@@ -26,22 +22,24 @@ public class Dot extends GameUnit {
         this.setExist(true);
         type = "Dot";
         setDotIMG(new Image("res/dot.png"));
-        this.setHitBox(new Rectangle(coordinateX, coordinateY, getDotIMG().getWidth(), getDotIMG().getHeight())) ;
+        this.setHitBox(new Rectangle(coordinateX, coordinateY, getDotIMG().getWidth(), getDotIMG().getHeight()));
     }
 
     /**
      * Specialized constructor for different kinds of dot,including normal Dot, Cherry and Pellet
+     *
      * @param coordinateX position x
      * @param coordinateY position y
-     * @param lg1 set the game logic1 manager for parent class -- gameunit
-     * @param str the dot type given, namely "Dot", "Cherry" or "Pellet"
+     * @param lg1         set the game logic1 manager for parent class -- gameunit
+     * @param str         the dot type given, namely "Dot", "Cherry" or "Pellet"
      */
     public Dot(double coordinateX, double coordinateY, ShadowPacLogic_L1 lg1, String str) {
         super(coordinateX, coordinateY, lg1);
         this.type = str;
         this.setExist(true);
         switch (getType()) {
-            case "Dot":break;
+            case "Dot":
+                break;
             case "Cherry":
                 setDotIMG(new Image("res/cherry.png"));
                 setScore(20);
@@ -56,8 +54,17 @@ public class Dot extends GameUnit {
         }
         this.setHitBox(new Rectangle(coordinateX, coordinateY, getDotIMG().getWidth(), getDotIMG().getHeight()));
     }
+
+    public String getType() {
+        return type;
+    }
+
     public int getScore() {
         return score;
+    }
+
+    protected void setScore(int score) {
+        this.score = score;
     }
 
     public void DrawFixUnit() {
@@ -83,9 +90,5 @@ public class Dot extends GameUnit {
 
     protected void setExist(boolean exist) {
         isExist = exist;
-    }
-
-    protected void setScore(int score) {
-        this.score = score;
     }
 }

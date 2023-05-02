@@ -7,7 +7,7 @@ import bagel.util.Rectangle;
 
 import java.util.List;
 
-public class Player_L0 extends GameUnit{
+public class Player_L0 extends GameUnit {
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
     private static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
@@ -21,12 +21,13 @@ public class Player_L0 extends GameUnit{
 
     /**
      * Constructor for the player0 class.
+     *
      * @param coordinateX the X coordinate of the player
      * @param coordinateY the Y coordinate of the player
-     * @param logic0       the instance of the gameLogic0
+     * @param logic0      the instance of the gameLogic0
      */
     public Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L0 logic0) {
-        super(coordinateX, coordinateY,logic0);
+        super(coordinateX, coordinateY, logic0);
         this.setLogicL0(logic0);
         setCurrentFrame(0);
         setOriginPos(new Point(coordinateX, coordinateY));
@@ -41,10 +42,10 @@ public class Player_L0 extends GameUnit{
      *
      * @param coordinateX the X coordinate of the player
      * @param coordinateY the Y coordinate of the player
-     * @param logic1 the instance of the gameLogic1
+     * @param logic1      the instance of the gameLogic1
      */
 
-    protected Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1){
+    protected Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1) {
         super(coordinateX, coordinateY, logic1);
     }
 
@@ -67,6 +68,7 @@ public class Player_L0 extends GameUnit{
     public int getLife() {
         return Life;
     }
+
     public void setLife(int life) {
         Life = life;
     }
@@ -80,6 +82,7 @@ public class Player_L0 extends GameUnit{
             getLogicL0().level_completed();
         }
     }
+
     /**
      * Checks whether the player has lost.
      * Shared between L0 and L1
@@ -111,6 +114,7 @@ public class Player_L0 extends GameUnit{
 
     /**
      * Checks whether the player has collided with a ghost.
+     *
      * @param gst the ghost being checked for collision
      * @return true if the player has collided with the ghost, and call dieAndReset
      */
@@ -126,6 +130,7 @@ public class Player_L0 extends GameUnit{
     /**
      * Eats a dot if the player has collided with it.
      * after eating turn the Dot existence to false
+     *
      * @param dt the dot being checked for collision
      */
     protected void EatDot(Dot dt) {
@@ -140,6 +145,7 @@ public class Player_L0 extends GameUnit{
      * check whether the attempt step is valid move for limiting the actual move of both Player_L0 and Player_L1.
      * Third parameter roughly defined as Object to react accordingly on game logic type.
      * If none of ShadowPacLogic_L0 and ShadowPacLogic_L1 matches the given logic, do nothing with a false return.
+     *
      * @param x     attemptX
      * @param y     attemptY
      * @param logic the ShadowPacLogic instance used for delegation.
@@ -149,7 +155,7 @@ public class Player_L0 extends GameUnit{
         Player_L0 newPl = null;
         if (logic instanceof ShadowPacLogic_L0) {
             newPl = new Player_L0(x, y, (ShadowPacLogic_L0) logic);
-        } else if (logic instanceof ShadowPacLogic_L1){
+        } else if (logic instanceof ShadowPacLogic_L1) {
             newPl = new Player_L1(x, y, (ShadowPacLogic_L1) logic);
         }
         Rectangle try_hit = new Rectangle(new Point(x, y), getPlayerCloseMouth().getWidth(), getPlayerCloseMouth().getHeight());
@@ -177,6 +183,7 @@ public class Player_L0 extends GameUnit{
 
     /**
      * Check whether it is within bounds at the edge of the map, and check whether it touches a wall
+     *
      * @param X position x to be checked Z
      * @param Y position y to be checked Z
      * @return true if the given position is Valid Position and vice versa
@@ -188,6 +195,7 @@ public class Player_L0 extends GameUnit{
 
     /**
      * Move the player according to the input after performing a feasibility check
+     *
      * @param key keyboard and mouse input
      */
     public void move(Keys key) {
@@ -212,10 +220,11 @@ public class Player_L0 extends GameUnit{
 
     /**
      * Draws the player on the screen based on the input received from the user.
+     *
      * @param input The input received from the user.
      */
     public void Draw(Input input) {
-        if(getLogicL1() != null){
+        if (getLogicL1() != null) {
             checkWin();
             checkLose();
         }
@@ -277,12 +286,16 @@ public class Player_L0 extends GameUnit{
 
     protected void setPosition(Point Pos) {
         setCoordinateX((int) Pos.x);
-        setCoordinateY((int) Pos.y) ;
-        setHitBox(new Rectangle(Pos,getPlayerCloseMouth().getWidth(),getPlayerCloseMouth().getHeight()));
+        setCoordinateY((int) Pos.y);
+        setHitBox(new Rectangle(Pos, getPlayerCloseMouth().getWidth(), getPlayerCloseMouth().getHeight()));
     }
 
     public int getScore() {
         return score;
+    }
+
+    protected void setScore(int score) {
+        this.score = score;
     }
 
     protected int getFrequency_Modulation() {
@@ -316,9 +329,5 @@ public class Player_L0 extends GameUnit{
 
     protected void setCurrentStatus(int currentStatus) {
         this.currentStatus = currentStatus;
-    }
-
-    protected void setScore(int score) {
-        this.score = score;
     }
 }

@@ -4,10 +4,10 @@ import bagel.util.Rectangle;
 
 import java.util.Random;
 
-public class Ghost extends GameUnit{
+public class Ghost extends GameUnit {
+    private final static Image ghostFrenzy = new Image("res/ghostFrenzy.png");
     private String type = "Normal";
     private Image ghostIMG = new Image("res/ghostRed.png");
-    private final static Image ghostFrenzy = new Image("res/ghostFrenzy.png");
     private final double WIDTH = ghostIMG.getWidth();
     private final double HEIGHT = ghostIMG.getHeight();
     private double stepSize;
@@ -24,7 +24,7 @@ public class Ghost extends GameUnit{
      Construct various Ghost based on received str : type
      */
     public Ghost(double coordinateX, double coordinateY, ShadowPacLogic_L1 lg1, String str) {
-        super(coordinateX, coordinateY,lg1);
+        super(coordinateX, coordinateY, lg1);
         this.type = str;
         switch (type) {
             case "GhostRed":
@@ -76,13 +76,13 @@ public class Ghost extends GameUnit{
      * Use logicL1 not null for object origin tracking
      */
     public void Draw() {
-        if(isHidden()) return;
-        if(this.getLogicL1() != null){
+        if (isHidden()) return;
+        if (this.getLogicL1() != null) {
             move();
-            if(getLogicL1().getisFrenzy() && !this.isHidden()){
+            if (getLogicL1().getisFrenzy() && !this.isHidden()) {
                 ghostFrenzy.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
-            }else ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
-        }else{
+            } else ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
+        } else {
             ghostIMG.drawFromTopLeft(this.getCoordinateX(), this.getCoordinateY());
         }
 
@@ -95,13 +95,14 @@ public class Ghost extends GameUnit{
 
     /**
      * Wall collision Detection and accordingly action defined
-     * @param x received intended X position
-     * @param y received intended Y position
+     *
+     * @param x     received intended X position
+     * @param y     received intended Y position
      * @param logic The gameManager, used for ObjList accessing
      * @return T/F with direction converting in required ways
      */
     private boolean isToCollideWithWall(double x, double y, ShadowPacLogic_L1 logic) {
-        Ghost newGst = new Ghost(x, y, logic,this.type);
+        Ghost newGst = new Ghost(x, y, logic, this.type);
         Rectangle try_hit = new Rectangle(new Point(x, y), WIDTH, HEIGHT);
         for (Wall wl : logic.getWallList()) {
             if (newGst.isAround(wl)) {
@@ -117,6 +118,7 @@ public class Ghost extends GameUnit{
         }
         return false;
     }
+
     /*
     Due to confusion of representation 'Rad * -1'
     use this to get Reverse Direction gracefully
@@ -157,11 +159,12 @@ public class Ghost extends GameUnit{
         this.getHitBox().moveTo(new Point(getCoordinateX(), getCoordinateY()));
     }
 
-    public void reset(){
+    public void reset() {
         setCoordinateX(getOriginPos().x);
         setCoordinateY(getOriginPos().y);
         this.getHitBox().moveTo(getOriginPos());
     }
+
     public double getSTEP_SIZE() {
         return getLogicL1().getisFrenzy() ? stepSize - 0.5 : stepSize;
     }
@@ -172,9 +175,6 @@ public class Ghost extends GameUnit{
 
     public void setHidden() {
         this.setHidden(true);
-    }
-    public void setHidden(boolean bl) {
-        this.hidden = bl;
     }
 
     public boolean getHidden() {
@@ -191,5 +191,9 @@ public class Ghost extends GameUnit{
 
     protected boolean isHidden() {
         return hidden;
+    }
+
+    public void setHidden(boolean bl) {
+        this.hidden = bl;
     }
 }
