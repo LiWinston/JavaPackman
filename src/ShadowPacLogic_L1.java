@@ -9,7 +9,7 @@ import java.util.List;
  * @author @YongchunLi
  */
 public class ShadowPacLogic_L1 {
-    private final short gamePID;//HashCode of game ID
+    private final short gamePID;//HashCode of game ID, no need to consider but has been implemented and kind of lazy to delete
     private final ShadowPac game;
     private Player_L1 playerL1;
 

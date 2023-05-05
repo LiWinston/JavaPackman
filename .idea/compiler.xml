@@ -7,8 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="bagel" />
-        <module name="SHADOW_PAC" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="yongchunl-project-2" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -5,15 +5,15 @@
  * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZED
  * The establishment of GameLogic is basically to decouple ShadowPac and Player, especially to provide a layer of
  * delegation to provide players with surrounding information, so that players can obtain game unit pools while avoiding
- * storing game class references - cross-reference is always bad practice, and this kind of thing should be reduced-but the
- * cross-reference between logic and ShadowPac is okay, because the game logic is only a vassal to help manage the game,
- * and is not required to act independently, while the unit is not, they are all one by one Independent individuals
- * should not be too entangled with other classes.
+ * storing game class references or need of parameter of game - cross-reference is always bad practice, and this kind of
+ * thing should be reduced-but the cross-reference between logic and ShadowPac is okay, because the game logic is only a
+ * ancillary to help manage the game, and is not required to act independently, while the unit is not, they are all one by
+ * one Independent individuals should not be too entangled with other classes.
  *
  * @author YongchunLi
  */
 public class ShadowPacLogic_L0 {
-    private final short gamePID;//HashCode of game ID
+    private final short gamePID;
     private final ShadowPac game;
     private Player_L0 playerL0;
 

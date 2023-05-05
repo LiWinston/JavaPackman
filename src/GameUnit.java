@@ -147,13 +147,14 @@ public abstract class GameUnit {
 
     /**
      * check if a GameUnit is within 'NEAR' distance with this GameUnit in both coordinates.
+     * distinguish which specific class does the obj belongs to and set the checkScope accordingly
      *
      * @param unit the examined GameUnit.
      * @return true if unit isAround this within a specific circle, the centre point of which is x,y coord of this unit.
      */
     protected boolean isAround(GameUnit unit) {
-        double l1 = this.getImageSize();
-        double l2 = unit.getImageSize();
+        final double l1 = this.getImageSize();
+        final double l2 = unit.getImageSize();
         final double sqrt2 = Math.sqrt(2.0);
         if (this.getClass().equals(Player_L0.class)) {
             checkScope = ShadowPac.getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);

@@ -69,8 +69,10 @@ public class Player_L1 extends Player_L0 {
     }
 
     /**
-     * Eats a dot if the player has collided with it and set gamemode to frenzy if the dot is a Pellet
+     * Eats a dot if the player has collided with it and dot is still existing.
+     * and set gamemode to frenzy if the dot is a Pellet.
      * after eating turn the Dot existence to false.
+     * Once a dot is eaten check the win condition.
      *
      * @param dt the dot being checked for collision
      */
@@ -88,15 +90,16 @@ public class Player_L1 extends Player_L0 {
     }
 
     /**
-     * Introduce lastCollision to record ghost in case it keeps to deduce Life
-     * while a collision happens and ghost has not left the player hitbox area
+     * Introduce collision target recording to prevent possible respawn point overlap (although it did not happen in the
+     * given CSV) and immediate redeath after respawn, which may cause repeated deduction of life in a single collision.
+     * Typical scenario: Walking towards the pink ghost in opposite directions at the midpoint of the bottom line.
      *
      * @param gst the ghost being checked for collision
      * @return T/F
      */
     protected boolean checkCollideWithGhost(Ghost gst) {
         if (gst.getHidden()) return false;
-        if (gst == getLastCollision()) {
+        if (gst.equals(getLastCollision())) {
             if (this.getHitBox().intersects(gst.getHitBox())) {
                 return false;
             }
@@ -122,7 +125,8 @@ public class Player_L1 extends Player_L0 {
                 !(isToCollideWithWall(X, Y, getLogicL1())));
     }
 
-    //Repeated codes here can not be once again streamline due to local method invoke
+    //Repeated codes here, however can not be streamlined due to local method invoking
+    //otherwise, such as super.move(key) will lead to invoking of the parent isValidPosition().
     public void move(Keys key) {
         double STEP_SIZE = getSTEP_SIZE();
         double X = getCoordinateX(), Y = getCoordinateY();

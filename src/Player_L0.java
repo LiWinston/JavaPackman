@@ -207,24 +207,27 @@ public class Player_L0 extends GameUnit {
      * @param key keyboard and mouse input
      */
     public void move(Keys key) {
-        int STEP_SIZE = getLogicL0().getSTEP_SIZE();
+        double STEP_SIZE = getSTEP_SIZE();
         double X = getCoordinateX(), Y = getCoordinateY();
         switch (key) {
             case LEFT:
-                if (isValidPosition(X - STEP_SIZE, Y)) setCoordinateX(X - STEP_SIZE);
+                if (this.isValidPosition(X - STEP_SIZE, Y)) setCoordinateX(X - STEP_SIZE);
                 break;
             case RIGHT:
-                if (isValidPosition(X + STEP_SIZE, Y)) setCoordinateX(X + STEP_SIZE);
+                if (this.isValidPosition(X + STEP_SIZE, Y)) setCoordinateX(X + STEP_SIZE);
                 break;
             case UP:
-                if (isValidPosition(X, Y - STEP_SIZE)) setCoordinateY(Y - STEP_SIZE);
+                if (this.isValidPosition(X, Y - STEP_SIZE)) setCoordinateY(Y - STEP_SIZE);
                 break;
             case DOWN:
-                if (isValidPosition(X, Y + STEP_SIZE)) setCoordinateY(Y + STEP_SIZE);
+                if (this.isValidPosition(X, Y + STEP_SIZE)) setCoordinateY(Y + STEP_SIZE);
                 break;
         }
     }
 
+    public double getSTEP_SIZE() {
+        return getLogicL0().getSTEP_SIZE();
+    }
 
     /**
      * Draws the player on the screen based on the input received from the user.

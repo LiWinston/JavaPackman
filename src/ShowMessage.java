@@ -1,4 +1,5 @@
 import bagel.Font;
+
 /**
  * Just to clarify the design purpose
  * There is an explanation on ED saying : If you were to create an entirely new methods and classes for things that
@@ -14,14 +15,14 @@ import bagel.Font;
  */
 public class ShowMessage {
     private final static int SPECIFIC_FONTSIZE = 64;
-    private final int X;
-    private final int Y;
+    private final double X;
+    private final double Y;
     private final String messageDetail;
     private final Font ft;
     private int fontSize = getSpecificFontsize();
 
 
-    public ShowMessage(String messageDetail, int X, int Y) {
+    public ShowMessage(String messageDetail, double X, double Y) {
         this.messageDetail = messageDetail;
         this.X = X;
         this.Y = Y;

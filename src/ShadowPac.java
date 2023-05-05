@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 /**
  * Code for SWEN20003 Project 2 Part B, Semester 1, 2023
  * Please enter your name below
@@ -19,6 +20,8 @@ public class ShadowPac extends AbstractGame {
     private final static int MID_HEIGHT = WINDOW_HEIGHT / 2;
     private final static String GAME_TITLE = "SHADOW PAC";
     private final static int STEP_SIZE = 3;
+
+    //game obj pool, no need to consider but has been implemented and lazy to delete
     private static final List<ShadowPac> allGames = new ArrayList<>();
     private final static int supposedGhostNum_L0 = 4;
     private final static int supposedWallNum_L0 = 145;
@@ -434,7 +437,7 @@ public class ShadowPac extends AbstractGame {
 
     private void updateLevel_Complete() {
         ShowMessage SM_LEVELCOMPLETE = new ShowMessage("LEVEL COMPLETE!",
-                MID_WIDTH - 6 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2);
+                MID_WIDTH - 5.75 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2);
         SM_LEVELCOMPLETE.Show();
         ++counter_LevelComplete;
         if (counter_LevelComplete == 300) {
