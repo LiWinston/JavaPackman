@@ -76,7 +76,7 @@ public class ShadowPacLogic_L1 {
     }
 
     /**
-     * Method to call Player_L0 to checkAround without receiving a Game reference.
+     * Method to call Player_L1 to checkAround without receiving a Game reference.
      */
 
     public void letPlayerCheckAround() {

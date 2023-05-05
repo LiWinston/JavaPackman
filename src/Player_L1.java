@@ -14,6 +14,8 @@ import java.util.Objects;
 public class Player_L1 extends Player_L0 {
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
+    private static final double STEPSIZE = 4;
+    private static final double STEPSIZEFRENZY = 3;
     private Ghost lastCollision = null;
 
 
@@ -95,14 +97,18 @@ public class Player_L1 extends Player_L0 {
      * Typical scenario: Walking towards the pink ghost in opposite directions at the midpoint of the bottom line.
      *
      * @param gst the ghost being checked for collision
-     * @return T/F
+     * @return T for Collide, F for not
      */
     protected boolean checkCollideWithGhost(Ghost gst) {
-        if (gst.getHidden()) return false;
+        if (gst.getHidden()) return false;// do not consider hidden ghost
         if (gst.equals(getLastCollision())) {
             if (this.getHitBox().intersects(gst.getHitBox())) {
+                //The target to be detected is the target of the last collision, and the two have not yet separated,
+                // so it is not considered a valid collision
                 return false;
             }
+            //The target to be detected is the one of the last collision, but the two have separated,
+            // so the record is reset to zero.
             setLastCollision(null);
         }
         if (this.getHitBox().intersects(gst.getHitBox())) {
@@ -164,7 +170,7 @@ public class Player_L1 extends Player_L0 {
     }
 
     public double getSTEP_SIZE() {
-        return getLogicL1().getisFrenzy() ? 4 : 3;
+        return getLogicL1().getisFrenzy() ? STEPSIZE : STEPSIZEFRENZY;
     }
 }
 
