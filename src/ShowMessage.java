@@ -1,17 +1,12 @@
 import bagel.Font;
 
 /**
- * Just to clarify the design purpose
- * There is an explanation on ED saying : If you were to create an entirely new methods and classes for things that
- * already exist (e.g. write your Rectangle class) that might lead to mark deduction since it is overly complicated.
- * This ShowMessage class seems Redundant however it allows hiding font details, it's part of specification of this game,
- * which would be repeatable everytime. Also, what happens if a subsequent game comes along that requires calling java's
- * own font class/function to draw text(e.g. java.awt.Font)? By simply adding judgments and new constructors to this class,
- * I offer the possibility of encapsulating the abstraction of these changes. In addition, if there are requirements for
- * the display, such as text dithering, rotation, etc., this can be achieved by overloading Show() in order not to repeatedly
- * take up space in ShadowPac.java
+ * Explaining the purpose of ShowMessage class. While it may seem redundant, it serves to hide font details and is part
+ * of the game's specification. It allows for abstraction of changes, such as the use of Java's own font class/function
+ * in future games, by adding new constructors and judgments. Overloading Show() can also be used to meet display
+ * requirements, such as text dithering or rotation, without taking up unnecessary space in ShadowPac.java.
  *
- * @author YongchunLi
+ * @author @YongchunLi
  */
 public class ShowMessage {
     private final static int SPECIFIC_FONTSIZE = 64;

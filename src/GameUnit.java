@@ -45,9 +45,6 @@ public abstract class GameUnit {
      *
      * @param coordinateX the x-coordinate of the player
      * @param coordinateY the y-coordinate of the player
-     *                    ShadowPacLogic_L0 optional
-     *                    ShadowPacLogic_L1 optional
-     *                    if Not given then set null.
      * @param lg0         the game manager of logic0 instance to initiate this unit
      */
 
@@ -64,9 +61,6 @@ public abstract class GameUnit {
      *
      * @param coordinateX the x-coordinate of the player
      * @param coordinateY the y-coordinate of the player
-     *                    ShadowPacLogic_L0 optional
-     *                    ShadowPacLogic_L1 optional
-     *                    if Not given then set null.
      * @param lg1         the game manager of logic1 instance to initiate this unit
      */
 
