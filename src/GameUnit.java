@@ -24,13 +24,10 @@ public abstract class GameUnit {
 
 
     /**
-     * Creates a new GameUnit object with the specified coordinates.
+     * Creates a new GameUnit object with the specified coordinates and with default logic null.
      *
      * @param coordinateX the x-coordinate of the player
      * @param coordinateY the y-coordinate of the player
-     *                    ShadowPacLogic_L0 optional
-     *                    ShadowPacLogic_L1 optional
-     *                    if Not given then set null.
      */
     public GameUnit(double coordinateX, double coordinateY) {
         this.coordinateX = coordinateX;
@@ -45,31 +42,23 @@ public abstract class GameUnit {
      *
      * @param coordinateX the x-coordinate of the player
      * @param coordinateY the y-coordinate of the player
-     * @param lg0         the game manager of logic0 instance to initiate this unit
+     * @param logicManager         the gameLogic manager instance to initiate this unit
      */
 
-    public GameUnit(double coordinateX, double coordinateY, ShadowPacLogic_L0 lg0) {
+    public GameUnit(double coordinateX, double coordinateY, Object logicManager) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
         setOriginPos(new Point(coordinateX, coordinateY));// initial position of the player
-        this.setLogicL0(lg0);
-        this.logicL1 = null;
-    }
-
-    /**
-     * Creates a new GameUnit object with the specified coordinates.
-     *
-     * @param coordinateX the x-coordinate of the player
-     * @param coordinateY the y-coordinate of the player
-     * @param lg1         the game manager of logic1 instance to initiate this unit
-     */
-
-    public GameUnit(double coordinateX, double coordinateY, ShadowPacLogic_L1 lg1) {
-        this.coordinateX = coordinateX;
-        this.coordinateY = coordinateY;
-        setOriginPos(new Point(coordinateX, coordinateY));// initial position of the player
-        this.logicL1 = lg1;
-        this.setLogicL0(null);
+        if (logicManager instanceof ShadowPacLogic_L0) {
+            this.setLogicL0((ShadowPacLogic_L0) logicManager);
+            this.logicL1 = null;
+        } else if (logicManager instanceof ShadowPacLogic_L1) {
+            this.logicL1 = (ShadowPacLogic_L1) logicManager;
+            this.setLogicL0(null);
+        } else {
+            this.setLogicL0(null);
+            this.logicL1 = null;
+        }
     }
 
     protected static double getTOLEFT() {

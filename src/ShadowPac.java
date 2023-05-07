@@ -172,6 +172,8 @@ public class ShadowPac extends AbstractGame {
             } catch (Exception e) {
                 System.err.println("Unknown error:" + e.getMessage() + "\n");
             }
+        }else{
+            System.err.println("Wrong level!" + "\n");
         }
     }
 
