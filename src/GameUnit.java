@@ -23,6 +23,7 @@ public abstract class GameUnit {
     private double checkScope;//= Math.max(ShadowPac.getWindowWidth(),ShadowPac.getWindowHeight());
 
 
+
     /**
      * Creates a new GameUnit object with the specified coordinates and with default logic null.
      *
@@ -60,6 +61,7 @@ public abstract class GameUnit {
             this.logicL1 = null;
         }
     }
+
 
     protected static double getTOLEFT() {
         return TOLEFT;
