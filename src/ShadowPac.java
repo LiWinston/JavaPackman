@@ -10,6 +10,8 @@ import java.util.Random;
 /**
  * Code for SWEN20003 Project 2 Part B, Semester 1, 2023
  * Please enter your name below
+ * Changing to singleton mode failed, and rolled back to the multi-object version, but the concurrency was not realized,
+ * due to Bagel's window drawing and simultaneous access to some resources.
  *
  * @author YongchunLi
  */
@@ -81,6 +83,7 @@ public class ShadowPac extends AbstractGame {
      * DO:set game stage, read CSV and generate game units, call run Func.
      */
     public static void main(String[] args) {
+
         ShadowPac game = new ShadowPac();
         game.stage = gameStage.Welcome;
         game.readCSV(0);
@@ -355,7 +358,6 @@ public class ShadowPac extends AbstractGame {
         if (input.wasPressed(Keys.W)) {
             stage = gameStage.LEVEL_COMPLETE;
         }
-
         ShowMessage SM_Score = new ShowMessage("SCORE " + gameManager_L0.getPlayer().getScore(), 25, 25, 20);
         SM_Score.Show();
         Image redHeart = new Image("res/heart.png");
@@ -428,7 +430,7 @@ public class ShadowPac extends AbstractGame {
 
     private void updateSuccess(Input input) {
         ShowMessage SM_WELL_DONE = new ShowMessage("WELL DONE!",
-                MID_WIDTH - 4 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2);
+                MID_WIDTH - 4 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2.0);
         SM_WELL_DONE.Show();
         if (input.wasPressed(Keys.SPACE)) {
             Window.close();
@@ -437,7 +439,7 @@ public class ShadowPac extends AbstractGame {
 
     private void updateLevel_Complete() {
         ShowMessage SM_LEVELCOMPLETE = new ShowMessage("LEVEL COMPLETE!",
-                MID_WIDTH - 5.75 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2);
+                MID_WIDTH - 5.75 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2.0);
         SM_LEVELCOMPLETE.Show();
         ++counter_LevelComplete;
         if (counter_LevelComplete == 300) {
@@ -447,7 +449,7 @@ public class ShadowPac extends AbstractGame {
 
     private void updateLose(Input input) {
         ShowMessage SM_GAME_OVER = new ShowMessage("GAME OVER!",
-                MID_WIDTH - 4 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2);
+                MID_WIDTH - 4 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2.0);
         SM_GAME_OVER.Show();
         if (input.wasPressed(Keys.SPACE)) {
             Window.close();
