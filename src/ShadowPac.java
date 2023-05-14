@@ -91,6 +91,11 @@ public class ShadowPac extends AbstractGame {
         game.run();
     }
 
+    /**
+     * Allow the bonded ShadowPacLogic_L1 to set the game mode to Frenzy mode and begin frame counter
+     *
+     * @param lg1 level 1 Game Manager
+     */
     public void setFrenzy(ShadowPacLogic_L1 lg1) {
         if (getPID() != lg1.getPID()) return;
         isFrenzy = true;
@@ -105,7 +110,7 @@ public class ShadowPac extends AbstractGame {
     /**
      * generate random Hash ID for game.
      *
-     * @return next random short value.
+     * @return a proper random short value.
      */
     private short generateID() {
         Random random = new Random();
@@ -172,11 +177,14 @@ public class ShadowPac extends AbstractGame {
             } catch (Exception e) {
                 System.err.println("Unknown error:" + e.getMessage() + "\n");
             }
-        }else{
+        } else {
             System.err.println("Wrong level!" + "\n");
         }
     }
 
+    /**
+     * Method used to read file for level 1
+     */
     private void readCSVLevelOne() {
         try (BufferedReader br = new BufferedReader(new FileReader("res/level1.csv"))) {
             String line;
@@ -215,32 +223,62 @@ public class ShadowPac extends AbstractGame {
         }
     }
 
+    /**
+     * get level 0 manager
+     *
+     * @return bonded level 0 manager
+     */
     public Ghost[] getGhostList_L0() {
         return ghostList_L0;
     }
 
+    /**
+     * get level 0 WallList
+     *
+     * @return level 0 WallList
+     */
     public Wall[] getWallList_L0() {
         return wallList_L0;
     }
 
+    /**
+     * get level 0 DotList
+     *
+     * @return level 0 DotList
+     */
     public Dot[] getDotList_L0() {
         return dotList_L0;
     }
 
+    /**
+     * get level 1 GhostList
+     *
+     * @return level 1 GhostList
+     */
     public List<Ghost> getGhostList_L1() {
         return ghostList_L1;
     }
 
+    /**
+     * get level 1 DotList
+     *
+     * @return level 1 DotList
+     */
     public List<Dot> getDotList_L1() {
         return dotList_L1;
     }
 
+    /**
+     * get level 1 WallList
+     *
+     * @return level 1 WallList
+     */
     public List<Wall> getWallList_L1() {
         return wallList_L1;
     }
 
     /**
-     * check if the access of logic manager to the game is valid(with same ID)
+     * check if the access of logic manager to the game is valid(with same ID). Please ignore these stuff since no dup
      *
      * @param lgc logic manager to be checked
      */
@@ -328,6 +366,12 @@ public class ShadowPac extends AbstractGame {
         }
     }
 
+    /**
+     * The first Welcome after game initialized
+     * if space is pressed then skip this part and get into GameL0
+     *
+     * @param input IO input from keyboard, mouse etc., defined in Bagel
+     */
     private void updateWelcome(Input input) {
         ShowMessage SM_Welcome = new ShowMessage(GAME_TITLE, 260, 250);
         SM_Welcome.Show();
@@ -341,6 +385,12 @@ public class ShadowPac extends AbstractGame {
         }
     }
 
+    /**
+     * The second Welcome after Level 0 complete scene finished
+     * if space is pressed then skip this part and get into GameL1
+     *
+     * @param input IO input from keyboard, mouse etc., defined in Bagel
+     */
     private void updateLevel1_Welcome(Input input) {
         ShowMessage SM_PRESS_SPACE_TO_START = new ShowMessage("PRESS SPACE TO START", 200, 350, 40);
         SM_PRESS_SPACE_TO_START.Show();
@@ -356,6 +406,15 @@ public class ShadowPac extends AbstractGame {
 
     }
 
+    /**
+     * This is the core method to implement the level0 game interface, including:
+     * Detect W pressed, jump to LEVEL_COMPLETE stage
+     * Displaying Score, Life according to instantaneous value
+     * Draw all units in traversals
+     * Conduct player's checking the surroundings through the level0 game manager
+     *
+     * @param input IO input from keyboard, mouse etc., defined in Bagel
+     */
     private void updateGamingL0(Input input) {
         if (input.wasPressed(Keys.W)) {
             stage = gameStage.LEVEL_COMPLETE;
@@ -384,9 +443,15 @@ public class ShadowPac extends AbstractGame {
         gameManager_L0.letPlayerCheckAround();
     }
 
-    /*
-    Update and count for Frenzy frames.
-    If time over reset to Normal mode.
+    /**
+     * This is the core method to implement the level1 game interface, including:
+     * Detect W pressed, skip the level and win at once
+     * Displaying Score, Life according to instantaneous value
+     * Draw all units in traversals
+     * Conduct player's checking the surroundings through the level1 game manager
+     * Update and count for Frenzy frames ,if Frenzy time over then reset to Normal mode.
+     *
+     * @param input IO input from keyboard, mouse etc., defined in Bagel
      */
     private void updateGamingL1(Input input) {
         if (input.wasPressed(Keys.W)) {
@@ -429,6 +494,12 @@ public class ShadowPac extends AbstractGame {
         gameManager_L1.letPlayerCheckAround();
     }
 
+    /**
+     * The final win scene
+     * if space is pressed then close the window
+     *
+     * @param input IO input from keyboard, mouse etc., defined in Bagel
+     */
 
     private void updateSuccess(Input input) {
         ShowMessage SM_WELL_DONE = new ShowMessage("WELL DONE!",
@@ -438,6 +509,11 @@ public class ShadowPac extends AbstractGame {
             Window.close();
         }
     }
+
+    /**
+     * The Level_Complete scene after Level 0 complete
+     * display for 300 frames, counted by private int counter_LevelComplete
+     */
 
     private void updateLevel_Complete() {
         ShowMessage SM_LEVELCOMPLETE = new ShowMessage("LEVEL COMPLETE!",
@@ -449,6 +525,13 @@ public class ShadowPac extends AbstractGame {
         }
     }
 
+    /**
+     * The defeated scene
+     * if space is pressed then close the window
+     *
+     * @param input IO input from keyboard, mouse etc., defined in Bagel
+     */
+
     private void updateLose(Input input) {
         ShowMessage SM_GAME_OVER = new ShowMessage("GAME OVER!",
                 MID_WIDTH - 4 * ShowMessage.getSpecificFontsize(), MID_HEIGHT + ShowMessage.getSpecificFontsize() / 2.0);
@@ -458,10 +541,17 @@ public class ShadowPac extends AbstractGame {
         }
     }
 
+    /**
+     * get the on time game mode
+     * @return true for frenzy ,false for not
+     */
     public boolean getisFrenzy() {
         return isFrenzy;
     }
 
+    /**
+     * Game progress identifier, used to determine the drawing scene
+     */
     private enum gameStage {
         Welcome, GamingL0, LEVEL_COMPLETE, L1Welcome, GamingL1, Lose, Success
     }

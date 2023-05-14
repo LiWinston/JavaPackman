@@ -104,8 +104,8 @@ public class Player_L0 extends GameUnit {
 
     /**
      * Checks whether the player has collided with a ghost or eaten a dot.
-     * executed based on current position(or rather after move)
-     * Ver 2.0 : Only check if two unit are close enough
+     * This method is executed based on the player's current position after making a move.
+     * Added optimization to only check for collisions if two units are close enough.
      */
     public void checkAround() {
         for (Ghost gst : getLogicL0().getGhostList()) {
@@ -207,7 +207,7 @@ public class Player_L0 extends GameUnit {
      * @param key keyboard and mouse input
      */
     public void move(Keys key) {
-        int STEP_SIZE = getLogicL0().getSTEP_SIZE();
+        double STEP_SIZE = getSTEP_SIZE();
         double X = getCoordinateX(), Y = getCoordinateY();
         switch (key) {
             case LEFT:
@@ -225,6 +225,9 @@ public class Player_L0 extends GameUnit {
         }
     }
 
+    double getSTEP_SIZE(){
+        return getLogicL0().getSTEP_SIZE();
+    }
 
     /**
      * Draws the player on the screen based on the input received from the user.

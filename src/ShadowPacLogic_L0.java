@@ -28,6 +28,12 @@ public class ShadowPacLogic_L0 {
         gamePID = game.getPID();
     }
 
+    /**
+     * use level 0 logic to generate the
+     * @param x
+     * @param y
+     * @param logic
+     */
     public void setPlayer_L0(int x, int y, ShadowPacLogic_L0 logic) {
         this.setPlayerL0(new Player_L0(x, y, logic));
     }
