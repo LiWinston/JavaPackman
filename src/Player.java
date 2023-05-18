@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author @YongchunLi
  */
-public class Player_L0 extends GameUnit {
+public class Player extends GameUnit {
     private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
     private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
     private static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
@@ -34,7 +34,7 @@ public class Player_L0 extends GameUnit {
      * @param coordinateY the Y coordinate of the player
      * @param logic0      the instance of the gameLogic0
      */
-    public Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L0 logic0) {
+    public Player(double coordinateX, double coordinateY, ShadowPacLogic_L0 logic0) {
         super(coordinateX, coordinateY, logic0);
         this.setLogicL0(logic0);
         setCurrentFrame(0);
@@ -53,7 +53,7 @@ public class Player_L0 extends GameUnit {
      * @param logic1      the instance of the gameLogic1
      */
 
-    protected Player_L0(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1) {
+    protected Player(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1) {
         super(coordinateX, coordinateY, logic1);
     }
 
@@ -70,7 +70,7 @@ public class Player_L0 extends GameUnit {
     }
 
     protected static void setAIMSCORE(int AIMSCORE) {
-        Player_L0.AIMSCORE = AIMSCORE;
+        Player.AIMSCORE = AIMSCORE;
     }
 
     public int getLife() {
@@ -150,7 +150,7 @@ public class Player_L0 extends GameUnit {
     }
 
     /**
-     * check whether the attempt step is valid move for limiting the actual move of both Player_L0 and Player_L1.
+     * check whether the attempt step is valid move for limiting the actual move of both Player and Player_L1.
      * Third parameter roughly defined as Object to react accordingly on game logic type.
      * If none of ShadowPacLogic_L0 and ShadowPacLogic_L1 matches the given logic, do nothing with a false return.
      *
@@ -160,9 +160,9 @@ public class Player_L0 extends GameUnit {
      * @return true for invalid due to Wall
      */
     public boolean isToCollideWithWall(double x, double y, Object logic) {
-        Player_L0 newPl = null;
+        Player newPl = null;
         if (logic instanceof ShadowPacLogic_L0) {
-            newPl = new Player_L0(x, y, (ShadowPacLogic_L0) logic);
+            newPl = new Player(x, y, (ShadowPacLogic_L0) logic);
         } else if (logic instanceof ShadowPacLogic_L1) {
             newPl = new Player_L1(x, y, (ShadowPacLogic_L1) logic);
         }

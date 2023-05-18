@@ -6,14 +6,12 @@ import bagel.util.Rectangle;
 import java.util.Objects;
 
 /**
- * Player_L1 extends Player_L0, All methods and properties that should be inherited and shared are encapsulated in the
+ * Player_L1 extends Player, All methods and properties that should be inherited and shared are encapsulated in the
  * parent class, and only the parts related to game logic 2 are rewritten or added
  *
  * @author YongchunLi
  */
-public class Player_L1 extends Player_L0 {
-    private final static Image playerOpenMouth = new Image("res/pacOpen.png"); // image of the player with open mouth
-    private final static Image playerCloseMouth = new Image("res/pac.png");// image of the player with closed mouth
+public class Player_L1 extends Player {
     private static final double STEPSIZE = 4;
     private static final double STEPSIZEFRENZY = 3;
     private Ghost lastCollision = null;
@@ -33,14 +31,6 @@ public class Player_L1 extends Player_L0 {
         this.setScore(0);
         setAIMSCORE(800);
         setHitBox(new Rectangle(coordinateX, coordinateY, getPlayerOpenMouth().getWidth(), getPlayerCloseMouth().getHeight()));
-    }
-
-    protected static Image getPlayerOpenMouth() {
-        return playerOpenMouth;
-    }
-
-    protected static Image getPlayerCloseMouth() {
-        return playerCloseMouth;
     }
 
     /**

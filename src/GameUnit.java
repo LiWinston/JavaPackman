@@ -141,7 +141,7 @@ public abstract class GameUnit {
         final double l1 = this.getImageSize();
         final double l2 = unit.getImageSize();
         final double sqrt2 = Math.sqrt(2.0);
-        if (this.getClass().equals(Player_L0.class)) {
+        if (this.getClass().equals(Player.class)) {
             checkScope = ShadowPac.getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
         } else if (this instanceof Player_L1) {
             checkScope = ((Player_L1) this).getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);

@@ -57,39 +57,82 @@ public class Dot extends GameUnit {
         this.setHitBox(new Rectangle(coordinateX, coordinateY, getDotIMG().getWidth(), getDotIMG().getHeight()));
     }
 
+    /**
+     * Retrieves the type of the object.
+     *
+     * @return The type of the object.
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Retrieves the score of the object.
+     *
+     * @return The score of the object.
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Sets the score of the object.
+     *
+     * @param score The score to set.
+     */
     protected void setScore(int score) {
         this.score = score;
     }
 
+    /**
+     * Draws the FixUnit if it exists.
+     */
     public void DrawFixUnit() {
         if (this.isExist()) getDotIMG().drawFromTopLeft(getCoordinateX(), getCoordinateY());
     }
 
+    /**
+     * Retrieves the size of the image.
+     *
+     * @return The size of the image.
+     */
     @Override
     public double getImageSize() {
         return getDotIMG().getHeight();
     }
 
+    /**
+     * Retrieves the dot image as Image object.
+     *
+     * @return The dot image.
+     */
     protected Image getDotIMG() {
         return dotIMG;
     }
 
+    /**
+     * Sets the dot appearance.
+     *
+     * @param dotIMG The dot image to set.
+     */
     protected void setDotIMG(Image dotIMG) {
         this.dotIMG = dotIMG;
     }
 
+    /**
+     * Checks if the object exists.
+     *
+     * @return {@code true} if the object exists, {@code false} otherwise.
+     */
     protected boolean isExist() {
         return isExist;
     }
 
+    /**
+     * Sets the existence of the object,.
+     *
+     * @param exist The existence to set.
+     */
     protected void setExist(boolean exist) {
         isExist = exist;
     }
