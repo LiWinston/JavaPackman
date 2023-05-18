@@ -6,6 +6,7 @@ import bagel.util.Point;
 import bagel.util.Rectangle;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Characterize the general player, record the score, life value, angle, collision box, be able to blink
@@ -21,11 +22,16 @@ public class Player extends GameUnit {
     private static int AIMSCORE;// target score -- Not set Final for Scalability(Maybe required to change half way)
     private final DrawOptions drop = new DrawOptions();// draw options for the player
 
+    private Ghost lastCollision = null;
     private int Life; // number of lives the player has left
     private double radians = 0;// angle of player movement, same as direction of drawing
     private int currentFrame; // current frame counter, for converting image
     private int currentStatus = 1;// current status of player mouth (1 for open, 0 for closed)
     private int score;// current score of the player
+
+    private static final double STEPSIZE_L1 = 4;
+    private static final double STEPSIZEFRENZY_L1 = 3;
+
 
     /**
      * Constructor for the player0 class.
@@ -45,18 +51,15 @@ public class Player extends GameUnit {
         setHitBox(new Rectangle(coordinateX, coordinateY, getPlayerCloseMouth().getWidth(), getPlayerCloseMouth().getHeight()));
     }
 
-    /**
-     * super Constructor for the player class for subclass to invoke.
-     *
-     * @param coordinateX the X coordinate of the player
-     * @param coordinateY the Y coordinate of the player
-     * @param logic1      the instance of the gameLogic1
-     */
-
-    protected Player(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1) {
+    public Player(double coordinateX, double coordinateY, ShadowPacLogic_L1 logic1) {
         super(coordinateX, coordinateY, logic1);
+        setCurrentFrame(0);
+        setOriginPos(new Point(coordinateX, coordinateY));
+        this.setLife(3);
+        this.setScore(0);
+        setAIMSCORE(800);
+        setHitBox(new Rectangle(coordinateX, coordinateY, getPlayerOpenMouth().getWidth(), getPlayerCloseMouth().getHeight()));
     }
-
     protected static Image getPlayerOpenMouth() {
         return playerOpenMouth;
     }
@@ -87,7 +90,8 @@ public class Player extends GameUnit {
      */
     public void checkWin() {
         if (this.getScore() >= getAIMSCORE()) {
-            getLogicL0().level_completed();
+            if (inL0()) getLogicL0().level_completed();
+            if (inL1()) getLogicL1().gameSucceeded();
         }
     }
 
@@ -103,41 +107,91 @@ public class Player extends GameUnit {
     }
 
     /**
-     * Checks whether the player has collided with a ghost or eaten a dot.
+     * Checks whether the player has collided with a ghost or eaten a dot(includes dot-like units).
      * This method is executed based on the player's current position after making a move.
      * Added optimization to only check for collisions if two units are close enough.
      */
     public void checkAround() {
-        for (Ghost gst : getLogicL0().getGhostList()) {
-            if (this.isAround(gst)) {
-                if (checkCollideWithGhost(gst)) break;
+        if (inL0()) {
+            for (Ghost gst : getLogicL0().getGhostList()) {
+                if (this.isAround(gst)) {
+                    if (checkCollideWithGhost(gst)) break;
+                }
             }
-        }
-        for (Dot dt : getLogicL0().getDotList()) {
-            if (this.isAround(dt)) {
-                EatDot(dt);
+            for (Dot dt : getLogicL0().getDotList()) {
+                if (this.isAround(dt)) {
+                    EatDot(dt);
+                }
+            }
+        } else if (inL1()) {
+            for (Ghost gst : getLogicL1().getGhostList()) {
+                if (this.isAround(gst)) {
+                    if (checkCollideWithGhost(gst)) break;
+                }
+            }
+            for (Dot dt : getLogicL1().getDotList()) {
+                if (this.isAround(dt)) {
+                    EatDot(dt);
+                }
             }
         }
     }
 
     /**
      * Checks whether the player has collided with a ghost.
+     * Introduce collision target recording to prevent possible respawn point overlap (although it did not happen in the
+     * given CSV) and immediate redeath after respawn, which may cause repeated deduction of life in a single collision.
+     * Typical scenario: Walking towards the pink ghost in opposite directions at the midpoint of the bottom line.
      *
      * @param gst the ghost being checked for collision
      * @return true if the player has collided with the ghost, and call dieAndReset
      */
     protected boolean checkCollideWithGhost(Ghost gst) {
-        if (this.getHitBox().intersects(gst.getHitBox())) {
-            dieAndReset();
-            return true;
-        } else {
-            return false;
+        if (gst.getHidden()) return false;
+        //check for spcial case for L1
+        if(inL1()){
+            if (gst.equals(getLastCollision())) {
+                if (this.getHitBox().intersects(gst.getHitBox())) {
+                    //The target to be detected is the target of the last collision, and the two have not yet separated,
+                    // so it is not considered a valid collision
+                    return false;
+                }
+                //The target to be detected is the one of the last collision, but the two have separated,
+                // so the record is reset to zero.
+                setLastCollision(null);
+            }
         }
+        if(inL0()){
+            if (this.getHitBox().intersects(gst.getHitBox())) {
+                dieAndReset();
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if(inL1()){
+            if (this.getHitBox().intersects(gst.getHitBox())) {
+                if (getLogicL1().getisFrenzy()) {
+                    setScore(getScore() + gst.getScore());
+                    gst.setHidden();
+                } else {
+                    dieAndReset();
+                    gst.reset();
+                    setLastCollision(gst);
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     /**
      * Eats a dot if the player has collided with it.
+     * and set gamemode to frenzy if the dot is a Pellet(Only in L1).
      * after eating turn the Dot existence to false
+     *Once a dot is eaten check the win condition.
      *
      * @param dt the dot being checked for collision
      */
@@ -145,6 +199,11 @@ public class Player extends GameUnit {
         if (dt.isExist() && this.getHitBox().intersects(dt.getHitBox())) {
             dt.setExist(false);
             this.setScore(this.getScore() + dt.getScore());
+            if(inL1()){
+                if (Objects.equals(dt.getType(), "Pellet")) {
+                    getLogicL1().setFrenzy();
+                }
+            }
             checkWin();
         }
     }
@@ -164,7 +223,7 @@ public class Player extends GameUnit {
         if (logic instanceof ShadowPacLogic_L0) {
             newPl = new Player(x, y, (ShadowPacLogic_L0) logic);
         } else if (logic instanceof ShadowPacLogic_L1) {
-            newPl = new Player_L1(x, y, (ShadowPacLogic_L1) logic);
+            newPl = new Player(x, y, (ShadowPacLogic_L1) logic);
         }
         Rectangle try_hit = new Rectangle(new Point(x, y), getPlayerCloseMouth().getWidth(), getPlayerCloseMouth().getHeight());
         if (logic instanceof ShadowPacLogic_L0) {
@@ -196,9 +255,16 @@ public class Player extends GameUnit {
      * @param Y position y to be checked Z
      * @return true if the given position is Valid Position and vice versa
      */
-    private boolean isValidPosition(double X, double Y) {
-        return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&
-                !(isToCollideWithWall(X, Y, getLogicL0())));
+    protected boolean isValidPosition(double X, double Y) {
+        if (inL0()) {
+            return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&
+                    !(isToCollideWithWall(X, Y, getLogicL0())));
+        }
+        if (inL1()) {
+            return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&
+                    !(isToCollideWithWall(X, Y, getLogicL1())));
+        }
+        return false;
     }
 
     /**
@@ -225,8 +291,10 @@ public class Player extends GameUnit {
         }
     }
 
-    double getSTEP_SIZE(){
-        return getLogicL0().getSTEP_SIZE();
+    double getSTEP_SIZE() {
+        if (getLogicL0() != null) return getLogicL0().getSTEP_SIZE();
+        if (getLogicL1() != null) return getLogicL1().getisFrenzy() ? STEPSIZE_L1 : STEPSIZEFRENZY_L1;
+        return 0;
     }
 
     /**
@@ -235,7 +303,7 @@ public class Player extends GameUnit {
      * @param input The input received from the user.
      */
     public void Draw(Input input) {
-        if (getLogicL1() != null) {
+        if (inL1()) {
             checkWin();
             checkLose();
         }
@@ -289,7 +357,11 @@ public class Player extends GameUnit {
     public void dieAndReset() {
         setLife(getLife() - 1);
         if (getLife() == 0) {
-            getLogicL0().gameFailed();
+            if (inL0()) {
+                getLogicL0().gameFailed();
+            } else if (inL1()) {
+                getLogicL1().gameFailed();
+            }
         }
         setPosition(getOriginPos());
         setRadians(getTORIGHT());
@@ -340,5 +412,21 @@ public class Player extends GameUnit {
 
     protected void setCurrentStatus(int currentStatus) {
         this.currentStatus = currentStatus;
+    }
+
+    protected Ghost getLastCollision() {
+        return lastCollision;
+    }
+
+    protected void setLastCollision(Ghost lastCollision) {
+        this.lastCollision = lastCollision;
+    }
+
+    private boolean inL0() {
+        return null != getLogicL0() && null == getLogicL1();
+    }
+
+    private boolean inL1() {
+        return null != getLogicL1() && null == getLogicL0();
     }
 }

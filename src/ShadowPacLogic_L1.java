@@ -11,7 +11,7 @@ import java.util.List;
 public class ShadowPacLogic_L1 {
     private final short gamePID;//HashCode of game ID, no need to consider but has been implemented and kind of lazy to delete
     private final ShadowPac game;
-    private Player_L1 playerL1;
+    private Player playerL1;
 
     /**
      * Constructor for ShadowPacLogic class that takes in a ShadowPac game instance
@@ -25,7 +25,7 @@ public class ShadowPacLogic_L1 {
     }
 
     public void setPlayer_L1(double x, double y, ShadowPacLogic_L1 logic) {
-        this.setPlayerL1(new Player_L1(x, y, logic));
+        this.setPlayerL1(new Player(x, y, logic));
     }
 
 
@@ -91,7 +91,7 @@ public class ShadowPacLogic_L1 {
     /*
      * Method to get the playerL0 instance reference.
      */
-    public Player_L1 getPlayer() {
+    public Player getPlayer() {
         return getPlayerL1();
     }
 
@@ -115,11 +115,11 @@ public class ShadowPacLogic_L1 {
         return game;
     }
 
-    private Player_L1 getPlayerL1() {
+    private Player getPlayerL1() {
         return playerL1;
     }
 
-    private void setPlayerL1(Player_L1 playerL1) {
+    private void setPlayerL1(Player playerL1) {
         this.playerL1 = playerL1;
     }
 }

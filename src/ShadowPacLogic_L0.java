@@ -15,7 +15,7 @@
 public class ShadowPacLogic_L0 {
     private final short gamePID;
     private final ShadowPac game;
-    private Player playerL0;
+    protected Player player;
 
     /**
      * Constructor for ShadowPacLogic class that takes in a ShadowPac game instance
@@ -34,8 +34,8 @@ public class ShadowPacLogic_L0 {
      * @param y
      * @param logic
      */
-    public void setPlayer_L0(int x, int y, ShadowPacLogic_L0 logic) {
-        this.setPlayerL0(new Player(x, y, logic));
+    public void setPlayer(int x, int y, ShadowPacLogic_L0 logic) {
+        this.setPlayer(new Player(x, y, logic));
     }
 
     /*
@@ -89,12 +89,12 @@ public class ShadowPacLogic_L0 {
      */
 
     public void letPlayerCheckAround() {
-        if (null == this.getPlayerL0()) {
+        if (null == this.getPlayer()) {
             System.err.println("Need Set playerL0 for ShadowPacLogic object!");
             System.err.println();
             return;
         }
-        getPlayerL0().checkAround();
+        getPlayer().checkAround();
     }
 
     /*
@@ -115,7 +115,7 @@ public class ShadowPacLogic_L0 {
      * Method to get the playerL0 instance reference.
      */
     public Player getPlayer() {
-        return getPlayerL0();
+        return player;
     }
 
     public short getPID() {
@@ -130,11 +130,9 @@ public class ShadowPacLogic_L0 {
         return game;
     }
 
-    protected Player getPlayerL0() {
-        return playerL0;
-    }
 
-    protected void setPlayerL0(Player playerL0) {
-        this.playerL0 = playerL0;
+
+    protected void setPlayer(Player player) {
+        this.player = player;
     }
 }

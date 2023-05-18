@@ -153,7 +153,7 @@ public class ShadowPac extends AbstractGame {
                     int y = Integer.parseInt(data[2]);
                     switch (type) {
                         case "Player":
-                            gameManager_L0.setPlayer_L0(x, y, gameManager_L0);
+                            gameManager_L0.setPlayer(x, y, gameManager_L0);
                             break;
                         case "Ghost":
                             ghostList_L0[ghostNum++] = new Ghost(x, y);
@@ -283,7 +283,7 @@ public class ShadowPac extends AbstractGame {
      * @param lgc logic manager to be checked
      */
     private boolean checkAccess(Object lgc) {
-        if (lgc instanceof ShadowPacLogic_L0) {
+        if (lgc.getClass() == ShadowPacLogic_L0.class) {
             if (((ShadowPacLogic_L0) lgc).getPID() != this.getPID()) {
                 System.err.println("Unauthorized access:" + ((ShadowPacLogic_L0) lgc).getPID() + "\n");
                 return false;

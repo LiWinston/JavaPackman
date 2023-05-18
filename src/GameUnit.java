@@ -141,11 +141,9 @@ public abstract class GameUnit {
         final double l1 = this.getImageSize();
         final double l2 = unit.getImageSize();
         final double sqrt2 = Math.sqrt(2.0);
-        if (this.getClass().equals(Player.class)) {
+        if (this instanceof Player) {
             checkScope = ShadowPac.getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
-        } else if (this instanceof Player_L1) {
-            checkScope = ((Player_L1) this).getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
-        } else if (this instanceof Ghost) {
+        }else if (this instanceof Ghost) {
             checkScope = ((Ghost) this).getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
         }
         final double EPSILON = 1e-10;
