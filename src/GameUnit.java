@@ -3,9 +3,11 @@ import bagel.util.Rectangle;
 
 /**
  * GameUnit Class
- * Implement basic game unit behaviours, Especially the direction, coordinates, collision box, original position,
- * game manager that can manipulate this unit (in fact, it is mutually exclusive for each unit, if there is 1, there is
- * no 0, and vice versa)
+ * Implement basic game unit behaviors, especially the direction, coordinates, collision box, original position,
+ * and game manager that can manipulate this unit (in fact, it is mutually exclusive for each unit; if there is 1, there is
+ * no 0, and vice versa).
+ *
+ * This class serves as a base class for various game units in the game.
  *
  * @author YongchunLi
  */
@@ -21,7 +23,6 @@ public abstract class GameUnit {
     private Rectangle hitBox;
     private Point originPos;// initial position of the game-unit
     private double checkScope;//= Math.max(ShadowPac.getWindowWidth(),ShadowPac.getWindowHeight());
-
 
 
     /**
@@ -41,9 +42,9 @@ public abstract class GameUnit {
     /**
      * Creates a new GameUnit object with the specified coordinates.
      *
-     * @param coordinateX the x-coordinate of the player
-     * @param coordinateY the y-coordinate of the player
-     * @param logicManager         the gameLogic manager instance to initiate this unit
+     * @param coordinateX  the x-coordinate of the player
+     * @param coordinateY  the y-coordinate of the player
+     * @param logicManager the gameLogic manager instance to initiate this unit
      */
 
     public GameUnit(double coordinateX, double coordinateY, Object logicManager) {
@@ -63,18 +64,38 @@ public abstract class GameUnit {
     }
 
 
+    /**
+     * Gets the constant value for moving to the left.
+     *
+     * @return the constant value for moving to the left
+     */
     protected static double getTOLEFT() {
         return TOLEFT;
     }
 
+    /**
+     * Gets the constant value for moving to the right.
+     *
+     * @return the constant value for moving to the right
+     */
     protected static double getTORIGHT() {
         return TORIGHT;
     }
 
+    /**
+     * Gets the constant value for moving up.
+     *
+     * @return the constant value for moving up
+     */
     protected static double getTOUP() {
         return TOUP;
     }
 
+    /**
+     * Gets the constant value for moving down.
+     *
+     * @return the constant value for moving down
+     */
     protected static double getTODOWN() {
         return TODOWN;
     }
@@ -95,17 +116,38 @@ public abstract class GameUnit {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    /**
+     * Gets the X coordinate of the player.
+     *
+     * @return the X coordinate of the player
+     */
     public double getCoordinateX() {
         return coordinateX;
     }
 
+    /**
+     * Sets the X coordinate of the player.
+     *
+     * @param coordinateX the new X coordinate of the player
+     */
     public void setCoordinateX(double coordinateX) {
         this.coordinateX = coordinateX;
     }
 
+    /**
+     * Gets the Y coordinate of the player.
+     *
+     * @return the Y coordinate of the player
+     */
     public double getCoordinateY() {
         return coordinateY;
     }
+
+    /**
+     * Sets the Y coordinate of the player.
+     *
+     * @param coordinateY the new Y coordinate of the player
+     */
 
     public void setCoordinateY(double coordinateY) {
         this.coordinateY = coordinateY;
@@ -143,32 +185,63 @@ public abstract class GameUnit {
         final double sqrt2 = Math.sqrt(2.0);
         if (this instanceof Player) {
             checkScope = ShadowPac.getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
-        }else if (this instanceof Ghost) {
+        } else if (this instanceof Ghost) {
             checkScope = ((Ghost) this).getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
         }
         final double EPSILON = 1e-10;
         return distance(unit.coordinateX, unit.coordinateY, this.coordinateX, this.coordinateY) - checkScope <= EPSILON;
     }
 
+    /**
+     * Retrieves the size of the image.
+     *
+     * @return the size of the image as a double value
+     */
     public abstract double getImageSize();
 
+    /**
+     * Retrieves the origin position.
+     *
+     * @return the origin position as a Point object
+     */
     protected Point getOriginPos() {
         return originPos;
     }
 
+    /**
+     * Sets the origin position of this Unit.
+     *
+     * @param originPos the origin position to be set
+     */
     protected void setOriginPos(Point originPos) {
         this.originPos = originPos;
     }
 
+    /**
+     * Retrieves the Level 0 logic for this Unit.
+     *
+     * @return the Level 0 logic as a ShadowPacLogic_L0 object
+     */
     protected ShadowPacLogic_L0 getLogicL0() {
         return logicL0;
     }
 
+    /**
+     * Sets the Level 0 logic for this Unit.
+     *
+     * @param logicL0 the Level 0 logic to be set
+     */
     protected void setLogicL0(ShadowPacLogic_L0 logicL0) {
         this.logicL0 = logicL0;
     }
 
+    /**
+     * Retrieves the Level 1 logic for this Unit.
+     *
+     * @return the Level 1 logic as a ShadowPacLogic_L1 object
+     */
     protected ShadowPacLogic_L1 getLogicL1() {
         return logicL1;
     }
+
 }

@@ -29,21 +29,21 @@ public class ShadowPacLogic_L0 {
     }
 
     /**
-     * use level 0 logic to generate the
-     * @param x
-     * @param y
-     * @param logic
+     * Sets the player's position using level 0 logic.
+     *
+     * @param x     the X coordinate of the player
+     * @param y     the Y coordinate of the player
+     * @param logic the level 0 logic object
      */
     public void setPlayer(int x, int y, ShadowPacLogic_L0 logic) {
         this.setPlayer(new Player(x, y, logic));
     }
 
-    /*
+    /**
      * Method to retrieve the list of Ghosts in the ShadowPac game.
      *
      * @return an array of Ghost objects representing the Ghosts in the game
      */
-
     public Ghost[] getGhostList() {
         return getGame().getGhostList_L0();
     }
@@ -53,7 +53,6 @@ public class ShadowPacLogic_L0 {
      *
      * @return an array of Dot objects representing the Dots in the game
      */
-
     public Dot[] getDotList() {
         return getGame().getDotList_L0();
     }
@@ -97,42 +96,66 @@ public class ShadowPacLogic_L0 {
         getPlayer().checkAround();
     }
 
-    /*
-     * Method to get the game DotNum.
+    /**
+     * Returns the supposed number of dots for the game.
+     *
+     * @return the supposed number of dots for the game
      */
     public int getSupposedDotNum() {
         return getGame().getSupposedDotNum();
     }
 
-    /*
-     * Method to get the game StepSize.
+    /**
+     * Returns the step size used in the game.
+     *
+     * @return the step size defined in ShadowPac
      */
     public int getSTEP_SIZE() {
         return ShadowPac.getSTEP_SIZE();
     }
 
-    /*
-     * Method to get the playerL0 instance reference.
+    /**
+     * Returns the reference to the Player instance in level 0.
+     *
+     * @return the Player instance in level 0
      */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Sets the Player instance.
+     *
+     * @param player the Player instance
+     */
+    protected void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    /**
+     * Retrieves the process ID of the game.
+     *
+     * @return the process ID of the game
+     */
     public short getPID() {
         return getGamePID();
     }
 
+    /**
+     * Retrieves the process ID of the game.
+     *
+     * @return the process ID of the game
+     */
     protected short getGamePID() {
         return gamePID;
     }
 
+    /**
+     * Retrieves the ShadowPac game instance.
+     *
+     * @return the ShadowPac game instance
+     */
     protected ShadowPac getGame() {
         return game;
-    }
-
-
-
-    protected void setPlayer(Player player) {
-        this.player = player;
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
  * and provides access to the lists of Ghosts, Dots and Walls in the game.
  * Notice that setPlayer() MUST BE DONE RIGHT AFTER AN playerL0 HAS BEEN INITIALIZE
  *
- * @author @YongchunLi
+ * @author YongchunLi
  */
 public class ShadowPacLogic_L1 {
     private final short gamePID;//HashCode of game ID, no need to consider but has been implemented and kind of lazy to delete
@@ -24,17 +24,23 @@ public class ShadowPacLogic_L1 {
         gamePID = game.getPID();
     }
 
+    /**
+     * Sets the player's position using level 1 logic.
+     *
+     * @param x     the X coordinate of the player
+     * @param y     the Y coordinate of the player
+     * @param logic the level 1 logic object
+     */
     public void setPlayer_L1(double x, double y, ShadowPacLogic_L1 logic) {
         this.setPlayerL1(new Player(x, y, logic));
     }
 
 
-    /*
+    /**
      * Method to retrieve the list of Ghosts in the ShadowPac game.
      *
-     * @return an array of Ghost objects representing the Ghosts in the game
+     * @return a List of Ghost objects representing the Ghosts in the game
      */
-
     public List<Ghost> getGhostList() {
         return getGame().getGhostList_L1();
     }
@@ -44,7 +50,6 @@ public class ShadowPacLogic_L1 {
      *
      * @return a List of Dot objects representing the Dots in the game
      */
-
     public List<Dot> getDotList() {
         return getGame().getDotList_L1();
     }
@@ -54,7 +59,6 @@ public class ShadowPacLogic_L1 {
      *
      * @return a List of Wall objects representing the Walls in the game
      */
-
     public List<Wall> getWallList() {
         return getGame().getWallList_L1();
     }
@@ -62,7 +66,6 @@ public class ShadowPacLogic_L1 {
     /**
      * Method to set the game state to 'Failed'.
      */
-
     public void gameFailed() {
         getGame().setGameStageLOSE(this);
     }
@@ -70,7 +73,6 @@ public class ShadowPacLogic_L1 {
     /**
      * Method to set the game state to 'Success'.
      */
-
     public void gameSucceeded() {
         getGame().setGameStageWIN(this);
     }
@@ -78,7 +80,6 @@ public class ShadowPacLogic_L1 {
     /**
      * Method to call Player_L1 to checkAround without receiving a Game reference.
      */
-
     public void letPlayerCheckAround() {
         if (null == this.getPlayerL1()) {
             System.err.println("Need Set playerL1 for ShadowPacLogic object!");
@@ -88,37 +89,72 @@ public class ShadowPacLogic_L1 {
         getPlayerL1().checkAround();
     }
 
-    /*
-     * Method to get the playerL0 instance reference.
+    /**
+     * Returns the reference to the Player instance in level 1.
+     *
+     * @return the Player instance in level 1
      */
     public Player getPlayer() {
         return getPlayerL1();
     }
 
+    /**
+     * Retrieves the gamePID value.
+     *
+     * @return the gamePID value
+     */
     public short getPID() {
         return getGamePID();
     }
 
-    public boolean getisFrenzy() {
+    /**
+     * Checks if the game is currently in frenzy mode.
+     *
+     * @return true if the game is in frenzy mode, false otherwise
+     */
+    public boolean isFrenzyMode() {
         return getGame().getisFrenzy();
     }
 
-    public void setFrenzy() {
+    /**
+     * Sets the game into frenzy mode.
+     */
+    public void setFrenzyMode() {
         getGame().setFrenzy(this);
     }
 
+    /**
+     * Retrieves the game's process ID.
+     *
+     * @return the process ID of the game
+     */
     private short getGamePID() {
         return gamePID;
     }
 
+    /**
+     * Retrieves the ShadowPac game instance.
+     *
+     * @return the ShadowPac game instance
+     */
     private ShadowPac getGame() {
         return game;
     }
 
+    /**
+     * Retrieves the Player instance for Level 1.
+     *
+     * @return the Player instance for Level 1
+     */
     private Player getPlayerL1() {
         return playerL1;
     }
 
+    /**
+     * Sets the Player instance for Level 1.
+     *
+     * @param playerL1 the Player instance for Level 1
+     */
     private void setPlayerL1(Player playerL1) {
         this.playerL1 = playerL1;
     }

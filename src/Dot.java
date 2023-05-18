@@ -2,9 +2,19 @@ import bagel.Image;
 import bagel.util.Rectangle;
 
 /**
- * Dots in a broad sense aggregate several things with similar functions and properties.
- * inherited from GameUnit
+ * The Dot class represents different types of dots in the game.
+ * It inherits from the GameUnit class and provides functionality for dot objects.
+ * Dots can have different types, such as normal dots, cherries, or pellets.
  *
+ * Example Usage:
+ * Dot dot = new Dot(100, 200);
+ * dot.DrawFixUnit();
+ *
+ * @see GameUnit
+ * @see ShadowPacLogic_L1
+ * @see ShadowPac
+ * @see <a href="https://people.eng.unimelb.edu.au/mcmurtrye/bagel-doc/bagel/util/Rectangle.html">bagel.util.Rectangle</a>
+ * @see <a href="https://people.eng.unimelb.edu.au/mcmurtrye/bagel-doc/bagel/Image.html">bagel.Image</a>
  * @author YongchunLi
  */
 public class Dot extends GameUnit {

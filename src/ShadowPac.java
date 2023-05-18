@@ -8,10 +8,17 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Code for SWEN20003 Project 2 Part B, Semester 1, 2023
- * Please enter your name below
+ * This class represents the game "Shadow Pac" and extends the AbstractGame class from the Bagel library.
+ * It is responsible for initializing the game, updating the game state based on user input, and drawing game objects on the screen.
+ * The game consists of multiple levels and has different stages such as Welcome, Gaming, Level Complete, Success, and Lose.
+ * The game involves controlling a player character to navigate a maze, avoid enemies (ghosts), collect dots, and achieve objectives.
+ * The game window has a width of 1024 pixels and a height of 768 pixels.
+ * The game uses keyboard input for controlling the player character.
+ *
+ * This code is for SWEN20003 Project 2 Part B, Semester 1, 2023.
+ *
  * Changing to singleton mode failed, and rolled back to the multi-object version, but the concurrency was not realized,
- * due to Bagel's window drawing and simultaneous access to some resources.
+ * due to Bagel's unique window restriction and simultaneous access to some resources.
  *
  * @author YongchunLi
  */
@@ -66,21 +73,37 @@ public class ShadowPac extends AbstractGame {
         dotList_L1 = new ArrayList<>();
     }
 
+    /**
+     * Retrieves the step size.
+     *
+     * @return the step size
+     */
     public static int getSTEP_SIZE() {
         return STEP_SIZE;
     }
-
+    /**
+     * Retrieves the width of the game window.
+     *
+     * @return the window width
+     */
     public static int getWindowWidth() {
         return WINDOW_WIDTH;
     }
 
+    /**
+     * Retrieves the height of the game window.
+     *
+     * @return the window height
+     */
     public static int getWindowHeight() {
         return WINDOW_HEIGHT;
     }
 
     /**
      * The entry point for the program.
-     * DO:set game stage, read CSV and generate game units, call run Func.
+     * Sets the game stage, reads CSV files to generate game units, and calls the run function.
+     *
+     * @param args the command-line arguments
      */
     public static void main(String[] args) {
 
@@ -103,6 +126,11 @@ public class ShadowPac extends AbstractGame {
         counter_Frenzy = 0;
     }
 
+    /**
+     * Retrieves the PID (Process ID) of the game.
+     *
+     * @return the PID of the game
+     */
     public short getPID() {
         return gamePID;
     }
@@ -131,10 +159,15 @@ public class ShadowPac extends AbstractGame {
         }
         return true;
     }
-
+    /**
+     * Returns the supposed number of dots for level 0.
+     *
+     * @return the supposed number of dots for level 0
+     */
     public int getSupposedDotNum() {
         return supposedDotNum_L0;
     }
+
 
     /**
      * Method used to read file and create objects With Error handling
@@ -224,9 +257,9 @@ public class ShadowPac extends AbstractGame {
     }
 
     /**
-     * get level 0 manager
+     * get level 0 GhostList
      *
-     * @return bonded level 0 manager
+     * @return bonded level 0 GhostList
      */
     public Ghost[] getGhostList_L0() {
         return ghostList_L0;
@@ -306,10 +339,20 @@ public class ShadowPac extends AbstractGame {
         if (checkAccess(lgc)) stage = ShadowPac.gameStage.Lose;
     }
 
+    /**
+     * verify the accessing logic and set Complete
+     *
+     * @param lgc ShadowPacLogic_L0 object
+     */
     public void setGameStageWIN(ShadowPacLogic_L0 lgc) {
         if (checkAccess(lgc)) stage = gameStage.LEVEL_COMPLETE;
     }
 
+    /**
+     * verify the accessing logic and set Win
+     *
+     * @param lgc ShadowPacLogic_L1 object
+     */
     public void setGameStageWIN(ShadowPacLogic_L1 lgc) {
         if (checkAccess(lgc)) stage = gameStage.Success;
     }
@@ -543,6 +586,7 @@ public class ShadowPac extends AbstractGame {
 
     /**
      * get the on time game mode
+     *
      * @return true for frenzy ,false for not
      */
     public boolean getisFrenzy() {

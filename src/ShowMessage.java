@@ -1,12 +1,22 @@
 import bagel.Font;
 
 /**
- * Explaining the purpose of ShowMessage class. While it may seem redundant, it serves to hide font details and is part
- * of the game's specification. It allows for abstraction of changes, such as the use of Java's own font class/function
- * in future games, by adding new constructors and judgments. Overloading Show() can also be used to meet display
- * requirements, such as text dithering or rotation, without taking up unnecessary space in ShadowPac.java.
+ * The ShowMessage class is responsible for displaying messages on the screen.
+ * It provides abstraction for font details and allows for easy customization and extension.
+ * The class is used to display messages in the game without directly referencing font details.
+ * It also provides different constructors for flexibility in specifying font type and size.
+ * The ShowMessage class is part of the game's specification and allows for easy changes and enhancements.
+ * The ShowMessage class can be used to display messages with different fonts and sizes.
+ * The ShowMessage class provides methods to show the message on the screen.
  *
- * @author @YongchunLi
+ * <p>Example usage:</p>
+ * <pre>
+ * ShowMessage showMessage = new ShowMessage("Hello, world!", 100, 100);
+ * showMessage.Show();
+ * </pre>
+ *
+ * @see <a href="https://people.eng.unimelb.edu.au/mcmurtrye/bagel-doc/bagel/Font.html">bagel.util.Font</a>
+ * @author YongchunLi
  */
 public class ShowMessage {
     private final static int SPECIFIC_FONTSIZE = 64;
@@ -16,7 +26,13 @@ public class ShowMessage {
     private final Font ft;
     private int fontSize = getSpecificFontsize();
 
-
+    /**
+     * Constructs a ShowMessage object with the specified message, X and Y coordinates.
+     *
+     * @param messageDetail the detail of the message to be displayed
+     * @param X             the X coordinate of the message's left-bottom position
+     * @param Y             the Y coordinate of the message's left-bottom position
+     */
     public ShowMessage(String messageDetail, double X, double Y) {
         this.messageDetail = messageDetail;
         this.X = X;
@@ -24,6 +40,14 @@ public class ShowMessage {
         ft = new Font("res/FSO8BITR.TTF", fontSize);
     }
 
+    /**
+     * Constructs a ShowMessage object with the specified message, X and Y coordinates, and font size.
+     *
+     * @param messageDetail the detail of the message to be displayed
+     * @param X             the X coordinate of the message's left-bottom position
+     * @param Y             the Y coordinate of the message's left-bottom position
+     * @param myfontSize    the font size of the message
+     */
     public ShowMessage(String messageDetail, int X, int Y, int myfontSize) {
         this.X = X;
         this.Y = Y;
@@ -33,14 +57,13 @@ public class ShowMessage {
     }
 
     /**
-     * improve extensibility for future Project
-     * for different possible customized fontTypes
+     * Constructs a ShowMessage object with the specified message, X and Y coordinates, font type, and font size.
      *
-     * @param messageDetail Detail of message(String message)
-     * @param X             Left-Bottom coordinate X
-     * @param Y             Left-Bottom coordinate Y
-     * @param fonttype      customized fontType addr
-     * @param fontSize      as literal mean
+     * @param messageDetail the detail of the message to be displayed
+     * @param X             the X coordinate of the message's left-bottom position
+     * @param Y             the Y coordinate of the message's left-bottom position
+     * @param fonttype      the address of the customized font type
+     * @param fontSize      the font size of the message
      */
     public ShowMessage(String messageDetail, int X, int Y, String fonttype, int fontSize) {
         this.X = X;
@@ -53,11 +76,18 @@ public class ShowMessage {
         }
     }
 
+    /**
+     * Retrieves the specific font size.
+     *
+     * @return the specific font size
+     */
     protected static int getSpecificFontsize() {
         return SPECIFIC_FONTSIZE;
     }
 
-
+    /**
+     * Shows the message on the screen using the specified font.
+     */
     public void Show() {
         ft.drawString(messageDetail, X, Y);
     }
