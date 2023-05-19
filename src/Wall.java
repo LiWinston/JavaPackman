@@ -43,7 +43,7 @@ public class Wall extends GameUnit {
      *
      * @return the Image object representing the wall image
      */
-    protected static Image getWallIMG() {
+    public static Image getWallIMG() {
         return wallIMG;
     }
 

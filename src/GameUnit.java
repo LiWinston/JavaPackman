@@ -173,7 +173,7 @@ public abstract class GameUnit {
     }
 
     /**
-     * check if a GameUnit is within 'NEAR' distance with this GameUnit in both coordinates.
+     * check if a GameUnit is within 'NEAR' distance with this GameUnit.
      * distinguish which specific class does the obj belongs to and set the checkScope accordingly
      *
      * @param unit the examined GameUnit.
@@ -184,7 +184,7 @@ public abstract class GameUnit {
         final double l2 = unit.getImageSize();
         final double sqrt2 = Math.sqrt(2.0);
         if (this instanceof Player) {
-            checkScope = ShadowPac.getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
+            checkScope = ((Player) this).getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
         } else if (this instanceof Ghost) {
             checkScope = ((Ghost) this).getSTEP_SIZE() + sqrt2 * Math.max(l1, l2);
         }

@@ -81,7 +81,7 @@ public class ShowMessage {
      *
      * @return the specific font size
      */
-    protected static int getSpecificFontsize() {
+    public static int getSpecificFontsize() {
         return SPECIFIC_FONTSIZE;
     }
 

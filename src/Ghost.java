@@ -89,7 +89,11 @@ public class Ghost extends GameUnit {
         setHitBox(new Rectangle(coordinateX, coordinateY, ghostIMG.getWidth(), ghostIMG.getHeight()));
     }
 
-    //use Random int to generate random direction of four
+    /**
+     * Generates a random direction from four possible directions.
+     *
+     * @return The randomly generated direction.
+     */
     private double getRandomDirection() {
         double[] directions = new double[]{getTORIGHT(), getTODOWN(), getTOLEFT(), getTOUP()};
         Random rand = new Random();
@@ -97,7 +101,11 @@ public class Ghost extends GameUnit {
         return directions[index];
     }
 
-    //use Random int to generate random direction of TWO positive directions
+    /**
+     * Generates a random direction from two possible positive directions.
+     *
+     * @return The randomly generated direction.
+     */
     private double getRandomDirectionPositive() {
         double[] directions = new double[]{getTORIGHT(), getTODOWN()};
         Random rand = new Random();
@@ -242,7 +250,7 @@ public class Ghost extends GameUnit {
      *
      * @return the movement direction of the Ghost
      */
-    protected double getDirection() {
+    public double getDirection() {
         return direction;
     }
 
@@ -251,7 +259,7 @@ public class Ghost extends GameUnit {
      *
      * @param direction the new movement direction of the Ghost
      */
-    protected void setDirection(double direction) {
+    private void setDirection(double direction) {
         this.direction = direction;
     }
 
@@ -260,7 +268,7 @@ public class Ghost extends GameUnit {
      *
      * @return true if the Ghost is hidden, false otherwise
      */
-    protected boolean isHidden() {
+    private boolean isHidden() {
         return hidden;
     }
 

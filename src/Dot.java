@@ -90,7 +90,7 @@ public class Dot extends GameUnit {
      *
      * @param score The score to set.
      */
-    protected void setScore(int score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
@@ -116,7 +116,7 @@ public class Dot extends GameUnit {
      *
      * @return The dot image.
      */
-    protected Image getDotIMG() {
+    public Image getDotIMG() {
         return dotIMG;
     }
 
@@ -125,7 +125,7 @@ public class Dot extends GameUnit {
      *
      * @param dotIMG The dot image to set.
      */
-    protected void setDotIMG(Image dotIMG) {
+    public void setDotIMG(Image dotIMG) {
         this.dotIMG = dotIMG;
     }
 
@@ -134,7 +134,7 @@ public class Dot extends GameUnit {
      *
      * @return {@code true} if the object exists, {@code false} otherwise.
      */
-    protected boolean isExist() {
+    public boolean isExist() {
         return isExist;
     }
 
@@ -143,7 +143,7 @@ public class Dot extends GameUnit {
      *
      * @param exist The existence to set.
      */
-    protected void setExist(boolean exist) {
+    public void setExist(boolean exist) {
         isExist = exist;
     }
 }

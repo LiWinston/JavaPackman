@@ -106,7 +106,7 @@ public class Player extends GameUnit {
      *
      * @return the image of the player with an open mouth
      */
-    protected static Image getPlayerOpenMouth() {
+    private static Image getPlayerOpenMouth() {
         return playerOpenMouth;
     }
 
@@ -115,7 +115,7 @@ public class Player extends GameUnit {
      *
      * @return the image of the player with a closed mouth
      */
-    protected static Image getPlayerCloseMouth() {
+    private static Image getPlayerCloseMouth() {
         return playerCloseMouth;
     }
 
@@ -124,7 +124,7 @@ public class Player extends GameUnit {
      *
      * @return the score value as the new score aim for player
      */
-    protected static int getAIMSCORE() {
+    public static int getAIMSCORE() {
         return AIMSCORE;
     }
 
@@ -133,7 +133,7 @@ public class Player extends GameUnit {
      *
      * @param AIMSCORE the new score aim for player
      */
-    protected static void setAIMSCORE(int AIMSCORE) {
+    public static void setAIMSCORE(int AIMSCORE) {
         Player.AIMSCORE = AIMSCORE;
     }
 
@@ -217,7 +217,7 @@ public class Player extends GameUnit {
      * @param gst the ghost being checked for collision
      * @return true if the player has collided with the ghost, and call dieAndReset
      */
-    protected boolean checkCollideWithGhost(Ghost gst) {
+    private boolean checkCollideWithGhost(Ghost gst) {
         if (gst.getHidden()) return false;
         //check for spcial case for L1
         if (inL1()) {
@@ -271,7 +271,7 @@ public class Player extends GameUnit {
      *
      * @param dt the dot being checked for collision
      */
-    protected void EatDot(Dot dt) {
+    private void EatDot(Dot dt) {
         if (dt.isExist() && this.getHitBox().intersects(dt.getHitBox())) {
             dt.setExist(false);
             this.setScore(this.getScore() + dt.getScore());
@@ -294,7 +294,7 @@ public class Player extends GameUnit {
      * @param logic the ShadowPacLogic instance used for delegation.
      * @return true for invalid due to Wall
      */
-    public boolean isToCollideWithWall(double x, double y, Object logic) {
+    private boolean isToCollideWithWall(double x, double y, Object logic) {
         Player newPl = null;
         if (logic instanceof ShadowPacLogic_L0) {
             newPl = new Player(x, y, (ShadowPacLogic_L0) logic);
@@ -331,7 +331,7 @@ public class Player extends GameUnit {
      * @param Y position y to be checked Z
      * @return true if the given position is Valid Position and vice versa
      */
-    protected boolean isValidPosition(double X, double Y) {
+    private boolean isValidPosition(double X, double Y) {
         if (inL0()) {
             return X >= 0 && (X < ShadowPac.getWindowWidth()) && Y >= 0 && (Y < ShadowPac.getWindowHeight() &&
                     !(isToCollideWithWall(X, Y, getLogicL0())));
@@ -367,9 +367,20 @@ public class Player extends GameUnit {
         }
     }
 
-    double getSTEP_SIZE() {
-        if (getLogicL0() != null) return getLogicL0().getSTEP_SIZE();
-        if (getLogicL1() != null) return getLogicL1().isFrenzyMode() ? STEPSIZE_L1 : STEPSIZEFRENZY_L1;
+    /**
+     * Retrieves the step size based on the current logic level.
+     *
+     * @return The step size. If the logic level is L0, the step size defined in the ShadowPac.java is returned.
+     *         If the logic level is L1, the step size is determined based on whether the logic is in frenzy mode or not.
+     *         If the logic level is not set or unknown, the step size is 0.
+     */
+    public double getSTEP_SIZE() {
+        if (getLogicL0() != null) {
+            return getLogicL0().getSTEP_SIZE();
+        }
+        if (getLogicL1() != null) {
+            return getLogicL1().isFrenzyMode() ? STEPSIZE_L1 : STEPSIZEFRENZY_L1;
+        }
         return 0;
     }
 
@@ -460,7 +471,7 @@ public class Player extends GameUnit {
      *
      * @param Pos the position to set
      */
-    protected void setPosition(Point Pos) {
+    private void setPosition(Point Pos) {
         setCoordinateX((int) Pos.x);
         setCoordinateY((int) Pos.y);
         setHitBox(new Rectangle(Pos, getPlayerCloseMouth().getWidth(), getPlayerCloseMouth().getHeight()));
@@ -480,7 +491,7 @@ public class Player extends GameUnit {
      *
      * @param score the score to set
      */
-    protected void setScore(int score) {
+    private void setScore(int score) {
         this.score = score;
     }
 
@@ -489,7 +500,7 @@ public class Player extends GameUnit {
      *
      * @return the frequency modulation value
      */
-    protected int getFrequency_Modulation() {
+    private int getFrequency_Modulation() {
         // frequency of mouth opening and closing
         return 15;
     }
@@ -499,7 +510,7 @@ public class Player extends GameUnit {
      *
      * @return the draw options for the player
      */
-    protected DrawOptions getDrop() {
+    private DrawOptions getDrop() {
         return drop;
     }
 
@@ -508,7 +519,7 @@ public class Player extends GameUnit {
      *
      * @return the rotation angle of the player
      */
-    protected double getRadians() {
+    private double getRadians() {
         return radians;
     }
 
@@ -517,7 +528,7 @@ public class Player extends GameUnit {
      *
      * @param radians the rotation angle to set
      */
-    protected void setRadians(double radians) {
+    private void setRadians(double radians) {
         this.radians = radians;
     }
 
@@ -526,7 +537,7 @@ public class Player extends GameUnit {
      *
      * @return the current frame of the player
      */
-    protected int getCurrentFrame() {
+    private int getCurrentFrame() {
         return currentFrame;
     }
 
@@ -535,7 +546,7 @@ public class Player extends GameUnit {
      *
      * @param currentFrame the current frame to set
      */
-    protected void setCurrentFrame(int currentFrame) {
+    private void setCurrentFrame(int currentFrame) {
         this.currentFrame = currentFrame;
     }
 
@@ -544,7 +555,7 @@ public class Player extends GameUnit {
      *
      * @return the current status of the player
      */
-    protected int getCurrentStatus() {
+    private int getCurrentStatus() {
         return currentStatus;
     }
 
@@ -553,7 +564,7 @@ public class Player extends GameUnit {
      *
      * @param currentStatus the current status to set
      */
-    protected void setCurrentStatus(int currentStatus) {
+    private void setCurrentStatus(int currentStatus) {
         this.currentStatus = currentStatus;
     }
 
@@ -562,7 +573,7 @@ public class Player extends GameUnit {
      *
      * @return the last ghost the player collided with
      */
-    protected Ghost getLastCollision() {
+    private Ghost getLastCollision() {
         return lastCollision;
     }
 
@@ -571,7 +582,7 @@ public class Player extends GameUnit {
      *
      * @param lastCollision the last ghost to set
      */
-    protected void setLastCollision(Ghost lastCollision) {
+    private void setLastCollision(Ghost lastCollision) {
         this.lastCollision = lastCollision;
     }
 

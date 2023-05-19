@@ -15,7 +15,7 @@
 public class ShadowPacLogic_L0 {
     private final short gamePID;
     private final ShadowPac game;
-    protected Player player;
+    private Player player;
 
     /**
      * Constructor for ShadowPacLogic class that takes in a ShadowPac game instance
