@@ -7,4 +7,4 @@
 + <font color="seablue"><em>--Press W at L0 to skip L0, and Level complete will be displayed</em></font>
 + <font color="grey"><em>--Press W at L1 to skip L1, and Well Done will be displayed</em></font>
 
-<font face="Helvetica"><strong></em>yongchun Li1378156</em></strong></font>
+<font face="Helvetica"><strong></em>￥￥￥</em></strong></font>
